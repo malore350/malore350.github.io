@@ -8,31 +8,155 @@ class ProfileSidebar extends HTMLElement {
         const resolvedPrefix = assetPrefix ? `${assetPrefix}/` : '';
 
         this.innerHTML = `
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-1 mb-5 mb-md-3">
-                <div class="col-sm-4"><img class="img-fluid border rounded border-0 shadow-sm mb-4 profile-img" src="${resolvedPrefix}assets/img/me.png" width="261" height="348"></div>
-                <div class="col-sm-8 order-sm-first order-lg-last">
-                    <h3 class="fs-4 fw-bold text-primary mb-3">Hey! I'm Kamran!</h3>
-                    <p class="text-muted">This is my portfolio! Here you'll find info about me and my projects.</p>
-                    <p class="mb-4">I'm available for hire</p>
-                    <h3 class="fs-6 fw-bold text-uppercase tracking-wide text-primary">Email</h3>
-                    <p class="text-muted mb-4">kamran.qasimoff@gmail.com</p>
-                    <h3 class="fs-6 fw-bold text-uppercase tracking-wide text-primary">Social</h3>
-                    <ul class="list-inline">
-                        <li class="list-inline-item">
-                            <a class="text-reset social-link" href="https://github.com/malore350">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-github fs-5">
-                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8"></path>
-                                </svg>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="text-reset social-link" href="https://x.com/KamranGasimov99">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-twitter fs-5">
-                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
+            <style>
+                .profile-card {
+                    background: #ffffff;
+                    border-radius: 16px;
+                    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+                    border: 1px solid rgba(0,0,0,0.03);
+                    overflow: hidden;
+                    transition: transform 0.3s ease;
+                }
+                
+                .profile-img-wrapper {
+                    position: relative;
+                    width: 150px;
+                    height: 150px;
+                    margin: 0 auto;
+                }
+                
+                .profile-img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 50%;
+                    border: 4px solid #ffffff;
+                    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+                    transition: transform 0.3s ease;
+                }
+
+                .profile-card:hover .profile-img {
+                    transform: scale(1.05);
+                }
+                
+                .availability-badge {
+                    background-color: #f0fdf4;
+                    color: #166534;
+                    border: 1px solid #dcfce7;
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                    padding: 0.5rem 1rem;
+                    border-radius: 50px;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    letter-spacing: 0.02em;
+                }
+                
+                .availability-dot {
+                    width: 8px;
+                    height: 8px;
+                    background-color: #22c55e;
+                    border-radius: 50%;
+                    display: block;
+                    box-shadow: 0 0 0 2px #dcfce7;
+                    animation: pulse 2s infinite;
+                }
+
+                @keyframes pulse {
+                    0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+                    70% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+                    100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+                }
+                
+                .social-link-btn {
+                    width: 42px;
+                    height: 42px;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #f8fafc;
+                    color: #64748b;
+                    border-radius: 12px;
+                    transition: all 0.2s ease;
+                    border: 1px solid rgba(0,0,0,0.05);
+                }
+                
+                .social-link-btn:hover {
+                    background-color: #eff6ff;
+                    color: #3b82f6;
+                    border-color: #dbeafe;
+                    transform: translateY(-3px);
+                    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+                }
+                
+                .contact-btn {
+                    background-color: #0f172a;
+                    color: white;
+                    border: none;
+                    padding: 0.75rem 1.5rem;
+                    border-radius: 12px;
+                    font-weight: 600;
+                    width: 100%;
+                    transition: all 0.2s;
+                    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                }
+                
+                .contact-btn:hover {
+                    background-color: #1e293b;
+                    transform: translateY(-2px);
+                    color: white;
+                    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                }
+
+                .profile-name {
+                    color: #0f172a;
+                    letter-spacing: -0.02em;
+                }
+
+                .profile-role {
+                    color: #3b82f6;
+                    font-weight: 500;
+                    letter-spacing: 0.01em;
+                }
+            </style>
+
+            <div class="profile-card p-4 text-center">
+                <div class="profile-img-wrapper mb-4">
+                    <img class="profile-img" src="${resolvedPrefix}assets/img/me.png" alt="Kamran Gasimov">
+                </div>
+                
+                <h3 class="fs-3 fw-bold profile-name mb-1">Kamran Gasimov</h3>
+                <p class="profile-role mb-4">Senior Software Engineer</p>
+                
+                <div class="mb-4">
+                    <div class="availability-badge">
+                        <span class="availability-dot"></span>
+                        Available for hire
+                    </div>
+                </div>
+
+                <p class="text-muted small mb-4 px-2" style="line-height: 1.6;">
+                    Bridging the gap between complex engineering and elegant web experiences.
+                </p>
+
+                <div class="d-grid gap-2 mb-4">
+                    <a href="mailto:kamran.qasimoff@gmail.com" class="btn contact-btn text-decoration-none">
+                        Email Me
+                    </a>
+                </div>
+
+                <div class="d-flex justify-content-center gap-3">
+                    <a class="social-link-btn text-decoration-none" href="https://github.com/malore350" target="_blank" aria-label="GitHub">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+                        </svg>
+                    </a>
+                    <a class="social-link-btn text-decoration-none" href="https://x.com/KamranGasimov99" target="_blank" aria-label="Twitter">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
         `;

@@ -101,7 +101,37 @@
         profile-sidebar {
             display: block;
             position: sticky;
-            top: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        @media (min-width: 992px) {
+            .sidebar-col {
+                position: absolute;
+                right: 100%;
+                top: 0;
+                width: 320px;
+                padding-right: 4rem;
+                height: 100%;
+            }
+            .content-wrapper {
+                position: relative;
+            }
+        }
+
+        /* Wider Container */
+        @media (min-width: 1400px) {
+            .container {
+                max-width: 1320px;
+            }
+        }
+
+        @media (max-width: 991.98px) {
+            profile-sidebar {
+                position: static;
+                transform: none;
+                margin-bottom: 3rem;
+            }
         }
 
         /* Modern Typography */
@@ -127,15 +157,15 @@
 <body>
     <section class="my-5 py-lg-4">
         <div class="container">
-            <div class="row g-5">
-                <div class="col-lg-4 col-xl-3">
-                    <profile-sidebar asset-prefix=""></profile-sidebar>
-                </div>
-
-                <div class="col-lg-8 col-xl-8 offset-xl-1 main-content">
+            <div class="row justify-content-center">
+                <div class="col-lg-9 col-xl-8 content-wrapper">
+                    <div class="sidebar-col">
+                        <profile-sidebar asset-prefix=""></profile-sidebar>
+                    </div>
                     
-                    <div class="mb-5 pb-lg-5">
-                        <h2 class="fs-4 fw-bold section-title">Featured Work</h2>
+                    <div class="main-content">
+                        <div class="mb-5 pb-lg-5">
+                            <h2 class="fs-4 fw-bold section-title">Featured Work</h2>
                         <div data-bss-type="blog-loop" data-bss-perpage="6">
                             <div class="row g-4 row-cols-1 row-cols-md-2" data-bss-type="blog-loop-base">
                                 
