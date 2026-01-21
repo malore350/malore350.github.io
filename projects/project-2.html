@@ -89,8 +89,11 @@
 
         profile-sidebar {
             display: block;
-            position: sticky;
-            top: 2rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        profile-sidebar.positioned {
+            opacity: 1;
         }
 
         @media (min-width: 992px) {
@@ -104,6 +107,10 @@
             }
             .content-wrapper {
                 position: relative;
+            }
+            profile-sidebar {
+                position: sticky;
+                top: calc(50vh - var(--sidebar-half-height, 210px));
             }
         }
 
@@ -285,6 +292,22 @@
     <script src="../assets/js/baguetteBox.min.js"></script>
     <script src="../assets/js/template.js"></script>
     <script src="../assets/js/profile-sidebar.js"></script>
+    <script>
+        function updateSidebarPosition() {
+            const sidebar = document.querySelector('profile-sidebar');
+            if (sidebar) {
+                if (window.innerWidth >= 992) {
+                    const height = sidebar.offsetHeight;
+                    sidebar.style.setProperty('--sidebar-half-height', (height / 2) + 'px');
+                }
+                sidebar.classList.add('positioned');
+            }
+        }
+        customElements.whenDefined('profile-sidebar').then(() => {
+            requestAnimationFrame(updateSidebarPosition);
+        });
+        window.addEventListener('resize', updateSidebarPosition);
+    </script>
 </body>
 
 </html>
