@@ -92,6 +92,35 @@
             top: 2rem;
         }
 
+        @media (min-width: 992px) {
+            .sidebar-col {
+                position: absolute;
+                right: 100%;
+                top: 0;
+                width: 320px;
+                padding-right: 4rem;
+                height: 100%;
+            }
+            .content-wrapper {
+                position: relative;
+            }
+        }
+
+        /* Wider Container */
+        @media (min-width: 1400px) {
+            .container {
+                max-width: 1320px;
+            }
+        }
+
+        @media (max-width: 991.98px) {
+            profile-sidebar {
+                position: static;
+                transform: none;
+                margin-bottom: 3rem;
+            }
+        }
+
         .main-content {
             animation: fadeIn 0.8s ease-out;
         }
@@ -106,11 +135,12 @@
 <body>
     <section class="my-5 py-lg-4">
         <div class="container">
-            <div class="row g-5">
-                <div class="col-lg-4 col-xl-3">
-                    <profile-sidebar asset-prefix=".."></profile-sidebar>
-                </div>
-                <div class="col-lg-8 col-xl-8 offset-xl-1 main-content">
+            <div class="row justify-content-center">
+                <div class="col-lg-9 col-xl-8 content-wrapper">
+                    <div class="sidebar-col">
+                        <profile-sidebar asset-prefix=".."></profile-sidebar>
+                    </div>
+                    <div class="main-content">
                     <div class="project-header">
                         <a class="fw-bold back-link d-flex align-items-center text-decoration-none mb-4" href="/">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-arrow-left-short me-1">
@@ -190,7 +220,8 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <footer class="text-center text-muted bg-white border-top py-5 mt-5">
         <div class="container">
