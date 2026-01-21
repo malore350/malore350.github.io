@@ -1,0 +1,134 @@
+:root {
+    --accent-color: #ff5fd3;
+    --accent-hover: #d44eb0;
+    --bg-light-accent: rgba(255, 95, 211, 0.05);
+    --text-main: #212529;
+    --text-muted: #6c757d;
+    --font-main: 'Azeret Mono', monospace;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--text-main);
+    background-color: #f8f9fa;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.text-primary {
+    color: var(--accent-color) !important;
+}
+
+.bg-primary-subtle {
+    background-color: var(--bg-light-accent) !important;
+    color: var(--text-main);
+}
+
+.profile-img {
+    transition: transform 0.3s ease;
+    border: 2px solid var(--accent-color) !important;
+}
+
+.profile-img:hover {
+    transform: scale(1.02);
+}
+
+.social-link {
+    color: var(--text-main);
+    transition: color 0.2s ease;
+}
+
+.social-link:hover {
+    color: var(--accent-color) !important;
+}
+
+.project-card {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    overflow: hidden;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border-color: var(--accent-color);
+}
+
+.project-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.project-card .card-body {
+    padding: 1.5rem;
+}
+
+.project-card .card-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+}
+
+.project-card .card-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.stretched-link::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    content: "";
+}
+
+.resume-item {
+    border-left: 3px solid transparent;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.resume-item:hover {
+    border-left-color: var(--accent-color);
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+.resume-date {
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+footer a {
+    text-decoration: none;
+    position: relative;
+}
+
+footer a:hover {
+    color: var(--accent-color) !important;
+}
+
+.section-title {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: var(--accent-color);
+    margin-top: 5px;
+}
