@@ -61,6 +61,17 @@
 
         .project-card img {
             transition: transform 0.6s ease;
+            object-fit: cover;
+        }
+
+        /* First project card shows top of image */
+        .col[data-bss-type="blog-loop-item"]:first-child .card-img-top {
+            object-position: top;
+        }
+
+        /* Fourth project card shows top of image */
+        .col[data-bss-type="blog-loop-item"]:nth-child(4) .card-img-top {
+            object-position: top;
         }
 
         .project-card:hover img {
