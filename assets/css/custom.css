@@ -1,7 +1,7 @@
 :root {
-    --accent-color: #ff5fd3;
-    --accent-hover: #d44eb0;
-    --bg-light-accent: rgba(255, 95, 211, 0.05);
+    --accent-color: #3b82f6;
+    --accent-hover: #2563eb;
+    --bg-light-accent: rgba(59, 130, 246, 0.05);
     --text-main: #212529;
     --text-muted: #6c757d;
     --font-main: 'Azeret Mono', monospace;
@@ -122,6 +122,28 @@ footer a:hover {
     display: inline-block;
     margin-bottom: 1.5rem;
     color: var(--text-main);
+}
+
+.btn-primary {
+    background-color: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+    color: white !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-hover) !important;
+    border-color: var(--accent-hover) !important;
+}
+
+.btn-outline-primary {
+    color: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+    color: white !important;
 }
 
 .section-title::after {

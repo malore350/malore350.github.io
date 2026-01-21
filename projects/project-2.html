@@ -1,212 +1,259 @@
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-    />
-    <title>CryptoPro Exchange</title>
-    <meta name="description" content="Cryptocurrency exchange platform with web, mobile, and backend services." />
-    <meta property="og:image" content="../assets/img/projects/crypto-main-page.png" />
-    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Azeret+Mono:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap"
-    />
-    <link rel="stylesheet" href="../assets/css/baguetteBox.min.css" />
-  </head>
 
-  <body>
-    <section class="my-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-3">
-            <profile-sidebar asset-prefix=".."></profile-sidebar>
-          </div>
-          <div class="col-lg-8 offset-lg-1">
-            <div class="row mb-5">
-              <div class="col">
-                <a
-                  class="fw-bold link-primary d-flex align-items-center text-decoration-none mb-3"
-                  href="/"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="1em"
-                    height="1em"
-                    fill="currentColor"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-left-short me-1"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"
-                    ></path></svg>Back</a
-                >
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                  <h1 class="fs-3 fw-bold mb-0">CryptoPro Exchange</h1>
-                  <div class="d-flex flex-column align-items-end">
-                    <a
-                      href="https://crypto-exchange-k3omfqyaq-malore350s-projects.vercel.app/"
-                      target="_blank"
-                      class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold d-flex align-items-center"
-                    >
-                      Mirror link
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        class="bi bi-box-arrow-up-right ms-2"
-                        viewBox="0 0 16 16"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"
-                        />
-                        <path
-                          fill-rule="evenodd"
-                          d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"
-                        />
-                      </svg>
-                    </a>
-                    <div class="text-muted small mt-1">Live deployment on Tor</div>
-                  </div>
-                </div>
-                <p class="text-muted">
-                  Privacy-focused crypto platform with Tor network support.
-                </p>
-                <p>
-                  A multi-currency trading platform that supports wallets, swaps, liquidity pools,
-                  and user management across a centralized backend, a Next.js frontend, and a React
-                  Native mobile app.
-                </p>
-                <h3 class="fs-4 fw-bold mb-4" id="section-1">
-                  <a class="link-primary me-2" href="#section-1">#</a>Technical
-                  Overview
-                </h3>
-                <p>
-                  Built as a full-stack system with dedicated server, web, and mobile layers.
-                  The backend handles blockchain integrations, authentication, and data persistence,
-                  while the frontend focuses on responsive trading UX and real-time market displays.
-                </p>
-                <ul class="text-muted mb-4">
-                  <li><strong>Backend:</strong> Node.js + Express.js with JWT auth and bcryptjs.</li>
-                  <li><strong>Databases:</strong> MongoDB (Mongoose) and MySQL (Sequelize) via adapter pattern, switchable by <code>USE_MYSQL</code>.</li>
-                  <li><strong>Blockchain:</strong> Modules for BTC, ETH, XMR, ZEC, DASH, TRX; Binance API integration.</li>
-                  <li><strong>Services:</strong> node-cron jobs, Mailgun email, 2FA with speakeasy + qrcode.</li>
-                  <li><strong>Web:</strong> Next.js 15.1.6 (App Router), TypeScript, Tailwind CSS, shadcn/ui, next-themes.</li>
-                  <li><strong>Forms & Charts:</strong> react-hook-form + zod, recharts for market data.</li>
-                  <li><strong>Mobile:</strong> React Native + Expo SDK 54, React Navigation, secure token storage.</li>
-                </ul>
-                <h4 class="fs-5 fw-bold">Blockchain Integration (Custodial Model)</h4>
-                <p class="text-muted">
-                  The exchange uses a hybrid custodial architecture. A Node.js backend orchestrates wallet creation,
-                  deposit monitoring, and withdrawals while keeping user balances in the database for instant internal transfers.
-                </p>
-                <ul class="text-muted mb-4">
-                  <li><strong>On-chain deposits:</strong> Users deposit to generated addresses; the server detects confirmations and credits balances.</li>
-                  <li><strong>Off-chain transfers:</strong> Internal transfers are instant and zero-fee via DB updates (MongoDB/MySQL).</li>
-                  <li><strong>On-chain withdrawals:</strong> Withdrawals trigger real blockchain transactions from hot wallets.</li>
-                </ul>
-                <div class="table-responsive mb-4">
-                  <table class="table table-bordered text-muted">
-                    <thead>
-                      <tr>
-                        <th scope="col">Chain</th>
-                        <th scope="col">Technology</th>
-                        <th scope="col">Implementation Details</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Bitcoin</td>
-                        <td>Direct RPC</td>
-                        <td>Connects to a local Bitcoin Core node via JSON-RPC and manages a custodial wallet.</td>
-                      </tr>
-                      <tr>
-                        <td>Ethereum</td>
-                        <td>Web3.js + Alchemy</td>
-                        <td>Uses Alchemy RPC nodes for mainnet access, with gas and signing handled in Node.js.</td>
-                      </tr>
-                      <tr>
-                        <td>Monero / Zcash</td>
-                        <td>RPC / Daemon</td>
-                        <td>Integrates with local daemon RPCs for privacy coins using chain-specific modules.</td>
-                      </tr>
-                      <tr>
-                        <td>Tron / Dash</td>
-                        <td>Node.js Scripts</td>
-                        <td>Dedicated JavaScript modules handle address generation and withdrawals.</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <h4 class="fs-5 fw-bold">Operational & Security Controls</h4>
-                <ul class="text-muted mb-4">
-                  <li><strong>Market data:</strong> Binance API via <code>binance-api-node</code>, cached and proxied to the UI.</li>
-                  <li><strong>Hot wallets:</strong> Server-controlled hot wallets process withdrawals.</li>
-                  <li><strong>2FA & PIN:</strong> High-risk actions protected by 2FA and secondary PIN flows.</li>
-                  <li><strong>Address management:</strong> Deposit addresses tracked per user and stored for reconciliation.</li>
-                </ul>
-                <h4 class="fs-5 fw-bold">Privacy & Hosting</h4>
-                <p class="text-muted">
-                  The project uses Tor hosting to support user privacy, censorship resistance, and anonymous access—common requirements
-                  in decentralized finance applications.
-                </p>
-                
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>CryptoPro Exchange | Kamran Gasimov</title>
+    <meta name="description" content="Privacy-focused crypto platform with Tor network support. Full-stack architecture with web, mobile, and backend services.">
+    <meta property="og:image" content="../assets/img/projects/crypto-main-page.png">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Azeret+Mono:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+    <link rel="stylesheet" href="../assets/css/baguetteBox.min.css">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <style>
+        :root {
+            --accent-color: #3b82f6;
+            --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+        }
 
-                <div
-                  class="row gx-2 gy-2 gx-md-2 gy-md-0 justify-content-center mb-5"
-                  data-bss-baguettebox=""
-                >
-                  <div class="col-md-8">
-                    <figure class="mb-4">
-                      <img
-                        class="img-fluid"
-                        src="../assets/img/projects/crypto-main-page.png"
-                        width="488"
-                        height="390"
-                        alt="CryptoPro landing page"
-                      />
-                      <figcaption class="text-center mt-2 text-muted">
-                        Marketing landing page with featured markets
-                      </figcaption>
-                    </figure>
-                    <figure class="mb-4">
-                      <img
-                        class="img-fluid"
-                        src="../assets/img/projects/crypto-dashboard.png"
-                        width="488"
-                        height="390"
-                        alt="CryptoPro dashboard"
-                      />
-                      <figcaption class="text-center mt-2 text-muted">
-                        User dashboard with wallets and portfolio overview
-                      </figcaption>
-                    </figure>
-                  </div>
+        body {
+            background: radial-gradient(circle at top right, #f8fafc, #f1f5f9);
+            color: #1e293b;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .project-header {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 3rem;
+        }
+
+        .back-link {
+            color: #64748b;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        .tech-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+        }
+
+        .gallery-img {
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.02);
+        }
+
+        .badge-tech {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        profile-sidebar {
+            display: block;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .main-content {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .table-responsive {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="my-5 py-lg-4">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4 col-xl-3">
+                    <profile-sidebar asset-prefix=".."></profile-sidebar>
                 </div>
-              </div>
+                <div class="col-lg-8 col-xl-8 offset-xl-1 main-content">
+                    <div class="project-header">
+                        <a class="fw-bold back-link d-flex align-items-center text-decoration-none mb-4" href="/">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-arrow-left-short me-1">
+                                <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"></path>
+                            </svg>Back to Projects
+                        </a>
+                        
+                        <div class="d-flex justify-content-between align-items-start mb-4">
+                            <div>
+                                <h1 class="display-6 fw-bold mb-0">CryptoPro Exchange</h1>
+                                <p class="text-muted mt-2 mb-0">Privacy-focused crypto platform with Tor network support.</p>
+                            </div>
+                            <div class="d-flex flex-column align-items-end">
+                                <a href="https://crypto-exchange-k3omfqyaq-malore350s-projects.vercel.app/" target="_blank" class="btn btn-primary rounded-pill px-4 fw-bold d-flex align-items-center shadow-sm">
+                                    Mirror link
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right ms-2" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                        <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                                    </svg>
+                                </a>
+                                <div class="text-muted small mt-2">Live deployment on Tor</div>
+                            </div>
+                        </div>
+                        
+                        <p class="lead text-muted mb-4">A multi-currency trading platform that supports wallets, swaps, liquidity pools, and user management across a centralized backend, a Next.js frontend, and a React Native mobile app.</p>
+                        <div class="d-flex flex-wrap">
+                            <span class="badge-tech">Next.js 15</span>
+                            <span class="badge-tech">Node.js</span>
+                            <span class="badge-tech">React Native</span>
+                            <span class="badge-tech">TypeScript</span>
+                            <span class="badge-tech">Blockchain RPC</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <h3 class="fs-4 fw-bold section-title">Platform Experience</h3>
+                        <div class="row g-4" data-bss-baguettebox="">
+                            <div class="col-md-6">
+                                <figure class="mb-0">
+                                    <img class="img-fluid gallery-img" src="../assets/img/projects/crypto-main-page.png" alt="CryptoPro landing page">
+                                    <figcaption class="text-center mt-3 text-muted small">Marketing landing page with featured markets</figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-md-6">
+                                <figure class="mb-0">
+                                    <img class="img-fluid gallery-img" src="../assets/img/projects/crypto-dashboard.png" alt="CryptoPro dashboard">
+                                    <figcaption class="text-center mt-3 text-muted small">User dashboard with wallets and portfolio overview</figcaption>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card">
+                        <h3 class="fs-4 fw-bold section-title">Technical Architecture</h3>
+                        <p class="text-muted mb-4">Built as a high-security full-stack system. The backend handles blockchain integrations and data persistence, while the frontend provides a responsive trading UX.</p>
+                        
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <h5 class="fw-bold mb-3">Core Stack</h5>
+                                <ul class="text-muted small ps-3">
+                                    <li class="mb-2"><strong>Backend:</strong> Node.js + Express.js (JWT auth)</li>
+                                    <li class="mb-2"><strong>Database:</strong> Dual-support for MongoDB & MySQL</li>
+                                    <li class="mb-2"><strong>Web:</strong> Next.js 15 (App Router) + shadcn/ui</li>
+                                    <li class="mb-2"><strong>Mobile:</strong> React Native + Expo SDK 54</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="fw-bold mb-3">Security & Operations</h5>
+                                <ul class="text-muted small ps-3">
+                                    <li class="mb-2"><strong>Authentication:</strong> 2FA (Speakeasy) + Secondary PIN</li>
+                                    <li class="mb-2"><strong>Price Data:</strong> Binance API via secure proxy</li>
+                                    <li class="mb-2"><strong>Infrastructure:</strong> node-cron + Mailgun integration</li>
+                                    <li class="mb-2"><strong>Privacy:</strong> Tor network hosting & censorship resistance</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h5 class="fw-bold mb-3">Blockchain Implementation</h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover text-muted small">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Chain</th>
+                                        <th>Tech</th>
+                                        <th>Implementation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Bitcoin</td>
+                                        <td>Direct RPC</td>
+                                        <td>Local Bitcoin Core JSON-RPC interaction.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ethereum</td>
+                                        <td>Web3.js</td>
+                                        <td>Alchemy RPC nodes for mainnet operations.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Privacy Coins</td>
+                                        <td>Daemon RPC</td>
+                                        <td>Integration with Monero and Zcash daemons.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alt-Chains</td>
+                                        <td>Node Scripts</td>
+                                        <td>JS modules for Tron and Dash wallet logic.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </section>
-    <footer class="text-center text-muted bg-body" data-bs-theme="dark">
-      <div class="container py-4 py-lg-5">
-          <ul class="list-inline">
-              <li class="list-inline-item me-4"><a class="link-light" href="/">Projects</a></li>
-              <li class="list-inline-item me-4"><a class="link-light" href="#">Privacy</a></li>
-          </ul>
-          <p class="mb-0">Made with ❤️ by Kamran Gasimov</p>
-      </div>
-  </footer>
-  <footer class="text-center"></footer>
+
+    <footer class="text-center text-muted bg-white border-top py-5 mt-5">
+        <div class="container">
+            <ul class="list-inline mb-3">
+                <li class="list-inline-item mx-3"><a class="text-dark text-decoration-none fw-semibold" href="/">Projects</a></li>
+                <li class="list-inline-item mx-3"><a class="text-dark text-decoration-none fw-semibold" href="#">Privacy</a></li>
+            </ul>
+            <p class="mb-0 small">Made with ❤️ by Kamran Gasimov</p>
+        </div>
+    </footer>
+
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/bs-init.js"></script>
     <script src="../assets/js/baguetteBox.min.js"></script>
     <script src="../assets/js/template.js"></script>
     <script src="../assets/js/profile-sidebar.js"></script>
-  </body>
+</body>
+
 </html>

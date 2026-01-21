@@ -4,136 +4,264 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Brand</title>
+    <title>Kamran Gasimov | Portfolio</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Azeret+Mono:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
     <link rel="stylesheet" href="assets/css/baguetteBox.min.css">
     <link rel="stylesheet" href="assets/css/custom.css">
+    <style>
+        :root {
+            --accent-color: #3b82f6;
+            --bg-glass: rgba(255, 255, 255, 0.7);
+            --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #f8fafc, #f1f5f9);
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        /* Project Card Redesign */
+        .project-card {
+            background: #ffffff;
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-img-container {
+            overflow: hidden;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .project-card img {
+            transition: transform 0.6s ease;
+        }
+
+        .project-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .project-card .card-body {
+            padding: 1.75rem;
+        }
+
+        .project-card .card-title {
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Resume Items */
+        .resume-item {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: border-color 0.3s ease;
+        }
+
+        .resume-item:hover {
+            border-color: var(--accent-color);
+        }
+
+        .resume-date {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Profile Sidebar Adjustment */
+        profile-sidebar {
+            display: block;
+            position: sticky;
+            top: 2rem;
+        }
+
+        /* Modern Typography */
+        h1, h2, h3, h4 {
+            color: #0f172a;
+        }
+
+        p {
+            line-height: 1.7;
+        }
+
+        .main-content {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 
 <body>
-    <section class="my-5">
+    <section class="my-5 py-lg-4">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
+            <div class="row g-5">
+                <div class="col-lg-4 col-xl-3">
                     <profile-sidebar asset-prefix=""></profile-sidebar>
                 </div>
-                <div class="col-lg-8 offset-lg-1">
-                    <div class="row mb-5">
-                        <div class="col">
-                            <h2 class="fs-4 fw-bold section-title">Projects</h2>
-                            <div data-bss-type="blog-loop" data-bss-perpage="5">
-                                <div class="row gx-4 gy-4 row-cols-1 row-cols-md-2" data-bss-type="blog-loop-base">
 
-                                    <div class="col" data-bss-type="blog-loop-item">
-                                          <div class="card h-100 border-0 project-card">
-                                            <div class="position-relative">
-                                                <img class="card-img-top" alt="GameHub Screenshot" src="assets/img/projects/GameHub-Classic-Games-01-22-2025_09_06_PM.png">
-                                                <a class="stretched-link" href="projects/project-1.html"></a>
-                                            </div>
-                                              <div class="card-body">
-                                                  <h4 class="card-title fw-bold">GameHub</h4>
-                                                  <p class="card-text">Gaming meets artistry. A curated selection of classic and new games with stunning visuals.</p>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="col" data-bss-type="blog-loop-item">
-                                          <div class="card h-100 border-0 project-card">
-                                            <div class="position-relative">
-                                                <img class="card-img-top" alt="CryptoPro Exchange Screenshot" src="assets/img/projects/crypto-main-page.png">
-                                                <a class="stretched-link" href="projects/project-2.html"></a>
-                                            </div>
-                                              <div class="card-body">
-                                                  <h4 class="card-title fw-bold">CryptoPro Exchange</h4>
-                                                  <p class="card-text">Privacy-focused crypto exchange with web, mobile, and a custodial backend.</p>
-                                              </div>
-                                          </div>
-                                      </div>
-                                     <div class="col" data-bss-type="blog-loop-item">
-                                         <div class="card h-100 border-0 project-card">
-                                             <div class="position-relative">
-                                                 <img class="card-img-top" alt="Psychologist Website Screenshot" src="assets/img/projects/About-me-01-23-2025_10_22_AM.png">
-                                                 <a class="stretched-link" href="projects/project-3.html"></a>
-                                             </div>
-                                             <div class="card-body">
-                                                 <h4 class="card-title fw-bold">Psychologist Site</h4>
-                                                 <p class="card-text">My very first project. A personal website for a psychologist.</p>
-                                             </div>
-                                         </div>
-                                     </div>
-                                     <div class="col" data-bss-type="blog-loop-item">
-                                         <div class="card h-100 border-0 project-card">
-                                             <div class="position-relative">
-                                                 <img class="card-img-top" alt="Unigo Screenshot" src="assets/img/projects/unigo-home.png">
-                                                 <a class="stretched-link" href="projects/project-4.html"></a>
-                                             </div>
-                                             <div class="card-body">
-                                                 <h4 class="card-title fw-bold">Unigo.az</h4>
-                                                 <p class="card-text">Comprehensive university consultancy platform with AI-powered suggestions.</p>
-                                             </div>
-                                         </div>
-                                     </div>
+                <div class="col-lg-8 col-xl-8 offset-xl-1 main-content">
+                    
+                    <div class="mb-5 pb-lg-5">
+                        <h2 class="fs-4 fw-bold section-title">Featured Work</h2>
+                        <div data-bss-type="blog-loop" data-bss-perpage="6">
+                            <div class="row g-4 row-cols-1 row-cols-md-2" data-bss-type="blog-loop-base">
+                                
+                                <div class="col" data-bss-type="blog-loop-item">
+                                    <div class="card h-100 border-0 project-card">
+                                        <div class="card-img-container position-relative">
+                                            <img class="card-img-top" alt="GameHub" src="assets/img/projects/GameHub-Classic-Games-01-22-2025_09_06_PM.png">
+                                            <a class="stretched-link" href="projects/project-1.html"></a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h4 class="card-title fw-bold">GameHub</h4>
+                                            <p class="card-text text-muted small">A curated collection of classic and new games with stunning visuals and elegant design.</p>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div class="col" data-bss-type="blog-loop-item">
+                                    <div class="card h-100 border-0 project-card">
+                                        <div class="card-img-container position-relative">
+                                            <img class="card-img-top" alt="CryptoPro" src="assets/img/projects/crypto-main-page.png">
+                                            <a class="stretched-link" href="projects/project-2.html"></a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h4 class="card-title fw-bold">CryptoPro Exchange</h4>
+                                            <p class="card-text text-muted small">Privacy-focused crypto exchange featuring web, mobile, and a custodial backend.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col" data-bss-type="blog-loop-item">
+                                    <div class="card h-100 border-0 project-card">
+                                        <div class="card-img-container position-relative">
+                                            <img class="card-img-top" alt="Psychologist Website" src="assets/img/projects/About-me-01-23-2025_10_22_AM.png">
+                                            <a class="stretched-link" href="projects/project-3.html"></a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h4 class="card-title fw-bold">Psychologist Site</h4>
+                                            <p class="card-text text-muted small">Personal professional website for a psychologist, focusing on clean presentation and empathy.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col" data-bss-type="blog-loop-item">
+                                    <div class="card h-100 border-0 project-card">
+                                        <div class="card-img-container position-relative">
+                                            <img class="card-img-top" alt="Unigo" src="assets/img/projects/unigo-home.png">
+                                            <a class="stretched-link" href="projects/project-4.html"></a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h4 class="card-title fw-bold">Unigo.az</h4>
+                                            <p class="card-text text-muted small">Comprehensive university consultancy platform with AI-powered suggestions.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <div class="mb-5">
+                                <h3 class="fs-4 fw-bold section-title">About & Experience</h3>
+                                <p class="text-muted mb-5 lead-sm" style="font-size: 1.05rem;">
+                                    Computer Science and Aerospace Engineering student at <strong>KAIST</strong>. I bridge the gap between complex engineering and elegant web experiences, building AI-integrated solutions for real-world impact.
+                                </p>
+                                
+                                <div class="experience-list">
+                                    <div class="resume-item p-4 mb-4 shadow-sm">
+                                        <div class="d-md-flex justify-content-between align-items-center">
+                                            <div>
+                                                <p class="resume-date mb-2">2019 — 2025</p>
+                                                <h5 class="fw-bold mb-1">BSc in CS & Aerospace Engineering</h5>
+                                                <p class="text-primary fw-semibold mb-0">KAIST</p>
+                                            </div>
+                                            <div class="text-md-end mt-3 mt-md-0">
+                                                <p class="text-muted small mb-0">Daejeon, South Korea</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="resume-item p-4 mb-4 shadow-sm">
+                                        <div class="d-md-flex justify-content-between align-items-center">
+                                            <div>
+                                                <p class="resume-date mb-2">2023 — Present</p>
+                                                <h5 class="fw-bold mb-1">Senior Software Engineer</h5>
+                                                <p class="text-primary fw-semibold mb-0">Unigo</p>
+                                            </div>
+                                            <div class="text-md-end mt-3 mt-md-0">
+                                                <p class="text-muted small mb-0">Remote (Baku, Azerbaijan)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="resume-item p-4 mb-4 shadow-sm">
+                                        <div class="d-md-flex justify-content-between align-items-center">
+                                            <div>
+                                                <p class="resume-date mb-2">2021 — 2023</p>
+                                                <h5 class="fw-bold mb-1">Software Engineer</h5>
+                                                <p class="text-primary fw-semibold mb-0">Unigo</p>
+                                            </div>
+                                            <div class="text-md-end mt-3 mt-md-0">
+                                                <p class="text-muted small mb-0">Remote (Baku, Azerbaijan)</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                              <div class="mb-5">
-                                    <h3 class="fs-4 fw-bold section-title">Resume</h3>
-                                    <p class="text-muted" style="line-height: 1.8;">Computer Science and Aerospace Engineering student at KAIST with experience in full-stack development, 
-                                    machine learning, and computer vision. Skilled in developing user interfaces and implementing AI solutions 
-                                    for real-world problems, from web applications to scientific research projects. Currently focusing on 
-                                    learning and building web applications.</p>
-                                </div>
-                            <div>
-                                <div class="resume-item d-md-flex justify-content-md-between p-3 mb-3">
-                                    <div class="mb-3 mb-md-0">
-                                        <p class="resume-date mb-1">2019-2025</p>
-                                        <h5 class="fw-bold mb-0">BSc in Computer Science and Aerospace Engineering</h5>
-                                    </div>
-                                    <div class="text-md-end">
-                                        <p class="text-primary fw-bold mb-1">KAIST</p>
-                                        <p class="text-muted small mb-0">Daejeon, South Korea</p>
-                                    </div>
-                                </div>
-                                <div class="resume-item d-md-flex justify-content-md-between p-3 mb-3">
-                                    <div class="mb-3 mb-md-0">
-                                        <p class="resume-date mb-1">2021-2023</p>
-                                        <h5 class="fw-bold mb-0">Software Engineer</h5>
-                                    </div>
-                                    <div class="text-md-end">
-                                        <p class="text-primary fw-bold mb-1">Unigo</p>
-                                        <p class="text-muted small mb-0">Remote (Baku, Azerbaijan)</p>
-                                    </div>
-                                </div>
-                                <div class="resume-item d-md-flex justify-content-md-between p-3 mb-3">
-                                    <div class="mb-3 mb-md-0">
-                                        <p class="resume-date mb-1">2023-Present</p>
-                                        <h5 class="fw-bold mb-0">Senior Software Engineer</h5>
-                                    </div>
-                                    <div class="text-md-end">
-                                        <p class="text-primary fw-bold mb-1">Unigo</p>
-                                        <p class="text-muted small mb-0">Remote (Baku, Azerbaijan)</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
     </section>
-    <footer class="text-center text-muted bg-body" data-bs-theme="dark">
-        <div class="container py-4 py-lg-5">
-            <ul class="list-inline">
-                <li class="list-inline-item me-4"><a class="link-light" href="/">Projects</a></li>
-                <li class="list-inline-item me-4"><a class="link-light" href="#">Privacy</a></li>
+
+    <footer class="text-center text-muted bg-white border-top py-5 mt-5">
+        <div class="container">
+            <ul class="list-inline mb-3">
+                <li class="list-inline-item mx-3"><a class="text-dark text-decoration-none fw-semibold" href="/">Projects</a></li>
+                <li class="list-inline-item mx-3"><a class="text-dark text-decoration-none fw-semibold" href="#">Privacy</a></li>
             </ul>
-            <p class="mb-0">Made with ❤️ by Kamran Gasimov</p>
+            <p class="mb-0 small">Made with ❤️ by Kamran Gasimov</p>
         </div>
     </footer>
+
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/baguetteBox.min.js"></script>

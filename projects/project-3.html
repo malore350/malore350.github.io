@@ -4,56 +4,174 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Jupiter Tasks</title>
-    <meta name="description" content="Mac Dash Icon">
-    <meta property="og:image" content="../assets/img/projects/project5.webp">
+    <title>Psychologist Site | Kamran Gasimov</title>
+    <meta name="description" content="Personal professional website for a psychologist. My very first project, focusing on clean presentation and empathy.">
+    <meta property="og:image" content="../assets/img/projects/About-me-01-23-2025_10_22_AM.png">
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Azeret+Mono:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
     <link rel="stylesheet" href="../assets/css/baguetteBox.min.css">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <style>
+        :root {
+            --accent-color: #3b82f6;
+            --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #f8fafc, #f1f5f9);
+            color: #1e293b;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .project-header {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 3rem;
+        }
+
+        .back-link {
+            color: #64748b;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        .tech-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+        }
+
+        .gallery-img {
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.02);
+        }
+
+        .badge-tech {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        profile-sidebar {
+            display: block;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .main-content {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 
 <body>
-    <section class="my-5">
+    <section class="my-5 py-lg-4">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
+            <div class="row g-5">
+                <div class="col-lg-4 col-xl-3">
                     <profile-sidebar asset-prefix=".."></profile-sidebar>
                 </div>
-                <div class="col-lg-8 offset-lg-1">
-                    <div class="row mb-5">
-                        <div class="col"><a class="fw-bold link-primary d-flex align-items-center text-decoration-none mb-3" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-arrow-left-short me-1">
-                                    <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"></path>
-                                </svg>Back</a>
-                            <h1 class="fs-3 fw-bold">Psychologist Personal Website</h1>
-                            <p class="text-muted">My very first project</p>
-                            <a href="https://aegasimova.com" target="_blank" class="btn btn-outline-primary mb-4">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link-45deg me-2" viewBox="0 0 16 16">
-                                  <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
-                                  <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
-                              </svg>
-                              Visit Website
-                          </a>
-                            <div class="row gy-4" style="max-width: 800px;">
+                <div class="col-lg-8 col-xl-8 offset-xl-1 main-content">
+                    <div class="project-header">
+                        <a class="fw-bold back-link d-flex align-items-center text-decoration-none mb-4" href="/">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-arrow-left-short me-1">
+                                <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"></path>
+                            </svg>Back to Projects
+                        </a>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h1 class="display-6 fw-bold mb-0">Psychologist Site</h1>
+                            <a href="https://aegasimova.com" target="_blank" class="btn btn-primary rounded-pill px-4 fw-bold d-flex align-items-center shadow-sm">
+                                Visit Website
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right ms-2" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                                </svg>
+                            </a>
+                        </div>
+                        
+                        <p class="lead text-muted mb-4">Personal professional website for a psychologist. This was my very first project, focusing on creating a clean, calming, and empathetic digital presence.</p>
+                        <div class="d-flex flex-wrap">
+                            <span class="badge-tech">React.js</span>
+                            <span class="badge-tech">Tailwind CSS</span>
+                            <span class="badge-tech">Responsive Design</span>
+                        </div>
+                    </div>
 
-                              <div class="col-md-6">
-                                    <div class="h-100">
-                                        <h3 class="fs-5 fw-bold text-primary">Technical Stack</h3>
-                                        <p>Built with React.js and TailwindCSS, delivering a modern and responsive user interface. Implemented component-based architecture for better maintainability and reusability.</p>
-                                        <h3 class="fs-5 fw-bold text-primary">Development Approach</h3>
-                                        <p>Developed as a freelance project with focus on clean code practices, responsive design, and optimal performance. Utilized modern React hooks and custom components. Still learned basics during website making process.</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <img class="img-fluid w-100 mb-4" alt="About Page" src="../assets/img/projects/About-me-01-23-2025_10_22_AM.png">
-                                    <figcaption class="figure-caption text-center">About Page - Personal introduction and services overview</figcaption>
-                                    <img class="img-fluid w-100" alt="FAQ Page" src="../assets/img/projects/FAQ-01-23-2025_10_23_AM.png">
-                                    <figcaption class="figure-caption text-center">FAQ Section - Common questions and answers</figcaption>
-                                </div>
-                                <div class="col-12">
-                                    <img class="img-fluid w-100" alt="Jupiter Tasks Homepage" src="../assets/img/projects/Home-01-23-2025_10_21_AM.png">
+                    <div class="mb-5">
+                        <h3 class="fs-4 fw-bold section-title">Design Showcase</h3>
+                        <div class="row g-4" data-bss-baguettebox="">
+                            <div class="col-md-6">
+                                <figure class="mb-0">
+                                    <img class="img-fluid gallery-img" src="../assets/img/projects/About-me-01-23-2025_10_22_AM.png" alt="About Page">
+                                    <figcaption class="text-center mt-3 text-muted small">About Page - Personal introduction</figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-md-6">
+                                <figure class="mb-0">
+                                    <img class="img-fluid gallery-img" src="../assets/img/projects/FAQ-01-23-2025_10_23_AM.png" alt="FAQ Page">
+                                    <figcaption class="text-center mt-3 text-muted small">FAQ Section - User guidance</figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <figure class="mb-0">
+                                    <img class="img-fluid gallery-img w-100" src="../assets/img/projects/Home-01-23-2025_10_21_AM.png" alt="Homepage">
+                                    <figcaption class="text-center mt-3 text-muted small">Home Page - Hero and overview</figcaption>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
 
-                                    <figcaption class="figure-caption text-center">Home Page</figcaption>
-                                </div>
+                    <div class="tech-card">
+                        <h3 class="fs-4 fw-bold section-title">Project Context</h3>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <h5 class="fw-bold mb-3">Technical Stack</h5>
+                                <p class="text-muted small">Built with React.js and Tailwind CSS, the project focuses on a responsive user interface with a component-based architecture for better maintainability.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="fw-bold mb-3">Development Approach</h5>
+                                <p class="text-muted small">Developed as a freelance project. It served as a foundational learning experience in clean code practices, React hooks, and optimal performance for production sites.</p>
                             </div>
                         </div>
                     </div>
@@ -61,16 +179,17 @@
             </div>
         </div>
     </section>
-    <footer class="text-center text-muted bg-body" data-bs-theme="dark">
-      <div class="container py-4 py-lg-5">
-          <ul class="list-inline">
-              <li class="list-inline-item me-4"><a class="link-light" href="/">Projects</a></li>
-              <li class="list-inline-item me-4"><a class="link-light" href="#">Privacy</a></li>
-          </ul>
-          <p class="mb-0">Made with ❤️ by Kamran Gasimov</p>
-      </div>
-  </footer>
-  <footer class="text-center"></footer>
+
+    <footer class="text-center text-muted bg-white border-top py-5 mt-5">
+        <div class="container">
+            <ul class="list-inline mb-3">
+                <li class="list-inline-item mx-3"><a class="text-dark text-decoration-none fw-semibold" href="/">Projects</a></li>
+                <li class="list-inline-item mx-3"><a class="text-dark text-decoration-none fw-semibold" href="#">Privacy</a></li>
+            </ul>
+            <p class="mb-0 small">Made with ❤️ by Kamran Gasimov</p>
+        </div>
+    </footer>
+
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/bs-init.js"></script>
     <script src="../assets/js/baguetteBox.min.js"></script>

@@ -4,125 +4,232 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Unigo University Consultancy</title>
+    <title>Unigo.az | Kamran Gasimov</title>
     <meta name="description" content="Comprehensive university consultancy platform for finding universities and managing applications.">
     <meta property="og:image" content="../assets/img/projects/unigo-home.png">
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Azeret+Mono:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
     <link rel="stylesheet" href="../assets/css/baguetteBox.min.css">
     <link rel="stylesheet" href="../assets/css/custom.css">
+    <style>
+        :root {
+            --accent-color: #3b82f6;
+            --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #f8fafc, #f1f5f9);
+            color: #1e293b;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .project-header {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 3rem;
+        }
+
+        .back-link {
+            color: #64748b;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        .tech-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+        }
+
+        .gallery-img {
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.01);
+        }
+
+        .badge-tech {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        profile-sidebar {
+            display: block;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .main-content {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 
 <body>
-    <section class="my-5">
+    <section class="my-5 py-lg-4">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
+            <div class="row g-5">
+                <div class="col-lg-4 col-xl-3">
                     <profile-sidebar asset-prefix=".."></profile-sidebar>
                 </div>
-                <div class="col-lg-8 offset-lg-1">
-                    <div class="row mb-5">
-                        <div class="col"><a class="fw-bold link-primary d-flex align-items-center text-decoration-none mb-3" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-arrow-left-short me-1">
-                                    <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"></path>
-                                </svg>Back</a>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h1 class="fs-3 fw-bold mb-0">Unigo.az</h1>
-                                <a href="https://unigo.az" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold d-flex align-items-center">
-                                    Visit Live Site
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right ms-2" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
-                                        <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
-                                    </svg>
-                                </a>
+                <div class="col-lg-8 col-xl-8 offset-xl-1 main-content">
+                    <div class="project-header">
+                        <a class="fw-bold back-link d-flex align-items-center text-decoration-none mb-4" href="/">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-arrow-left-short me-1">
+                                <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"></path>
+                            </svg>Back to Projects
+                        </a>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h1 class="display-6 fw-bold mb-0">Unigo.az</h1>
+                            <a href="https://unigo.az" target="_blank" class="btn btn-primary rounded-pill px-4 fw-bold d-flex align-items-center shadow-sm">
+                                Visit Live Site
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right ms-2" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                                </svg>
+                            </a>
+                        </div>
+                        
+                        <p class="lead text-muted mb-4">A comprehensive university consultancy platform designed to help students find universities, manage applications, and schedule consultations via a modern monorepo architecture.</p>
+                        <div class="d-flex flex-wrap">
+                            <span class="badge-tech">React</span>
+                            <span class="badge-tech">Node.js</span>
+                            <span class="badge-tech">Supabase</span>
+                            <span class="badge-tech">React Native</span>
+                            <span class="badge-tech">TypeScript</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <h3 class="fs-4 fw-bold section-title">Platform Interface</h3>
+                        <div class="row g-4" data-bss-baguettebox="">
+                            <div class="col-12">
+                                <figure class="mb-0">
+                                    <img class="img-fluid gallery-img w-100" src="../assets/img/projects/unigo-home.png" alt="Unigo Landing Page">
+                                    <figcaption class="text-center mt-3 text-muted small">Unigo Landing Page - Gateway to Global Universities</figcaption>
+                                </figure>
                             </div>
-                            <p class="text-muted">Unigo is a comprehensive university consultancy platform designed to help students find universities, manage applications, and schedule consultations.</p>
-                            <p class="mb-5">The project is structured as a monorepo containing a high-performance web frontend, a mobile application, and a robust backend server with real-time features.</p>
-                            <div class="row gx-2 gy-2 gx-md-2 gy-md-0 justify-content-center mb-5" data-bss-baguettebox="">
-                                <div class="col-md-10">
-                                    <figure class="mb-4">
-                                        <img class="img-fluid" src="../assets/img/projects/unigo-home.png" alt="Unigo Homepage">
-                                        <figcaption class="text-center mt-2 text-muted">Unigo Landing Page - Gateway to Global Universities</figcaption>
-                                    </figure>
-                                    <figure class="mb-4">
-                                        <img class="img-fluid" src="../assets/img/projects/unigo-dashboard.png" alt="Unigo Dashboard">
-                                        <figcaption class="text-center mt-2 text-muted">Student Dashboard - AI-powered University Suggestions</figcaption>
-                                    </figure>
-                                </div>
+                            <div class="col-12 mt-4">
+                                <figure class="mb-0">
+                                    <img class="img-fluid gallery-img w-100" src="../assets/img/projects/unigo-dashboard.png" alt="Unigo Dashboard">
+                                    <figcaption class="text-center mt-3 text-muted small">Student Dashboard - AI-powered University Suggestions</figcaption>
+                                </figure>
                             </div>
-                            <h3 class="fs-4 fw-bold section-title mt-5">Technical Architecture</h3>
-                            <p class="text-muted">A modern monorepo architecture designed for scalability and seamless integration across web, mobile, and backend services.</p>
-                            
-                            <h4 class="fs-5 fw-bold mt-4">1. Backend Server</h4>
-                            <ul class="text-muted">
-                                <li><strong>Runtime & Framework:</strong> Node.js with Express.js.</li>
-                                <li><strong>Database & Auth:</strong> Supabase (PostgreSQL) with hybrid authentication (Supabase Auth + custom JWT).</li>
-                                <li><strong>Storage:</strong> Supabase Storage for secure document management.</li>
-                                <li><strong>Key Features:</strong> Automated background jobs for consultation management, real-time support chat, and AI-driven university suggestion engines.</li>
-                            </ul>
+                        </div>
+                    </div>
 
-                            <h4 class="fs-5 fw-bold mt-4">2. Web Frontend</h4>
-                            <ul class="text-muted">
-                                <li><strong>Framework:</strong> React (Vite) with TypeScript.</li>
-                                <li><strong>Styling:</strong> Tailwind CSS and Shadcn UI primitives for a consistent, accessible design system.</li>
-                                <li><strong>State Management:</strong> Zustand for lightweight, efficient global state.</li>
-                                <li><strong>Internationalization:</strong> Multi-language support via i18next.</li>
-                            </ul>
+                    <div class="tech-card mb-4">
+                        <h3 class="fs-4 fw-bold section-title">Technical Architecture</h3>
+                        <p class="text-muted mb-4">Designed for high scalability and real-time interaction across web, mobile, and backend services.</p>
+                        
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <h5 class="fw-bold mb-3">Backend & Infrastructure</h5>
+                                <ul class="text-muted small ps-3">
+                                    <li class="mb-2"><strong>Server:</strong> Node.js + Express.js</li>
+                                    <li class="mb-2"><strong>Database:</strong> Supabase (PostgreSQL)</li>
+                                    <li class="mb-2"><strong>Auth:</strong> Hybrid Supabase + Custom JWT</li>
+                                    <li class="mb-2"><strong>Storage:</strong> Supabase S3 Storage</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="fw-bold mb-3">Frontend Ecosystem</h5>
+                                <ul class="text-muted small ps-3">
+                                    <li class="mb-2"><strong>Web:</strong> React (Vite) + Tailwind + Shadcn UI</li>
+                                    <li class="mb-2"><strong>Mobile:</strong> React Native + Expo SDK 54</li>
+                                    <li class="mb-2"><strong>State:</strong> Zustand (Web) & Context (Mobile)</li>
+                                    <li class="mb-2"><strong>i18n:</strong> Multi-language (i18next)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
-                            <h4 class="fs-5 fw-bold mt-4">3. Mobile App</h4>
-                            <ul class="text-muted">
-                                <li><strong>Framework:</strong> React Native with Expo SDK 54.</li>
-                                <li><strong>Navigation:</strong> Expo Router for file-based routing.</li>
-                                <li><strong>UI Components:</strong> Custom design system with linear gradients and a warm, academic-focused palette.</li>
-                                <li><strong>Integration:</strong> Unified REST API communication using Axios.</li>
-                            </ul>
+                    <div class="tech-card mb-4">
+                        <h3 class="fs-4 fw-bold section-title">User Roles & Workflows</h3>
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <h6 class="fw-bold mb-3">Student</h6>
+                                <p class="text-muted small">Search universities via AI, manage applications with credits, upload documents, and schedule expert consultations.</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h6 class="fw-bold mb-3">Employee</h6>
+                                <p class="text-muted small">Guide assigned students, manage application lifecycles, and handle real-time support and consultations.</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h6 class="fw-bold mb-3">Admin</h6>
+                                <p class="text-muted small">Full operations control: user management, staff assignments,promo code tracking, and financial oversight.</p>
+                            </div>
+                        </div>
+                    </div>
 
-                            <h3 class="fs-4 fw-bold section-title mt-5">User Types & Functionality</h3>
-                            <p class="text-muted">The platform operates with a robust role-based permission system, catering to different workflows for students, staff, and administrators.</p>
-                            
-                            <h4 class="fs-5 fw-bold mt-4">Student (Regular User)</h4>
-                            <ul class="text-muted">
-                                <li><strong>University Search:</strong> Manual browsing and AI-powered personalized recommendations.</li>
-                                <li><strong>Applications:</strong> Credit-based application system with real-time status tracking (Submitted, Conditional Offer, Full Acceptance).</li>
-                                <li><strong>Consultations:</strong> Integrated scheduling for video/audio sessions with counselors.</li>
-                                <li><strong>Management:</strong> Self-service document portal and live support chat.</li>
-                            </ul>
-
-                            <h4 class="fs-5 fw-bold mt-4">Employee (Counselor/Staff)</h4>
-                            <ul class="text-muted">
-                                <li><strong>Workflow:</strong> Manage assigned student applications and update lifecycle statuses.</li>
-                                <li><strong>Interaction:</strong> Direct student communication via chat and consultation management (scheduling/completion).</li>
-                                <li><strong>Operations:</strong> Specialized dashboard for tracking performance and processing student documents.</li>
-                            </ul>
-
-                            <h4 class="fs-5 fw-bold mt-4">Admin (Superuser)</h4>
-                            <ul class="text-muted">
-                                <li><strong>Platform Control:</strong> User role management, credit adjustments, and staff assignments.</li>
-                                <li><strong>Business Logic:</strong> Promo code creation, organization management, and financial overview (revenue/transactions).</li>
-                                <li><strong>Content:</strong> Full control over the master university database and accommodation listings.</li>
-                            </ul>
-
-                            <h3 class="fs-4 fw-bold section-title mt-5">Payment & Provisioning System</h3>
-                            <p class="text-muted">Unigo integrates the Epoint gateway (Azerbaijan) for a seamless financial experience, handling everything from subscription tiers to automated invoicing.</p>
-                            <ul class="text-muted">
-                                <li><strong>Monetization:</strong> Tiered subscription plans (LITE, PRO, MAX), 'a la carte' application credits, and AI-generation tokens.</li>
-                                <li><strong>Automated Workflow:</strong> Backend price calculation (including upgrade differentials), promo code validation, and secure transaction signing.</li>
-                                <li><strong>Fulfillment:</strong> Real-time signature verification, automated credit provisioning, and instant email delivery of contracts/invoices.</li>
-                            </ul>
+                    <div class="tech-card">
+                        <h3 class="fs-4 fw-bold section-title">Financial Ecosystem</h3>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <h5 class="fw-bold mb-3">Payment Gateway</h5>
+                                <p class="text-muted small">Integration with <strong>Epoint (Azerbaijan)</strong> for secure transaction signing, RRN tracking, and automated invoicing.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="fw-bold mb-3">Monetization</h5>
+                                <p class="text-muted small">Tiered subscription plans (LITE, PRO, MAX) bundling application credits, AI suggestions, and priority support.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <footer class="text-center text-muted bg-body" data-bs-theme="dark">
-        <div class="container py-4 py-lg-5">
-            <ul class="list-inline">
-                <li class="list-inline-item me-4"><a class="link-light" href="/">Projects</a></li>
-                <li class="list-inline-item me-4"><a class="link-light" href="#">Privacy</a></li>
+
+    <footer class="text-center text-muted bg-white border-top py-5 mt-5">
+        <div class="container">
+            <ul class="list-inline mb-3">
+                <li class="list-inline-item mx-3"><a class="text-dark text-decoration-none fw-semibold" href="/">Projects</a></li>
+                <li class="list-inline-item mx-3"><a class="text-dark text-decoration-none fw-semibold" href="#">Privacy</a></li>
             </ul>
-            <p class="mb-0">Made with ❤️ by Kamran Gasimov</p>
+            <p class="mb-0 small">Made with ❤️ by Kamran Gasimov</p>
         </div>
     </footer>
+
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/bs-init.js"></script>
     <script src="../assets/js/baguetteBox.min.js"></script>

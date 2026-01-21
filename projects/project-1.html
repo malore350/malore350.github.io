@@ -4,83 +4,205 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>GameHub</title>
-    <meta name="description" content="Gaming meets artistry. This website offers a thoughtfully curated selection of both classic and new games, emphasizing stunning visuals and elegant design.">
+    <title>GameHub | Kamran Gasimov</title>
+    <meta name="description" content="Gaming meets artistry. A curated selection of classic and new games with stunning visuals and elegant design.">
     <meta property="og:image" content="../assets/img/projects/project1.webp">
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Azeret+Mono:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
     <link rel="stylesheet" href="../assets/css/baguetteBox.min.css">
     <link rel="stylesheet" href="../assets/css/custom.css">
+    <style>
+        :root {
+            --accent-color: #3b82f6;
+            --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #f8fafc, #f1f5f9);
+            color: #1e293b;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .project-header {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 3rem;
+        }
+
+        .back-link {
+            color: #64748b;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        .tech-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .gallery-img {
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.02);
+        }
+
+        .badge-tech {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        profile-sidebar {
+            display: block;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .main-content {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 
 <body>
-    <section class="my-5">
+    <section class="my-5 py-lg-4">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
+            <div class="row g-5">
+                <div class="col-lg-4 col-xl-3">
                     <profile-sidebar asset-prefix=".."></profile-sidebar>
                 </div>
-                <div class="col-lg-8 offset-lg-1">
-                    <div class="row mb-5">
-                        <div class="col"><a class="fw-bold link-primary d-flex align-items-center text-decoration-none mb-3" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-arrow-left-short me-1">
-                                    <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"></path>
-                                </svg>Back</a>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h1 class="fs-3 fw-bold mb-0">GameHub</h1>
-                                <a href="https://game-hub-one-brown.vercel.app/" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold d-flex align-items-center">
-                                    Visit Live Site
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right ms-2" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
-                                        <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
-                                    </svg>
-                                </a>
+                <div class="col-lg-8 col-xl-8 offset-xl-1 main-content">
+                    <div class="project-header">
+                        <a class="fw-bold back-link d-flex align-items-center text-decoration-none mb-4" href="/">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-arrow-left-short me-1">
+                                <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"></path>
+                            </svg>Back to Projects
+                        </a>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h1 class="display-6 fw-bold mb-0">GameHub</h1>
+                            <a href="https://game-hub-one-brown.vercel.app/" target="_blank" class="btn btn-primary rounded-pill px-4 fw-bold d-flex align-items-center shadow-sm">
+                                Visit Live Site
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right ms-2" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                                </svg>
+                            </a>
+                        </div>
+                        
+                        <p class="lead text-muted mb-4">Gaming meets artistry. A curated selection of classic and new games, emphasizing stunning visuals and elegant design.</p>
+                        <div class="d-flex flex-wrap">
+                            <span class="badge-tech">Next.js 15</span>
+                            <span class="badge-tech">React 18</span>
+                            <span class="badge-tech">TypeScript</span>
+                            <span class="badge-tech">Tailwind CSS</span>
+                            <span class="badge-tech">Framer Motion</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <h3 class="fs-4 fw-bold section-title">Visual Showcase</h3>
+                        <div class="row g-4" data-bss-baguettebox="">
+                            <div class="col-md-6">
+                                <figure class="mb-0">
+                                    <img class="img-fluid gallery-img" src="../assets/img/projects/GameHub-Classic-Games-01-22-2025_06_17_PM.png" alt="2048 game screen">
+                                    <figcaption class="text-center mt-3 text-muted small">2048 game screen</figcaption>
+                                </figure>
                             </div>
-                            <p class="text-muted">Gaming meets artistry. This website offers a thoughtfully curated selection of both classic and new games, emphasizing stunning visuals and elegant design.</p>
-                            <p class="mb-5">Contains 7 separate games with a focus on aesthetics. All games designed from scratch. Some games inspired by NYT Games. Built on Next.js + TailwindCSS.</p>
-                            <div class="row gx-2 gy-2 gx-md-2 gy-md-0 justify-content-center mb-5" data-bss-baguettebox="">
-                                <div class="col-md-8">
-                                    <figure class="mb-4">
-                                        <img class="img-fluid" src="../assets/img/projects/GameHub-Classic-Games-01-22-2025_06_17_PM.png" width="488" height="390">
-                                        <figcaption class="text-center mt-2 text-muted">2048 game screen</figcaption>
-                                    </figure>
-                                    <figure class="mb-4">
-                                        <img class="img-fluid" src="../assets/img/projects/GameHub-Classic-Games-01-22-2025_06_25_PM.png" width="488" height="394">
-                                        <figcaption class="text-center mt-2 text-muted">Honeycomb game screen</figcaption>
-                                    </figure>
-                                    <figure class="mb-4">
-                                          <img class="img-fluid" src="../assets/img/projects/GameHub-Classic-Games-01-22-2025_09_01_PM.png" width="488" height="394">
-                                          <figcaption class="text-center mt-2 text-muted">Numble game screen</figcaption>
-                                      </figure>
-                                </div>
+                            <div class="col-md-6">
+                                <figure class="mb-0">
+                                    <img class="img-fluid gallery-img" src="../assets/img/projects/GameHub-Classic-Games-01-22-2025_06_25_PM.png" alt="Honeycomb game screen">
+                                    <figcaption class="text-center mt-3 text-muted small">Honeycomb game screen</figcaption>
+                                </figure>
                             </div>
-                            <h3 class="fs-4 fw-bold section-title mt-5">Project Overview & Technical Details</h3>
-                            <p class="text-muted">GameHub is a client-heavy Next.js 15 application that aggregates classic puzzle and logic games, with gameplay, validation, and timing executed entirely in the browser. The architecture emphasizes fast iteration, UI responsiveness, and reusable game logic modules without relying on server-side APIs.</p>
-                            <ul class="text-muted">
-                                <li><strong>Framework:</strong> Next.js 15 (App Router) with React 18; Turbopack enabled for dev builds.</li>
-                                <li><strong>Language:</strong> TypeScript in strict mode across the app and game logic.</li>
-                                <li><strong>UI/Styling:</strong> Tailwind CSS v3.3, Framer Motion animations, Radix UI primitives (via Shadcn UI).</li>
-                                <li><strong>State:</strong> React Hooks only (useState/useReducer/custom hooks), no global state libraries.</li>
-                                <li><strong>Icons:</strong> @mui/icons-material and Lucide React.</li>
-                                <li><strong>Structure:</strong> app/ for routes, components/ for reusable UI, lib/ for puzzle generators, hooks/ for gameplay state.</li>
-                                <li><strong>Features:</strong> Sudoku, Minesweeper, 2048, Numble, Chemle, and word games like Wordle-style and Spelling Bee.</li>
-                                <li><strong>Theming:</strong> next-themes with per-game style presets (e.g., Classic vs Royal).</li>
-                                <li><strong>Responsive UX:</strong> Mobile-first controls and game-specific input patterns (e.g., numeric pads for Sudoku).</li>
-                            </ul>
+                            <div class="col-12 mt-4">
+                                <figure class="mb-0">
+                                    <img class="img-fluid gallery-img w-100" src="../assets/img/projects/GameHub-Classic-Games-01-22-2025_09_01_PM.png" alt="Numble game screen">
+                                    <figcaption class="text-center mt-3 text-muted small">Numble game screen</figcaption>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card mb-5">
+                        <h3 class="fs-4 fw-bold section-title">Technical Deep Dive</h3>
+                        <p class="text-muted mb-4">GameHub is a client-heavy Next.js 15 application that aggregates classic puzzle and logic games. The architecture emphasizes fast iteration, UI responsiveness, and reusable game logic modules.</p>
+                        
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <h5 class="fw-bold mb-3">Core Stack</h5>
+                                <ul class="text-muted small ps-3">
+                                    <li class="mb-2"><strong>Framework:</strong> Next.js 15 (App Router) + React 18</li>
+                                    <li class="mb-2"><strong>Styling:</strong> Tailwind CSS + Radix UI Primitives</li>
+                                    <li class="mb-2"><strong>Animations:</strong> Framer Motion for fluid state transitions</li>
+                                    <li class="mb-2"><strong>Logic:</strong> Strict TypeScript with client-side puzzle generation</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="fw-bold mb-3">Key Features</h5>
+                                <ul class="text-muted small ps-3">
+                                    <li class="mb-2">7+ self-contained logic and word games</li>
+                                    <li class="mb-2">Dynamic dark/light mode with game-specific themes</li>
+                                    <li class="mb-2">Mobile-first controls with specialized input pads</li>
+                                    <li class="mb-2">Zero-dependency internal state management</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <footer class="text-center text-muted bg-body" data-bs-theme="dark">
-        <div class="container py-4 py-lg-5">
-            <ul class="list-inline">
-                <li class="list-inline-item me-4"><a class="link-light" href="/">Projects</a></li>
-                <li class="list-inline-item me-4"><a class="link-light" href="#">Privacy</a></li>
+
+    <footer class="text-center text-muted bg-white border-top py-5 mt-5">
+        <div class="container">
+            <ul class="list-inline mb-3">
+                <li class="list-inline-item mx-3"><a class="text-dark text-decoration-none fw-semibold" href="/">Projects</a></li>
+                <li class="list-inline-item mx-3"><a class="text-dark text-decoration-none fw-semibold" href="#">Privacy</a></li>
             </ul>
-            <p class="mb-0">Made with ❤️ by Kamran Gasimov</p>
+            <p class="mb-0 small">Made with ❤️ by Kamran Gasimov</p>
         </div>
     </footer>
+
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/bs-init.js"></script>
     <script src="../assets/js/baguetteBox.min.js"></script>
