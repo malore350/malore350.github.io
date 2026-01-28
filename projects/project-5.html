@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>ttyt | Kamran Gasimov</title>
+    <meta name="description" content="AI-powered terminal companion that translates natural language into safe, executable shell commands with smart safety controls.">
+    <meta property="og:image" content="../assets/img/projects/ttyt-terminal.png">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Azeret+Mono:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+    <link rel="stylesheet" href="../assets/css/baguetteBox.min.css">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <style>
+        :root {
+            --accent-color: #3b82f6;
+            --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #f8fafc, #f1f5f9);
+            color: #1e293b;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .project-header {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 3rem;
+        }
+
+        .back-link {
+            color: #64748b;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        .tech-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .gallery-img {
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.02);
+        }
+
+        .badge-tech {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        profile-sidebar {
+            display: block;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        profile-sidebar.positioned {
+            opacity: 1;
+        }
+
+        @media (min-width: 992px) {
+            .content-wrapper {
+                display: flex;
+                justify-content: center;
+            }
+            .sidebar-col {
+                width: 320px;
+                padding-right: 4rem;
+                flex-shrink: 0;
+            }
+            profile-sidebar {
+                position: sticky;
+                top: calc(50vh - var(--sidebar-half-height, 210px));
+            }
+        }
+
+        /* Wider Container */
+        @media (min-width: 1400px) {
+            .container {
+                max-width: 1320px;
+            }
+        }
+
+        @media (max-width: 991.98px) {
+            profile-sidebar {
+                position: static;
+                transform: none;
+                margin-bottom: 3rem;
+            }
+        }
+
+        .main-content {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="my-5 py-lg-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-11 col-xl-11 content-wrapper">
+                    <div class="sidebar-col">
+                        <profile-sidebar asset-prefix=".."></profile-sidebar>
+                    </div>
+                    <div class="main-content">
+                    <div class="project-header">
+                        <a class="fw-bold back-link d-flex align-items-center text-decoration-none mb-4" href="/">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-arrow-left-short me-1">
+                                <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"></path>
+                            </svg>Back to Projects
+                        </a>
+                        
+                        <div class="d-flex justify-content-between align-items-start mb-4">
+                            <h1 class="display-6 fw-bold mb-0">ttyt - Terminal Assistant</h1>
+                            <div class="d-flex gap-3">
+                                <a href="https://ttyt-website.vercel.app/" target="_blank" class="btn btn-primary rounded-pill px-4 fw-bold d-flex align-items-center shadow-sm">
+                                    Visit Live Site
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right ms-2" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                        <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                                    </svg>
+                                </a>
+                                <a href="https://github.com/malore350/ttyt" target="_blank" class="btn btn-outline-primary rounded-pill px-4 fw-bold d-flex align-items-center shadow-sm">
+                                    View on GitHub
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github ms-2" viewBox="0 0 16 16">
+                                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <p class="lead text-muted mb-4">Stop memorizing flags. Start talking to your terminal. An AI-powered companion that translates natural language into safe, executable shell commands with intelligent safety controls.</p>
+                        <div class="d-flex flex-wrap">
+                            <span class="badge-tech">Python 3.8+</span>
+                            <span class="badge-tech">Google Gemini</span>
+                            <span class="badge-tech">Z.ai</span>
+                            <span class="badge-tech">OpenRouter</span>
+                            <span class="badge-tech">Cross-platform</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <h3 class="fs-4 fw-bold section-title">Visual Showcase</h3>
+                        <div class="row g-4" data-bss-baguettebox="">
+                            <div class="col-md-6">
+                                <figure class="mb-0">
+                                    <a href="../assets/img/projects/ttyt-terminal.png" data-caption="Natural language terminal interaction">
+                                        <img class="img-fluid gallery-img" src="../assets/img/projects/ttyt-terminal.png" alt="Terminal interface showing natural language commands">
+                                    </a>
+                                    <figcaption class="text-center mt-3 text-muted small">Natural language terminal interaction</figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-md-6">
+                                <figure class="mb-0">
+                                    <a href="../assets/img/projects/ttyt-models.png" data-caption="Multi-provider AI model selection">
+                                        <img class="img-fluid gallery-img" src="../assets/img/projects/ttyt-models.png" alt="AI model selection menu">
+                                    </a>
+                                    <figcaption class="text-center mt-3 text-muted small">Multi-provider AI model selection</figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <figure class="mb-0">
+                                    <a href="../assets/img/projects/ttyt-agent.png" data-caption="Autonomous agentic mode with error recovery">
+                                        <img class="img-fluid gallery-img w-100" src="../assets/img/projects/ttyt-agent.png" alt="Agent mode executing tasks autonomously">
+                                    </a>
+                                    <figcaption class="text-center mt-3 text-muted small">Autonomous agentic mode with error recovery</figcaption>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card mb-5">
+                        <h3 class="fs-4 fw-bold section-title">Technical Deep Dive</h3>
+                        <p class="text-muted mb-4">ttyt is a Python-based CLI wrapper that uses advanced LLMs to bridge the gap between human intent and terminal commands. It features a three-tier safety classifier and autonomous task execution with intelligent error recovery.</p>
+                        
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <h5 class="fw-bold mb-3">Core Stack</h5>
+                                <ul class="text-muted small ps-3">
+                                    <li class="mb-2"><strong>Language:</strong> Python 3.8+ with type hints</li>
+                                    <li class="mb-2"><strong>AI Providers:</strong> Google Gemini, Z.ai (GLM-4), OpenRouter</li>
+                                    <li class="mb-2"><strong>CLI Framework:</strong> Rich for terminal UI and formatting</li>
+                                    <li class="mb-2"><strong>Platform:</strong> Cross-platform (Windows, Linux, macOS)</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="fw-bold mb-3">Key Features</h5>
+                                <ul class="text-muted small ps-3">
+                                    <li class="mb-2">Natural language to shell command translation</li>
+                                    <li class="mb-2">Three-tier safety system (Safe/Caution/Danger)</li>
+                                    <li class="mb-2">Autonomous agentic mode with auto-retry</li>
+                                    <li class="mb-2">Context-aware AI with command history</li>
+                                    <li class="mb-2">Multi-provider model switching</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h5 class="fw-bold mb-3">Safety Architecture</h5>
+                            <p class="text-muted small">Every AI-generated command passes through a strict classifier:</p>
+                            <ul class="text-muted small ps-3">
+                                <li class="mb-2"><strong class="text-success">SAFE:</strong> Read-only commands (ls, cat, git status) - Auto-executes immediately</li>
+                                <li class="mb-2"><strong class="text-warning">CAUTION:</strong> Modifications (mkdir, npm install, git commit) - Requires confirmation</li>
+                                <li class="mb-2"><strong class="text-danger">DANGER:</strong> Destructive operations (rm -rf, force push) - Blocked by default</li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-4">
+                            <h5 class="fw-bold mb-3">Agentic Mode</h5>
+                            <p class="text-muted small">The <code>/agent</code> command enables autonomous task execution with up to 3 iterations per goal:</p>
+                            <ul class="text-muted small ps-3">
+                                <li class="mb-2">Attempts command execution and analyzes failures</li>
+                                <li class="mb-2">Explores errors with read-only commands (cat, grep, ls)</li>
+                                <li class="mb-2">Generates fix commands based on error context</li>
+                                <li class="mb-2">Verifies goal achievement via exit codes and output</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <site-footer></site-footer>
+
+    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../assets/js/bs-init.js"></script>
+    <script src="../assets/js/baguetteBox.min.js"></script>
+    <script src="../assets/js/template.js"></script>
+    <script src="../assets/js/profile-sidebar.js"></script>
+    <script src="../assets/js/site-footer.js"></script>
+    <script>
+        function updateSidebarPosition() {
+            const sidebar = document.querySelector('profile-sidebar');
+            if (sidebar) {
+                if (window.innerWidth >= 992) {
+                    const height = sidebar.offsetHeight;
+                    sidebar.style.setProperty('--sidebar-half-height', (height / 2) + 'px');
+                }
+                sidebar.classList.add('positioned');
+            }
+        }
+        customElements.whenDefined('profile-sidebar').then(() => {
+            requestAnimationFrame(updateSidebarPosition);
+        });
+        window.addEventListener('resize', updateSidebarPosition);
+    </script>
+</body>
+
+</html>
