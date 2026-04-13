@@ -55,11 +55,26 @@ const calculateInitialIconPositions = () => {
 };
 
 const calculateInitialWidgetPositions = () => {
+  const windowWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
+  const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
+  
   return {
     intro: { x: 40, y: 60 },
-    profile: { x: 40, y: 340 }
+    profile: { x: 40, y: 340 },
+    notepad: { 
+      x: (windowWidth / 2) - 140, 
+      y: (windowHeight / 2) - 140 - 40 // Centered, slightly up for dock
+    }
   };
 };
+
+const INITIAL_NOTEPAD_TEXT = `Hey there! 👋
+
+Feel free to explore my portfolio. You can double-click the icons on the right to open projects, drag any widget or window around, and even lasso-select items on the desktop!
+
+(You can also edit this text!)
+
+Have fun! ✨`;
 
 function App() {
   const [openApps, setOpenApps] = useState<OpenApp[]>([]);
@@ -75,6 +90,7 @@ function App() {
   
   const [selectionBox, setSelectionBox] = useState<{ start: Point, current: Point } | null>(null);
   const [draggingItem, setDraggingItem] = useState<{ type: 'icon' | 'widget' | 'window', id: string, offset: Point } | null>(null);
+  const [notepadText, setNotepadText] = useState(INITIAL_NOTEPAD_TEXT);
   
   const desktopRef = useRef<HTMLElement>(null);
 
@@ -120,7 +136,6 @@ function App() {
   const finalizeCloseApp = useCallback((id: string) => {
     setOpenApps((prev) => prev.filter((app) => app.id !== id));
     setMinimizedApps((prev) => prev.filter((appId) => appId !== id));
-    // Optionally remove position, but keeping it might be better if user reopens
   }, []);
 
   const minimizeApp = useCallback((id: string) => {
@@ -172,6 +187,7 @@ function App() {
   // Mouse Handlers for Desktop
   const onMouseDown = (e: React.MouseEvent) => {
     if (e.target === desktopRef.current) {
+      e.preventDefault(); // Prevent text selection
       setSelectedIcons([]);
       setSelectedWidgets([]);
       setSelectionBox({
@@ -197,8 +213,9 @@ function App() {
       dockItems.forEach(item => {
         const pos = iconPositions[item.id];
         if (pos) {
-          const iconBounds = { left: pos.x, top: pos.y, right: pos.x + 80, bottom: pos.y + 100 };
-          if (!(iconBounds.left > x2 || iconBounds.right < x1 || iconBounds.top > y2 || iconBounds.bottom < y1)) {
+          const iconBounds = { left: pos.x, top: pos.y, right: pos.x + 80, bottom: pos.y + 110 };
+          const isIntersecting = !(iconBounds.left > x2 || iconBounds.right < x1 || iconBounds.top > y2 || iconBounds.bottom < y1);
+          if (isIntersecting) {
             newlySelectedIcons.push(item.id);
           }
         }
@@ -209,13 +226,15 @@ function App() {
       const newlySelectedWidgets: string[] = [];
       const widgetBoundsMap: Record<string, { w: number, h: number }> = {
         intro: { w: 400, h: 200 },
-        profile: { w: 220, h: 220 }
+        profile: { w: 220, h: 220 },
+        notepad: { w: 280, h: 280 }
       };
       Object.keys(widgetPositions).forEach(id => {
         const pos = widgetPositions[id];
         const dim = widgetBoundsMap[id];
         const bounds = { left: pos.x, top: pos.y, right: pos.x + dim.w, bottom: pos.y + dim.h };
-        if (!(bounds.left > x2 || bounds.right < x1 || bounds.top > y2 || bounds.bottom < y1)) {
+        const isIntersecting = !(bounds.left > x2 || bounds.right < x1 || bounds.top > y2 || bounds.bottom < y1);
+        if (isIntersecting) {
           newlySelectedWidgets.push(id);
         }
       });
@@ -257,6 +276,7 @@ function App() {
 
   const handleIconMouseDown = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
+    e.preventDefault(); // Prevent text selection
     setSelectedIcons([id]);
     setSelectedWidgets([]);
     const pos = iconPositions[id];
@@ -271,6 +291,7 @@ function App() {
 
   const handleWidgetMouseDown = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
+    e.preventDefault(); // Prevent text selection
     setSelectedWidgets([id]);
     setSelectedIcons([]);
     const pos = widgetPositions[id];
@@ -285,6 +306,7 @@ function App() {
 
   const handleWindowHeaderMouseDown = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
+    e.preventDefault(); // Prevent text selection
     focusApp(id);
     const pos = windowPositions[id] || { x: 40, y: 40 };
     setDraggingItem({
@@ -343,6 +365,24 @@ function App() {
           onMouseDown={(e) => handleWidgetMouseDown(e, 'profile')}
         >
           <img src="/me.png" alt="Kamran Gasimov" className="profile-image" draggable="false" />
+        </div>
+
+        <div 
+          className={`notepad-widget ${selectedWidgets.includes('notepad') ? 'selected' : ''}`}
+          style={{
+            left: widgetPositions.notepad.x,
+            top: widgetPositions.notepad.y
+          }}
+          onMouseDown={(e) => handleWidgetMouseDown(e, 'notepad')}
+        >
+          <div className="notepad-header">README.txt</div>
+          <textarea 
+            className="notepad-content"
+            value={notepadText}
+            onChange={(e) => setNotepadText(e.target.value)}
+            onMouseDown={(e) => e.stopPropagation()} // Allow clicking textarea for editing
+            spellCheck={false}
+          />
         </div>
 
         <div className="desktop-icons">

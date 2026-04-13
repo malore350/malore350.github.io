@@ -12,6 +12,7 @@
   position: relative;
   padding: 40px 20px 100px; /* Room for menu bar and dock */
   box-sizing: border-box;
+  user-select: none;
 }
 
 .desktop-icons {
@@ -168,6 +169,89 @@
   overflow: hidden;
   transition: scale 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, border-color 0.3s;
   user-select: none;
+}
+
+/* Notepad Widget */
+.notepad-widget {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  background: #fff9c4; /* Classic Apple Sticky Yellow */
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0,0,0,0.05);
+  padding: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  transition: scale 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, border-color 0.3s;
+  user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  animation: fadeSlideUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow: hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+  .notepad-widget {
+    background: #2c2c2e;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.1);
+  }
+}
+
+.notepad-widget.selected {
+  box-shadow: 0 0 0 2px var(--accent), 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.notepad-widget:hover {
+  scale: 1.02;
+}
+
+.notepad-header {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.03);
+  padding: 8px 16px;
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .notepad-header {
+    color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.notepad-content {
+  flex: 1;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #1a1a1a;
+  background: transparent;
+  border: none;
+  resize: none;
+  font-family: inherit;
+  outline: none;
+  padding: 16px;
+  margin: 0;
+  overflow-y: auto;
+  scrollbar-width: none; /* Hide scrollbar but keep functionality */
+  -ms-overflow-style: none;
+  user-select: text;
+}
+
+.notepad-content::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .notepad-content {
+    color: #fef3c7;
+  }
 }
 
 .profile-image {
