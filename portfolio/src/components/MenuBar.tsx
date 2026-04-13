@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './MenuBar.css';
 
 interface MenuBarProps {
@@ -7,11 +7,26 @@ interface MenuBarProps {
 
 function MenuBar({ activeAppName }: MenuBarProps) {
   const [time, setTime] = useState(new Date());
+  const [isAppleMenuOpen, setIsAppleMenuOpen] = useState(false);
+  const appleMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (appleMenuRef.current && !appleMenuRef.current.contains(event.target as Node)) {
+        setIsAppleMenuOpen(false);
+      }
+    };
+
+    if (isAppleMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isAppleMenuOpen]);
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('en-US', {
@@ -27,7 +42,24 @@ function MenuBar({ activeAppName }: MenuBarProps) {
   return (
     <div className="menu-bar">
       <div className="menu-bar-left">
-        <span className="apple-logo"></span>
+        <div className="apple-menu-container" ref={appleMenuRef}>
+          <span 
+            className={`apple-logo ${isAppleMenuOpen ? 'active' : ''}`} 
+            onClick={() => setIsAppleMenuOpen(!isAppleMenuOpen)}
+          >
+            
+          </span>
+          {isAppleMenuOpen && (
+            <div className="apple-dropdown">
+              <div className="dropdown-item">About this Website</div>
+              <div className="dropdown-divider"></div>
+              <div className="dropdown-item">Restart...</div>
+              <div className="dropdown-item">Shut Down...</div>
+              <div className="dropdown-divider"></div>
+              <div className="dropdown-item">Lock Screen</div>
+            </div>
+          )}
+        </div>
         <span className="active-app-name">{activeAppName}</span>
         <span className="menu-item">File</span>
         <span className="menu-item">Edit</span>

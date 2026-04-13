@@ -33,6 +33,74 @@
   gap: 8px; /* Reduced gap to accommodate item padding */
 }
 
+.apple-menu-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.apple-logo.active {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .apple-logo.active {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.apple-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 220px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border-radius: 6px;
+  border: 0.5px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  padding: 4px;
+  z-index: 10000;
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (prefers-color-scheme: dark) {
+  .apple-dropdown {
+    background: rgba(35, 35, 35, 0.8);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.dropdown-item {
+  padding: 4px 12px;
+  font-size: 13px;
+  color: var(--text-h);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.dropdown-item:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.dropdown-divider {
+  height: 0.5px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 4px 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dropdown-divider {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
 .apple-logo {
   font-size: 16px;
   cursor: pointer;
