@@ -7,9 +7,11 @@ interface WindowProps {
   isActive: boolean;
   isMinimized: boolean;
   isMaximized: boolean;
+  isMinimizing: boolean;
   isClosing: boolean;
   onClose: () => void;
   onMinimize: () => void;
+  onMinimizeEnd: (id: string) => void;
   onMaximize: () => void;
   onFocus: () => void;
   onAnimationEnd: (id: string) => void;
@@ -24,9 +26,11 @@ function Window({
   isActive, 
   isMinimized, 
   isMaximized,
+  isMinimizing,
   isClosing, 
   onClose, 
   onMinimize, 
+  onMinimizeEnd,
   onMaximize,
   onFocus, 
   onAnimationEnd,
@@ -34,18 +38,20 @@ function Window({
   children,
   style
 }: WindowProps) {
-  
+
   if (isMinimized) return null;
 
   const handleAnimationEnd = (e: React.AnimationEvent) => {
     if (e.animationName === 'window-close') {
       onAnimationEnd(id);
+    } else if (e.animationName === 'window-minimize') {
+      onMinimizeEnd(id);
     }
   };
 
   return (
     <div 
-      className={`mac-window ${isActive ? 'active' : ''} ${isClosing ? 'closing' : ''} ${isMaximized ? 'maximized' : ''}`}
+      className={`mac-window ${isActive ? 'active' : ''} ${isClosing ? 'closing' : ''} ${isMaximized ? 'maximized' : ''} ${isMinimizing ? 'minimizing' : ''}`}
       onClick={onFocus}
       onAnimationEnd={handleAnimationEnd}
       style={style}

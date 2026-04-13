@@ -12,6 +12,7 @@ import ResumeSection from './components/ResumeSection';
 interface OpenApp {
   id: string;
   isClosing: boolean;
+  isMinimizing: boolean;
 }
 
 interface Point {
@@ -99,12 +100,12 @@ function App() {
     setOpenApps((prev) => {
       const existing = prev.find(app => app.id === id);
       if (existing) {
-        if (existing.isClosing) {
-          return prev.map(app => app.id === id ? { ...app, isClosing: false } : app);
+        if (existing.isClosing || existing.isMinimizing) {
+          return prev.map(app => app.id === id ? { ...app, isClosing: false, isMinimizing: false } : app);
         }
         return prev;
       }
-      return [...prev, { id, isClosing: false }];
+      return [...prev, { id, isClosing: false, isMinimizing: false }];
     });
 
     // Initialize window position if not exists
@@ -131,13 +132,18 @@ function App() {
     setMaximizedApps((prev) => prev.filter((appId) => appId !== id));
   }, []);
 
-  const minimizeApp = useCallback((id: string) => {
-    setMinimizedApps((prev) => [...prev, id]);
+  const triggerMinimizeApp = useCallback((id: string) => {
+    setOpenApps((prev) => prev.map(app => app.id === id ? { ...app, isMinimizing: true } : app));
     if (activeApp === id) {
-      const remaining = openApps.filter((app) => app.id !== id && !minimizedApps.includes(app.id) && !app.isClosing);
+      const remaining = openApps.filter((app) => app.id !== id && !minimizedApps.includes(app.id) && !app.isClosing && !app.isMinimizing);
       setActiveApp(remaining.length > 0 ? remaining[remaining.length - 1].id : 'Finder');
     }
   }, [activeApp, openApps, minimizedApps]);
+
+  const finalizeMinimizeApp = useCallback((id: string) => {
+    setMinimizedApps((prev) => [...prev, id]);
+    setOpenApps((prev) => prev.map(app => app.id === id ? { ...app, isMinimizing: false } : app));
+  }, []);
 
   const focusApp = useCallback((id: string) => {
     if (minimizedApps.includes(id)) {
@@ -157,7 +163,7 @@ function App() {
     const app = openApps.find(a => a.id === id);
     if (app && !app.isClosing) {
       if (activeApp === id && !minimizedApps.includes(id)) {
-        minimizeApp(id);
+        triggerMinimizeApp(id);
       } else {
         focusApp(id);
       }
@@ -431,6 +437,7 @@ function App() {
           const appId = appState.id;
           const isMinimized = minimizedApps.includes(appId);
           const isMaximized = maximizedApps.includes(appId);
+          const isMinimizing = appState.isMinimizing;
           const app = dockItems.find(item => item.id === appId);
           const project = projects.find(p => p.id === appId);
           const pos = windowPositions[appId] || { x: 40, y: 40 };
@@ -443,9 +450,11 @@ function App() {
               isActive={activeApp === appId}
               isMinimized={isMinimized}
               isMaximized={isMaximized}
+              isMinimizing={isMinimizing}
               isClosing={appState.isClosing}
               onClose={() => triggerCloseApp(appId)}
-              onMinimize={() => minimizeApp(appId)}
+              onMinimize={() => triggerMinimizeApp(appId)}
+              onMinimizeEnd={() => finalizeMinimizeApp(appId)}
               onMaximize={() => toggleMaximizeApp(appId)}
               onFocus={() => focusApp(appId)}
               onAnimationEnd={() => finalizeCloseApp(appId)}
