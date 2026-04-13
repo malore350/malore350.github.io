@@ -71,10 +71,12 @@ Have fun! ✨`;
 function App() {
   const [systemStatus, setSystemStatus] = useState<'running' | 'shutting-down' | 'off' | 'booting'>('running');
   const [bootProgress, setBootProgress] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
   const [openApps, setOpenApps] = useState<OpenApp[]>([]);
   const [activeApp, setActiveApp] = useState<string>('Finder');
   const [minimizedApps, setMinimizedApps] = useState<string[]>([]);
   const [maximizedApps, setMaximizedApps] = useState<string[]>([]);
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
   
   // Selection & Dragging state
   const [selectedIcons, setSelectedIcons] = useState<string[]>([]);
@@ -197,6 +199,7 @@ function App() {
 
       setTimeout(() => {
         setSystemStatus('running');
+        setIsLocked(true);
         setBootProgress(0);
       }, 3500);
     }, 2000);
@@ -216,6 +219,18 @@ function App() {
   const handleTurnOn = () => {
     runBootSequence();
   };
+
+  const handleLock = useCallback(() => {
+    setIsLocked(true);
+  }, []);
+
+  const handleUnlock = () => {
+    setIsLocked(false);
+  };
+
+  const toggleAbout = useCallback(() => {
+    setIsAboutOpen(prev => !prev);
+  }, []);
 
   // Close active window with Cmd+W (or Ctrl+W)
   useEffect(() => {
@@ -393,10 +408,88 @@ function App() {
     );
   }
 
+  if (isLocked) {
+    return (
+      <div className="lock-screen">
+        <div className="wallpaper" style={{ filter: 'blur(100px) saturate(1.8)', opacity: 1 }} />
+        <div className="lock-content">
+          <div className="lock-user-info">
+            <img src="/me.png" alt="Kamran Gasimov" className="lock-profile-image" />
+            <h2 className="lock-user-name">Kamran Gasimov</h2>
+          </div>
+          <div className="lock-input-container">
+            <input 
+              type="password" 
+              className="lock-password-input" 
+              placeholder="Enter Password" 
+              autoFocus 
+              onKeyDown={(e) => e.key === 'Enter' && handleUnlock()}
+            />
+            <button className="lock-unlock-button" onClick={handleUnlock}>→</button>
+          </div>
+          <p className="lock-hint">Press Enter to unlock</p>
+        </div>
+        <div className="lock-bottom-controls">
+          <button className="lock-control-btn" onClick={() => handlePowerAction('shutdown')}>
+            <span className="lock-control-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18.36 6.64A9 9 0 1 1 5.64 6.64M12 2v10" />
+              </svg>
+            </span>
+            <span>Shut Down</span>
+          </button>
+          <button className="lock-control-btn" onClick={() => handlePowerAction('restart')}>
+            <span className="lock-control-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38" />
+              </svg>
+            </span>
+            <span>Restart</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="desktop-environment" onClick={() => { setSelectedIcons([]); setSelectedWidgets([]); }}>
       <div className="wallpaper" />
-      <MenuBar activeAppName={getAppName(activeApp)} onPowerAction={handlePowerAction} />
+      <MenuBar 
+        activeAppName={getAppName(activeApp)} 
+        onPowerAction={handlePowerAction} 
+        onLock={handleLock} 
+        onAboutClick={toggleAbout}
+      />
+      
+      {isAboutOpen && (
+        <div className="about-dialog-overlay" onClick={toggleAbout}>
+          <div className="about-dialog" onClick={(e) => e.stopPropagation()}>
+            <div className="about-close" onClick={toggleAbout}>×</div>
+            <div className="about-content">
+              <div className="about-logo"></div>
+              <h1 className="about-title">Portfolio OS</h1>
+              <p className="about-version">Version 2026.04 (Beta)</p>
+              <div className="about-details">
+                <div className="about-row">
+                  <span className="about-label">Built by</span>
+                  <span className="about-value">Kamran Gasimov</span>
+                </div>
+                <div className="about-row">
+                  <span className="about-label">Location</span>
+                  <span className="about-value">South Korea</span>
+                </div>
+                <div className="about-row">
+                  <span className="about-label">Tech Stack</span>
+                  <span className="about-value">React, TypeScript, CSS</span>
+                </div>
+              </div>
+              <div className="about-footer">
+                <p>© 2026 Kamran Gasimov. All rights reserved.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
       <main 
         className="desktop-surface" 

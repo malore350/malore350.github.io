@@ -4,9 +4,11 @@ import './MenuBar.css';
 interface MenuBarProps {
   activeAppName: string;
   onPowerAction?: (action: 'shutdown' | 'restart') => void;
+  onLock?: () => void;
+  onAboutClick?: () => void;
 }
 
-function MenuBar({ activeAppName, onPowerAction }: MenuBarProps) {
+function MenuBar({ activeAppName, onPowerAction, onLock, onAboutClick }: MenuBarProps) {
   const [time, setTime] = useState(new Date());
   const [isAppleMenuOpen, setIsAppleMenuOpen] = useState(false);
   const appleMenuRef = useRef<HTMLDivElement>(null);
@@ -52,12 +54,12 @@ function MenuBar({ activeAppName, onPowerAction }: MenuBarProps) {
           </span>
           {isAppleMenuOpen && (
             <div className="apple-dropdown">
-              <div className="dropdown-item" onClick={() => setIsAppleMenuOpen(false)}>About this Website</div>
+              <div className="dropdown-item" onClick={() => { setIsAppleMenuOpen(false); onAboutClick?.(); }}>About this Website</div>
               <div className="dropdown-divider"></div>
               <div className="dropdown-item" onClick={() => { setIsAppleMenuOpen(false); onPowerAction?.('restart'); }}>Restart...</div>
               <div className="dropdown-item" onClick={() => { setIsAppleMenuOpen(false); onPowerAction?.('shutdown'); }}>Shut Down...</div>
               <div className="dropdown-divider"></div>
-              <div className="dropdown-item" onClick={() => setIsAppleMenuOpen(false)}>Lock Screen</div>
+              <div className="dropdown-item" onClick={() => { setIsAppleMenuOpen(false); onLock?.(); }}>Lock Screen</div>
             </div>
           )}
         </div>
