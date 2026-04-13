@@ -6,9 +6,11 @@ interface WindowProps {
   title: string;
   isActive: boolean;
   isMinimized: boolean;
+  isMaximized: boolean;
   isClosing: boolean;
   onClose: () => void;
   onMinimize: () => void;
+  onMaximize: () => void;
   onFocus: () => void;
   onAnimationEnd: (id: string) => void;
   onHeaderMouseDown: (e: React.MouseEvent) => void;
@@ -21,9 +23,11 @@ function Window({
   title, 
   isActive, 
   isMinimized, 
+  isMaximized,
   isClosing, 
   onClose, 
   onMinimize, 
+  onMaximize,
   onFocus, 
   onAnimationEnd,
   onHeaderMouseDown,
@@ -41,16 +45,14 @@ function Window({
 
   return (
     <div 
-      className={`mac-window ${isActive ? 'active' : ''} ${isClosing ? 'closing' : ''}`}
+      className={`mac-window ${isActive ? 'active' : ''} ${isClosing ? 'closing' : ''} ${isMaximized ? 'maximized' : ''}`}
       onClick={onFocus}
       onAnimationEnd={handleAnimationEnd}
-      style={{ 
-        zIndex: isActive ? 100 : 10,
-        ...style
-      }}
+      style={style}
       id={`window-${id}`}
     >
-      <div className="window-header" onMouseDown={onHeaderMouseDown}>
+      {isMaximized && <div className="header-hover-trigger" />}
+      <div className="window-header" onMouseDown={isMaximized ? undefined : onHeaderMouseDown}>
         <div className="window-controls">
           <button 
             className="control close" 
@@ -64,7 +66,7 @@ function Window({
           ></button>
           <button 
             className="control maximize" 
-            onClick={(e) => { e.stopPropagation(); }} 
+            onClick={(e) => { e.stopPropagation(); onMaximize(); }} 
             aria-label="Maximize"
           ></button>
         </div>

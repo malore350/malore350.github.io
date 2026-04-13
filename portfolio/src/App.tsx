@@ -71,6 +71,7 @@ function App() {
   const [openApps, setOpenApps] = useState<OpenApp[]>([]);
   const [activeApp, setActiveApp] = useState<string>('Finder');
   const [minimizedApps, setMinimizedApps] = useState<string[]>([]);
+  const [maximizedApps, setMaximizedApps] = useState<string[]>([]);
   
   // Selection & Dragging state
   const [selectedIcons, setSelectedIcons] = useState<string[]>([]);
@@ -127,6 +128,7 @@ function App() {
   const finalizeCloseApp = useCallback((id: string) => {
     setOpenApps((prev) => prev.filter((app) => app.id !== id));
     setMinimizedApps((prev) => prev.filter((appId) => appId !== id));
+    setMaximizedApps((prev) => prev.filter((appId) => appId !== id));
   }, []);
 
   const minimizeApp = useCallback((id: string) => {
@@ -143,6 +145,13 @@ function App() {
     }
     setActiveApp(id);
   }, [minimizedApps]);
+
+  const toggleMaximizeApp = useCallback((id: string) => {
+    setMaximizedApps((prev) => 
+      prev.includes(id) ? prev.filter(appId => appId !== id) : [...prev, id]
+    );
+    focusApp(id);
+  }, [focusApp]);
 
   const handleDockClick = (id: string) => {
     const app = openApps.find(a => a.id === id);
@@ -421,6 +430,7 @@ function App() {
         {openApps.map((appState) => {
           const appId = appState.id;
           const isMinimized = minimizedApps.includes(appId);
+          const isMaximized = maximizedApps.includes(appId);
           const app = dockItems.find(item => item.id === appId);
           const project = projects.find(p => p.id === appId);
           const pos = windowPositions[appId] || { x: 40, y: 40 };
@@ -432,13 +442,15 @@ function App() {
               title={app?.label || ''}
               isActive={activeApp === appId}
               isMinimized={isMinimized}
+              isMaximized={isMaximized}
               isClosing={appState.isClosing}
               onClose={() => triggerCloseApp(appId)}
               onMinimize={() => minimizeApp(appId)}
+              onMaximize={() => toggleMaximizeApp(appId)}
               onFocus={() => focusApp(appId)}
               onAnimationEnd={() => finalizeCloseApp(appId)}
               onHeaderMouseDown={(e) => handleWindowHeaderMouseDown(e, appId)}
-              style={{
+              style={isMaximized ? {} : {
                 left: pos.x,
                 top: pos.y
               }}
