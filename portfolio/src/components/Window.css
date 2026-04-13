@@ -1,0 +1,152 @@
+.mac-window {
+  position: absolute;
+  top: 40px; /* Below MenuBar */
+  bottom: 100px; /* Above Dock */
+  left: 40px;
+  right: 40px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255,255,255,0.4) inset;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s;
+  animation: window-open 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.mac-window.closing {
+  animation: window-close 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes window-open {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes window-close {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+}
+
+.mac-window:not(.active) {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255,255,255,0.2) inset;
+  filter: grayscale(20%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .mac-window {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.1) inset;
+  }
+  .mac-window:not(.active) {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255,255,255,0.05) inset;
+  }
+}
+
+.window-header {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+}
+
+.window-controls {
+  position: absolute;
+  left: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.control {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control.close { background: #ff5f56; border: 1px solid #e0443e; }
+.control.minimize { background: #ffbd2e; border: 1px solid #dea123; }
+.control.maximize { background: #27c93f; border: 1px solid #1aab29; }
+
+/* Control icons on hover */
+.window-controls:hover .control::before {
+  content: '';
+  display: block;
+  opacity: 0.6;
+}
+
+.control.close::before {
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(45deg, transparent 40%, #4d0000 40%, #4d0000 60%, transparent 60%),
+              linear-gradient(-45deg, transparent 40%, #4d0000 40%, #4d0000 60%, transparent 60%);
+  display: none;
+}
+
+.control.minimize::before {
+  width: 8px;
+  height: 2px;
+  background: #995700;
+  display: none;
+}
+
+.control.maximize::before {
+  width: 6px;
+  height: 6px;
+  background: #006500;
+  clip-path: polygon(0 0, 100% 0, 100% 20%, 20% 20%, 20% 100%, 0 100%);
+  transform: rotate(45deg);
+  display: none;
+}
+
+.window-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.window-content {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.window-content::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mac-window {
+    top: 28px;
+    left: 0;
+    right: 0;
+    bottom: 80px;
+    border-radius: 12px 12px 0 0;
+  }
+}

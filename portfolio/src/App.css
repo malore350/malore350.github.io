@@ -1,0 +1,442 @@
+.desktop-environment {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.desktop-surface {
+  flex: 1;
+  position: relative;
+  padding: 40px 20px 100px; /* Room for menu bar and dock */
+  box-sizing: border-box;
+}
+
+.desktop-icons {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+  left: 20px; /* Expand to full width to allow dragging anywhere */
+  height: calc(100% - 140px);
+  z-index: 5;
+  pointer-events: none; /* Allow mouse events to pass through to surface for selection */
+}
+
+.desktop-icons > * {
+  pointer-events: auto; /* Re-enable for icons */
+}
+
+.project-grid {
+  display: contents; /* Remove grid container to allow absolute positioning of children */
+}
+
+.contact-icon-wrapper {
+  display: contents;
+}
+
+.selection-box {
+  position: absolute;
+  background: rgba(0, 122, 255, 0.2);
+  border: 0.5px solid rgba(0, 122, 255, 0.5);
+  z-index: 6;
+  pointer-events: none;
+}
+
+/* Base Glassmorphic Container for all sections - Adjusted for Window */
+.section-content {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 40px 60px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.section-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* Mac OS window controls decoration - Removed because handled by Window component */
+.section-content::before {
+  display: none;
+}
+
+/* Intro Widget */
+.intro-widget {
+  position: absolute;
+  max-width: 400px;
+  padding: 32px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  box-shadow: var(--glass-shadow);
+  z-index: 1;
+  animation: fadeSlideRight 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: scale 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, border-color 0.3s;
+  user-select: none;
+  cursor: default;
+}
+
+.intro-widget.selected, .profile-widget.selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent), var(--glass-shadow);
+}
+
+.intro-widget:hover, .profile-widget:hover {
+  scale: 1.02;
+}
+
+.intro-content {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.intro-name {
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--text-h) 0%, rgba(128,128,128,0.6) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  margin: 0 0 8px;
+}
+
+.intro-tagline {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-h);
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.intro-subtagline {
+  font-size: 15px;
+  color: var(--text);
+  opacity: 0.9;
+  margin: 0;
+  line-height: 1.5;
+}
+
+@keyframes fadeSlideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Profile Widget */
+.profile-widget {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 32px;
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  animation: fadeSlideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow: hidden;
+  transition: scale 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, border-color 0.3s;
+  user-select: none;
+}
+
+.profile-image {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--glass-border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+  .intro-widget {
+    left: 20px;
+    right: 20px;
+    max-width: none;
+    padding: 24px;
+    top: 50px;
+  }
+  .profile-widget {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 320px;
+    width: 160px;
+    height: 160px;
+  }
+  .profile-image {
+    width: 130px;
+    height: 130px;
+  }
+}
+
+/* Project Section */
+.project-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.project-header {
+  text-align: left;
+  position: sticky;
+  top: 0;
+}
+
+.project-header h2 {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-h);
+  margin: 0 0 16px;
+}
+
+.project-header .project-summary {
+  font-size: 18px;
+  color: var(--text);
+  line-height: 1.5;
+  margin: 0 0 24px;
+}
+
+.project-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Tech badges */
+.tech-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tech-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-h);
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+@media (prefers-color-scheme: dark) {
+  .tech-badge {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Screenshots */
+.project-screenshots {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.screenshot-wrapper {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+}
+
+.project-screenshot {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.screenshot-wrapper:hover .project-screenshot {
+  transform: scale(1.03);
+}
+
+.screenshot-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+  backdrop-filter: blur(2px);
+}
+
+.screenshot-wrapper:hover .screenshot-caption {
+  opacity: 1;
+}
+
+/* Project links */
+.project-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 20px;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 10px var(--accent-border);
+}
+
+.project-link:hover {
+  background: #005bb5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px var(--accent-border);
+}
+
+@media (prefers-color-scheme: dark) {
+  .project-link {
+    color: #fff;
+  }
+  .project-link:hover {
+    background: #409cff;
+  }
+}
+
+/* Mobile project layout */
+@media (max-width: 900px) {
+  .project-section {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .project-header h2 {
+    font-size: 32px;
+  }
+  .section-content {
+    padding: 30px 20px;
+  }
+}
+
+/* Contact Section */
+.contact-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.contact-content {
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.contact-heading {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-h);
+  margin: 0 0 16px;
+}
+
+.contact-text {
+  font-size: 18px;
+  color: var(--text);
+  margin: 0 0 32px;
+  line-height: 1.5;
+}
+
+.contact-email {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-h);
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid var(--border);
+  padding: 12px 28px;
+  border-radius: 24px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+@media (prefers-color-scheme: dark) {
+  .contact-email {
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+
+.contact-email:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px var(--accent-border);
+}
+
+@media (max-width: 768px) {
+  .contact-heading {
+    font-size: 32px;
+  }
+  .contact-text {
+    font-size: 16px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .intro-name, .mac-window {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .screenshot-wrapper:hover .project-screenshot {
+    transform: none;
+  }
+  .project-link:hover, .contact-email:hover {
+    transform: none;
+  }
+}
