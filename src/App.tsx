@@ -47,7 +47,6 @@ const calculateInitialIconPositions = () => {
 
 const calculateInitialWidgetPositions = () => {
   const windowWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
-  const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
   
   return {
     intro: { x: 40, y: 60 },
