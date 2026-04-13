@@ -116,12 +116,12 @@
   cursor: default;
 }
 
-.intro-widget.selected, .profile-widget.selected {
+.intro-widget.selected, .profile-widget.selected, .calendar-widget.selected {
   border-color: var(--accent);
   box-shadow: 0 0 0 2px var(--accent), var(--glass-shadow);
 }
 
-.intro-widget:hover, .profile-widget:hover {
+.intro-widget:hover, .profile-widget:hover, .calendar-widget:hover {
   scale: 1.02;
 }
 
@@ -201,6 +201,60 @@
   overflow: hidden;
   transition: scale 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, border-color 0.3s;
   user-select: none;
+}
+
+/* Calendar Widget */
+.calendar-widget {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 32px;
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  animation: fadeSlideUp 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow: hidden;
+  transition: scale 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, border-color 0.3s;
+  user-select: none;
+  cursor: default;
+}
+
+.calendar-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.calendar-month {
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #ff3b30; /* iOS Calendar Red */
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.calendar-day {
+  font-size: 84px;
+  font-weight: 300;
+  color: var(--text-h);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.calendar-weekday {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  margin-top: 4px;
 }
 
 /* Notepad Widget */

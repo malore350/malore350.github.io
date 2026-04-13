@@ -61,9 +61,10 @@ const calculateInitialWidgetPositions = () => {
   return {
     intro: { x: 40, y: 60 },
     profile: { x: 40, y: 340 },
+    calendar: { x: 280, y: 340 },
     notepad: { 
-      x: (windowWidth / 2) - 140, 
-      y: (windowHeight / 2) - 140 - 40 // Centered, slightly up for dock
+      x: (windowWidth / 2) + 20, 
+      y: 60
     }
   };
 };
@@ -227,6 +228,7 @@ function App() {
       const widgetBoundsMap: Record<string, { w: number, h: number }> = {
         intro: { w: 400, h: 200 },
         profile: { w: 220, h: 220 },
+        calendar: { w: 220, h: 220 },
         notepad: { w: 280, h: 340 }
       };
       Object.keys(widgetPositions).forEach(id => {
@@ -366,6 +368,21 @@ function App() {
           onMouseDown={(e) => handleWidgetMouseDown(e, 'profile')}
         >
           <img src="/me.png" alt="Kamran Gasimov" className="profile-image" draggable="false" />
+        </div>
+
+        <div 
+          className={`calendar-widget ${selectedWidgets.includes('calendar') ? 'selected' : ''}`}
+          style={{
+            left: widgetPositions.calendar.x,
+            top: widgetPositions.calendar.y
+          }}
+          onMouseDown={(e) => handleWidgetMouseDown(e, 'calendar')}
+        >
+          <div className="calendar-content">
+            <div className="calendar-month">{new Date().toLocaleString('default', { month: 'long' })}</div>
+            <div className="calendar-day">{new Date().getDate()}</div>
+            <div className="calendar-weekday">{new Date().toLocaleString('default', { weekday: 'long' })}</div>
+          </div>
         </div>
 
         <div 

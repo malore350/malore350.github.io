@@ -21,7 +21,7 @@ function DesktopIcon({ id, label, icon, isSelected, style, onSelect, onDoubleCli
       id={`desktop-icon-${id}`}
       style={style}
     >
-      <div className="icon-wrapper">{icon}</div>
+      <div className={`icon-wrapper icon-${id}`}>{icon}</div>
       <div className="icon-label">{label}</div>
     </div>
   );

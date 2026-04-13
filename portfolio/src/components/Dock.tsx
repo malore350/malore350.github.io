@@ -24,7 +24,7 @@ function Dock({ openApps, activeApp, onAppClick }: DockProps) {
                 aria-current={isActive ? 'true' : undefined}
                 aria-label={`Open ${item.label}`}
               >
-                <span className="dock-icon" aria-hidden="true">
+                <span className={`dock-icon icon-${item.id}`} aria-hidden="true">
                   {item.icon}
                 </span>
                 {isOpen && <span className="dock-indicator" />}

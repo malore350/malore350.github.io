@@ -60,9 +60,65 @@
 }
 
 .status-icon {
-  font-size: 14px;
+  display: flex;
+  align-items: center;
+  opacity: 0.9;
+}
+
+/* Battery Icon Styling */
+.battery-icon {
+  width: 25px;
+  height: 11px;
+  display: flex;
+  align-items: center;
+}
+
+.battery-body {
+  width: 22px;
+  height: 11px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  padding: 1px;
+  box-sizing: border-box;
   opacity: 0.8;
 }
+
+.battery-level {
+  height: 100%;
+  background-color: currentColor;
+  border-radius: 1px;
+}
+
+.battery-tip {
+  width: 1.5px;
+  height: 4px;
+  background-color: currentColor;
+  border-radius: 0 1px 1px 0;
+  margin-left: 0.5px;
+  opacity: 0.8;
+}
+
+/* Wifi Icon Styling */
+.wifi-icon {
+  width: 18px;
+  height: 14px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1.5px;
+  margin-left: 4px;
+}
+
+.wifi-bar {
+  background-color: currentColor;
+  width: 3.5px;
+  border-radius: 1px;
+  opacity: 0.8;
+}
+
+.wifi-1 { height: 5px; }
+.wifi-2 { height: 9px; }
+.wifi-3 { height: 13px; }
 
 .time {
   margin-left: 4px;

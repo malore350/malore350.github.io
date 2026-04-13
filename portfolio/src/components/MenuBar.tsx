@@ -37,8 +37,17 @@ function MenuBar({ activeAppName }: MenuBarProps) {
         <span className="menu-item">Help</span>
       </div>
       <div className="menu-bar-right">
-        <span className="status-icon">🔋</span>
-        <span className="status-icon">📶</span>
+        <div className="status-icon battery-icon" aria-label="Battery 100%">
+          <div className="battery-body">
+            <div className="battery-level" style={{ width: '100%' }}></div>
+          </div>
+          <div className="battery-tip"></div>
+        </div>
+        <div className="status-icon wifi-icon" aria-label="WiFi Connected">
+          <div className="wifi-bar wifi-1"></div>
+          <div className="wifi-bar wifi-2"></div>
+          <div className="wifi-bar wifi-3"></div>
+        </div>
         <span className="time">{formatTime(time)}</span>
       </div>
     </div>
