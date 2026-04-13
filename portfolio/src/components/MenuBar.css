@@ -82,6 +82,17 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background 0.1s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-icon {
+  opacity: 0.8;
+}
+
+.dropdown-item:hover .menu-icon {
+  opacity: 1;
 }
 
 .dropdown-item:hover {

@@ -64,6 +64,8 @@ const INITIAL_NOTEPAD_TEXT = `Hey there! 👋
 
 Feel free to explore my portfolio. You can double-click the icons on the right to open projects, drag any widget or window around, and even lasso-select items on the desktop!
 
+Pro tip: You can even Shut Down or Restart this "OS" from the Apple menu in the top left. Give it a try to see the full boot sequence! 
+
 (You can also edit this text!)
 
 Have fun! ✨`;
