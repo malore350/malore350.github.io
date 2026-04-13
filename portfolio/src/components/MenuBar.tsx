@@ -3,9 +3,10 @@ import './MenuBar.css';
 
 interface MenuBarProps {
   activeAppName: string;
+  onPowerAction?: (action: 'shutdown' | 'restart') => void;
 }
 
-function MenuBar({ activeAppName }: MenuBarProps) {
+function MenuBar({ activeAppName, onPowerAction }: MenuBarProps) {
   const [time, setTime] = useState(new Date());
   const [isAppleMenuOpen, setIsAppleMenuOpen] = useState(false);
   const appleMenuRef = useRef<HTMLDivElement>(null);
@@ -51,12 +52,12 @@ function MenuBar({ activeAppName }: MenuBarProps) {
           </span>
           {isAppleMenuOpen && (
             <div className="apple-dropdown">
-              <div className="dropdown-item">About this Website</div>
+              <div className="dropdown-item" onClick={() => setIsAppleMenuOpen(false)}>About this Website</div>
               <div className="dropdown-divider"></div>
-              <div className="dropdown-item">Restart...</div>
-              <div className="dropdown-item">Shut Down...</div>
+              <div className="dropdown-item" onClick={() => { setIsAppleMenuOpen(false); onPowerAction?.('restart'); }}>Restart...</div>
+              <div className="dropdown-item" onClick={() => { setIsAppleMenuOpen(false); onPowerAction?.('shutdown'); }}>Shut Down...</div>
               <div className="dropdown-divider"></div>
-              <div className="dropdown-item">Lock Screen</div>
+              <div className="dropdown-item" onClick={() => setIsAppleMenuOpen(false)}>Lock Screen</div>
             </div>
           )}
         </div>

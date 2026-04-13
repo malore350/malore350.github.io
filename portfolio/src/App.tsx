@@ -69,6 +69,8 @@ Feel free to explore my portfolio. You can double-click the icons on the right t
 Have fun! ✨`;
 
 function App() {
+  const [systemStatus, setSystemStatus] = useState<'running' | 'shutting-down' | 'off' | 'booting'>('running');
+  const [bootProgress, setBootProgress] = useState(0);
   const [openApps, setOpenApps] = useState<OpenApp[]>([]);
   const [activeApp, setActiveApp] = useState<string>('Finder');
   const [minimizedApps, setMinimizedApps] = useState<string[]>([]);
@@ -174,6 +176,45 @@ function App() {
 
   const getAppName = (id: string) => {
     return dockItems.find(item => item.id === id)?.label || 'Finder';
+  };
+
+  const runBootSequence = useCallback(() => {
+    setSystemStatus('booting');
+    setBootProgress(0);
+    
+    // Phase 1: Just logo (2s)
+    setTimeout(() => {
+      // Phase 2: Logo + Progress (3s)
+      const interval = setInterval(() => {
+        setBootProgress(prev => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            return 100;
+          }
+          return prev + 2;
+        });
+      }, 60);
+
+      setTimeout(() => {
+        setSystemStatus('running');
+        setBootProgress(0);
+      }, 3500);
+    }, 2000);
+  }, []);
+
+  const handlePowerAction = useCallback((action: 'shutdown' | 'restart') => {
+    setSystemStatus('shutting-down');
+    setTimeout(() => {
+      if (action === 'restart') {
+        runBootSequence();
+      } else {
+        setSystemStatus('off');
+      }
+    }, 3000);
+  }, [runBootSequence]);
+
+  const handleTurnOn = () => {
+    runBootSequence();
   };
 
   // Close active window with Cmd+W (or Ctrl+W)
@@ -325,10 +366,37 @@ function App() {
 
   const openAppIds = openApps.map(app => app.id);
 
+  if (systemStatus !== 'running') {
+    return (
+      <div className={`boot-screen ${systemStatus}`}>
+        <div className="boot-content">
+          {(systemStatus === 'booting' || systemStatus === 'shutting-down') && (
+            <div className="boot-logo"></div>
+          )}
+          
+          {systemStatus === 'booting' && bootProgress > 0 && (
+            <div className="boot-progress-container">
+              <div className="boot-progress-bar" style={{ width: `${bootProgress}%` }} />
+            </div>
+          )}
+
+          {systemStatus === 'off' && (
+            <div className="off-content">
+              <p className="off-message">System is currently powered off.</p>
+              <button className="turn-on-button" onClick={handleTurnOn}>
+                <span className="power-icon">⏻</span> Turn On
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="desktop-environment" onClick={() => { setSelectedIcons([]); setSelectedWidgets([]); }}>
       <div className="wallpaper" />
-      <MenuBar activeAppName={getAppName(activeApp)} />
+      <MenuBar activeAppName={getAppName(activeApp)} onPowerAction={handlePowerAction} />
       
       <main 
         className="desktop-surface" 
