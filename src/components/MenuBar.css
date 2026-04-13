@@ -9,10 +9,10 @@
   align-items: center;
   padding: 0 16px;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(20px) saturate(180%);
+  background: var(--glass-bg);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
   font-size: 13px;
   font-weight: 500;
   color: var(--text-h);
@@ -22,8 +22,8 @@
 
 @media (prefers-color-scheme: dark) {
   .menu-bar {
-    background: rgba(30, 30, 30, 0.4);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--glass-bg);
+    border-bottom: 1px solid var(--border);
   }
 }
 

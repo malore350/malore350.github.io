@@ -512,7 +512,7 @@ function App() {
         )}
 
         <div 
-          className={`intro-widget ${selectedWidgets.includes('intro') ? 'selected' : ''}`}
+          className={`intro-widget ${selectedWidgets.includes('intro') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'intro' ? 'dragging' : ''}`}
           style={{
             left: widgetPositions.intro.x,
             top: widgetPositions.intro.y
@@ -528,7 +528,7 @@ function App() {
         </div>
 
         <div 
-          className={`profile-widget ${selectedWidgets.includes('profile') ? 'selected' : ''}`}
+          className={`profile-widget ${selectedWidgets.includes('profile') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'profile' ? 'dragging' : ''}`}
           style={{
             left: widgetPositions.profile.x,
             top: widgetPositions.profile.y
@@ -540,7 +540,7 @@ function App() {
         </div>
 
         <div 
-          className={`calendar-widget ${selectedWidgets.includes('calendar') ? 'selected' : ''}`}
+          className={`calendar-widget ${selectedWidgets.includes('calendar') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'calendar' ? 'dragging' : ''}`}
           style={{
             left: widgetPositions.calendar.x,
             top: widgetPositions.calendar.y
@@ -555,7 +555,7 @@ function App() {
         </div>
 
         <div 
-          className={`notepad-widget ${selectedWidgets.includes('notepad') ? 'selected' : ''}`}
+          className={`notepad-widget ${selectedWidgets.includes('notepad') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'notepad' ? 'dragging' : ''}`}
           style={{
             left: widgetPositions.notepad.x,
             top: widgetPositions.notepad.y
@@ -614,6 +614,7 @@ function App() {
               isMaximized={isMaximized}
               isMinimizing={isMinimizing}
               isClosing={appState.isClosing}
+              isDragging={draggingItem?.type === 'window' && draggingItem?.id === appId}
               onClose={() => triggerCloseApp(appId)}
               onMinimize={() => triggerMinimizeApp(appId)}
               onMinimizeEnd={() => finalizeMinimizeApp(appId)}

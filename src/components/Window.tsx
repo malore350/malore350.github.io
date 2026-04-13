@@ -9,6 +9,7 @@ interface WindowProps {
   isMaximized: boolean;
   isMinimizing: boolean;
   isClosing: boolean;
+  isDragging: boolean;
   onClose: () => void;
   onMinimize: () => void;
   onMinimizeEnd: (id: string) => void;
@@ -28,6 +29,7 @@ function Window({
   isMaximized,
   isMinimizing,
   isClosing, 
+  isDragging,
   onClose, 
   onMinimize, 
   onMinimizeEnd,
@@ -51,7 +53,7 @@ function Window({
 
   return (
     <div 
-      className={`mac-window ${isActive ? 'active' : ''} ${isClosing ? 'closing' : ''} ${isMaximized ? 'maximized' : ''} ${isMinimizing ? 'minimizing' : ''}`}
+      className={`mac-window ${isActive ? 'active' : ''} ${isClosing ? 'closing' : ''} ${isMaximized ? 'maximized' : ''} ${isMinimizing ? 'minimizing' : ''} ${isDragging ? 'dragging' : ''}`}
       onClick={onFocus}
       onAnimationEnd={handleAnimationEnd}
       style={style}
