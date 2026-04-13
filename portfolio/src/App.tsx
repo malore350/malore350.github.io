@@ -227,7 +227,7 @@ function App() {
       const widgetBoundsMap: Record<string, { w: number, h: number }> = {
         intro: { w: 400, h: 200 },
         profile: { w: 220, h: 220 },
-        notepad: { w: 280, h: 280 }
+        notepad: { w: 280, h: 340 }
       };
       Object.keys(widgetPositions).forEach(id => {
         const pos = widgetPositions[id];
