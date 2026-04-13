@@ -1,0 +1,165 @@
+.dock {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 20px;
+  border: 0.5px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: flex-end;
+  height: 58px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dock {
+    background: rgba(0, 0, 0, 0.2);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.3),
+      0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.dock-list {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0 4px;
+  height: 100%;
+}
+
+.dock-item {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 48px;
+  height: 100%;
+}
+
+.dock-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 4px;
+  transition: all 0.2s cubic-bezier(0.2, 1, 0.2, 1);
+  transform-origin: bottom center;
+  position: relative;
+  will-change: transform;
+}
+
+.dock-button:hover {
+  transform: scale(1.15);
+}
+
+.dock-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  line-height: 1;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+  box-shadow: 
+    0 4px 10px rgba(0,0,0,0.15),
+    inset 0 0 0 0.5px rgba(255,255,255,0.4);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  pointer-events: none;
+  transition: transform 0.2s cubic-bezier(0.2, 1, 0.2, 1);
+}
+
+.dock-icon::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* App-specific Gradients in Dock */
+.dock-icon.icon-gamehub { background: linear-gradient(135deg, #9333ea 0%, #6b21a8 100%); }
+.dock-icon.icon-cryptopro { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); }
+.dock-icon.icon-unigo { background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%); }
+.dock-icon.icon-ttyt { background: linear-gradient(135deg, #34d399 0%, #059669 100%); }
+.dock-icon.icon-resume { background: linear-gradient(135deg, #60a5fa 0%, #1e40af 100%); }
+.dock-icon.icon-contact { background: linear-gradient(135deg, #94a3b8 0%, #475569 100%); }
+
+.dock-label {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.8);
+  color: #000;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0.2, 1, 0.2, 1);
+  white-space: nowrap;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .dock-label {
+    background: rgba(40, 40, 40, 0.8);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.dock-button:hover .dock-label {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.dock-indicator {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background-color: var(--text-h);
+  border-radius: 50%;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+
+.dock-button.active .dock-indicator {
+  opacity: 1;
+}
+
+.dock-button:active {
+  transform: scale(0.95);
+  transition: transform 0.1s;
+}
