@@ -413,6 +413,7 @@ function App() {
           const appId = appState.id;
           const isMinimized = minimizedApps.includes(appId);
           const app = dockItems.find(item => item.id === appId);
+          const project = projects.find(p => p.id === appId);
           const pos = windowPositions[appId] || { x: 40, y: 40 };
           
           return (
@@ -433,10 +434,7 @@ function App() {
                 top: pos.y
               }}
             >
-              {appId === 'gamehub' && <ProjectSection project={projects[0]} sectionId="gamehub" />}
-              {appId === 'cryptopro' && <ProjectSection project={projects[1]} sectionId="cryptopro" />}
-              {appId === 'unigo' && <ProjectSection project={projects[2]} sectionId="unigo" />}
-              {appId === 'ttyt' && <ProjectSection project={projects[3]} sectionId="ttyt" />}
+              {project && <ProjectSection project={project} sectionId={appId} />}
               {appId === 'contact' && (
                 <div className="section-content contact-section">
                   <div className="contact-content">

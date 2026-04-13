@@ -2,6 +2,7 @@ export interface ProjectScreenshot {
   src: string;
   alt: string;
   caption: string;
+  orientation?: 'landscape' | 'portrait';
 }
 
 export interface ProjectLink {

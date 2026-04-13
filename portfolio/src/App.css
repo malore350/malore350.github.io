@@ -345,6 +345,21 @@
   margin: 0 0 24px;
 }
 
+.project-description {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.project-description p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  opacity: 0.9;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
 .project-body {
   display: flex;
   flex-direction: column;
@@ -380,8 +395,8 @@
 
 /* Screenshots */
 .project-screenshots {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   gap: 16px;
 }
 
@@ -392,6 +407,21 @@
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
   background: var(--code-bg);
   border: 1px solid var(--border);
+}
+
+.screenshot-wrapper.landscape {
+  grid-column: span 6;
+}
+
+.screenshot-wrapper.portrait {
+  grid-column: span 2;
+}
+
+/* Mobile adjustments for screenshots grid */
+@media (max-width: 600px) {
+  .screenshot-wrapper.portrait {
+    grid-column: span 3; /* 2 in a row on small screens */
+  }
 }
 
 .project-screenshot {
@@ -428,7 +458,7 @@
 .project-links {
   display: flex;
   gap: 12px;
-  margin-top: 8px;
+  margin-top: 32px;
   flex-wrap: wrap;
 }
 
