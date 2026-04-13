@@ -7,6 +7,7 @@ import MenuBar from './components/MenuBar';
 import Window from './components/Window';
 import DesktopIcon from './components/DesktopIcon';
 import ProjectSection from './components/ProjectSection';
+import ResumeSection from './components/ResumeSection';
 
 interface OpenApp {
   id: string;
@@ -29,27 +30,16 @@ const calculateInitialIconPositions = () => {
   const iconWidth = 90;
   const iconHeight = 110;
   const windowWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
-  const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
 
-  // Project icons in 2x2 grid on the right
-  const projectIcons = dockItems.filter(item => item.id !== 'contact');
-  projectIcons.forEach((item, index) => {
+  // All icons in 2-column grid on the right
+  dockItems.forEach((item, index) => {
     const col = index % 2;
     const row = Math.floor(index / 2);
     positions[item.id] = {
       x: windowWidth - margin - iconWidth - (1 - col) * (iconWidth + 10),
-      y: 40 + row * iconHeight
+      y: 40 + iconHeight + row * iconHeight
     };
   });
-
-  // Contact icon at bottom right
-  const contactIcon = dockItems.find(item => item.id === 'contact');
-  if (contactIcon) {
-    positions[contactIcon.id] = {
-      x: windowWidth - margin - iconWidth,
-      y: windowHeight - 100 - iconHeight - margin // Above dock
-    };
-  }
 
   return positions;
 };
@@ -351,6 +341,7 @@ function App() {
             top: widgetPositions.intro.y
           }}
           onMouseDown={(e) => handleWidgetMouseDown(e, 'intro')}
+          onClick={() => openApp('resume')}
         >
           <div className="intro-content">
             <h1 className="intro-name">Kamran Gasimov</h1>
@@ -366,6 +357,7 @@ function App() {
             top: widgetPositions.profile.y
           }}
           onMouseDown={(e) => handleWidgetMouseDown(e, 'profile')}
+          onClick={() => openApp('resume')}
         >
           <img src="/me.png" alt="Kamran Gasimov" className="profile-image" draggable="false" />
         </div>
@@ -452,6 +444,18 @@ function App() {
               }}
             >
               {project && <ProjectSection project={project} sectionId={appId} />}
+              {appId === 'resume' && <ResumeSection />}
+              {appId === 'resume-pdf' && (
+                <div className="section-content pdf-viewer-section">
+                  <iframe 
+                    src="/resume.pdf#toolbar=0" 
+                    width="100%" 
+                    height="100%" 
+                    style={{ border: 'none', borderRadius: '8px' }}
+                    title="Resume PDF"
+                  />
+                </div>
+              )}
               {appId === 'contact' && (
                 <div className="section-content contact-section">
                   <div className="contact-content">

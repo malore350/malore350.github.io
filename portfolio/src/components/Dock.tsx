@@ -11,7 +11,7 @@ function Dock({ openApps, activeApp, onAppClick }: DockProps) {
   return (
     <nav className="dock" aria-label="Desktop navigation">
       <ul className="dock-list">
-        {dockItems.map((item) => {
+        {dockItems.filter(item => !item.hideFromDock).map((item) => {
           const isOpen = openApps.includes(item.id);
           const isActive = activeApp === item.id;
           
