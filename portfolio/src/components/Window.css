@@ -1,9 +1,9 @@
 .mac-window {
   position: absolute;
   top: 40px; /* Below MenuBar */
-  bottom: 100px; /* Above Dock */
   left: 40px;
-  right: 40px;
+  width: calc(100% - 80px);
+  height: calc(100% - 140px);
   background: var(--glass-bg);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s;
+  transition: opacity 0.2s;
   animation: window-open 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -67,6 +67,7 @@
   background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
   border-bottom: 1px solid var(--border);
   user-select: none;
+  cursor: default;
 }
 
 .window-controls {

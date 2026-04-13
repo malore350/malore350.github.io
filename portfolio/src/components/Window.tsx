@@ -11,7 +11,9 @@ interface WindowProps {
   onMinimize: () => void;
   onFocus: () => void;
   onAnimationEnd: (id: string) => void;
+  onHeaderMouseDown: (e: React.MouseEvent) => void;
   children: ReactNode;
+  style?: React.CSSProperties;
 }
 
 function Window({ 
@@ -24,7 +26,9 @@ function Window({
   onMinimize, 
   onFocus, 
   onAnimationEnd,
-  children 
+  onHeaderMouseDown,
+  children,
+  style
 }: WindowProps) {
   
   if (isMinimized) return null;
@@ -40,10 +44,13 @@ function Window({
       className={`mac-window ${isActive ? 'active' : ''} ${isClosing ? 'closing' : ''}`}
       onClick={onFocus}
       onAnimationEnd={handleAnimationEnd}
-      style={{ zIndex: isActive ? 100 : 10 }}
+      style={{ 
+        zIndex: isActive ? 100 : 10,
+        ...style
+      }}
       id={`window-${id}`}
     >
-      <div className="window-header" onDoubleClick={() => {}}>
+      <div className="window-header" onMouseDown={onHeaderMouseDown}>
         <div className="window-controls">
           <button 
             className="control close" 

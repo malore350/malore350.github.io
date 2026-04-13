@@ -71,8 +71,10 @@ function App() {
   const [selectedWidgets, setSelectedWidgets] = useState<string[]>([]);
   const [iconPositions, setIconPositions] = useState<Record<string, Position>>(calculateInitialIconPositions);
   const [widgetPositions, setWidgetPositions] = useState<Record<string, Position>>(calculateInitialWidgetPositions);
+  const [windowPositions, setWindowPositions] = useState<Record<string, Position>>({});
+  
   const [selectionBox, setSelectionBox] = useState<{ start: Point, current: Point } | null>(null);
-  const [draggingItem, setDraggingItem] = useState<{ type: 'icon' | 'widget', id: string, offset: Point } | null>(null);
+  const [draggingItem, setDraggingItem] = useState<{ type: 'icon' | 'widget' | 'window', id: string, offset: Point } | null>(null);
   
   const desktopRef = useRef<HTMLElement>(null);
 
@@ -96,6 +98,13 @@ function App() {
       }
       return [...prev, { id, isClosing: false }];
     });
+
+    // Initialize window position if not exists
+    setWindowPositions(prev => {
+      if (prev[id]) return prev;
+      return { ...prev, [id]: { x: 40, y: 40 } };
+    });
+
     setMinimizedApps((prev) => prev.filter((appId) => appId !== id));
     setActiveApp(id);
   }, []);
@@ -111,6 +120,7 @@ function App() {
   const finalizeCloseApp = useCallback((id: string) => {
     setOpenApps((prev) => prev.filter((app) => app.id !== id));
     setMinimizedApps((prev) => prev.filter((appId) => appId !== id));
+    // Optionally remove position, but keeping it might be better if user reopens
   }, []);
 
   const minimizeApp = useCallback((id: string) => {
@@ -220,8 +230,16 @@ function App() {
             y: e.clientY - draggingItem.offset.y
           }
         }));
-      } else {
+      } else if (draggingItem.type === 'widget') {
         setWidgetPositions(prev => ({
+          ...prev,
+          [draggingItem.id]: {
+            x: e.clientX - draggingItem.offset.x,
+            y: e.clientY - draggingItem.offset.y
+          }
+        }));
+      } else if (draggingItem.type === 'window') {
+        setWindowPositions(prev => ({
           ...prev,
           [draggingItem.id]: {
             x: e.clientX - draggingItem.offset.x,
@@ -263,6 +281,17 @@ function App() {
         offset: { x: e.clientX - pos.x, y: e.clientY - pos.y }
       });
     }
+  };
+
+  const handleWindowHeaderMouseDown = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    focusApp(id);
+    const pos = windowPositions[id] || { x: 40, y: 40 };
+    setDraggingItem({
+      type: 'window',
+      id,
+      offset: { x: e.clientX - pos.x, y: e.clientY - pos.y }
+    });
   };
 
   const openAppIds = openApps.map(app => app.id);
@@ -343,6 +372,7 @@ function App() {
           const appId = appState.id;
           const isMinimized = minimizedApps.includes(appId);
           const app = dockItems.find(item => item.id === appId);
+          const pos = windowPositions[appId] || { x: 40, y: 40 };
           
           return (
             <Window
@@ -356,6 +386,11 @@ function App() {
               onMinimize={() => minimizeApp(appId)}
               onFocus={() => focusApp(appId)}
               onAnimationEnd={() => finalizeCloseApp(appId)}
+              onHeaderMouseDown={(e) => handleWindowHeaderMouseDown(e, appId)}
+              style={{
+                left: pos.x,
+                top: pos.y
+              }}
             >
               {appId === 'gamehub' && <ProjectSection project={projects[0]} sectionId="gamehub" />}
               {appId === 'cryptopro' && <ProjectSection project={projects[1]} sectionId="cryptopro" />}
