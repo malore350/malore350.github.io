@@ -320,6 +320,7 @@ function App() {
 
   return (
     <div className="desktop-environment" onClick={() => { setSelectedIcons([]); setSelectedWidgets([]); }}>
+      <div className="wallpaper" />
       <MenuBar activeAppName={getAppName(activeApp)} />
       
       <main 
