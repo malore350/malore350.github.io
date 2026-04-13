@@ -18,6 +18,38 @@
   height: 58px;
 }
 
+.dock.mobile {
+  bottom: 24px;
+  border-radius: 36px;
+  height: 90px;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.25);
+  width: auto;
+  min-width: 280px;
+  justify-content: center;
+}
+
+.dock.mobile .dock-list {
+  gap: 16px;
+}
+
+.dock.mobile .dock-item {
+  width: 60px;
+}
+
+.dock.mobile .dock-button {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 0;
+}
+
+.dock.mobile .dock-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  font-size: 34px;
+}
+
 @media (prefers-color-scheme: dark) {
   .dock {
     background: rgba(0, 0, 0, 0.4);
@@ -101,12 +133,12 @@
 }
 
 /* App-specific Gradients in Dock */
-.dock-icon.icon-gamehub { background: linear-gradient(135deg, #9333ea 0%, #6b21a8 100%); }
-.dock-icon.icon-cryptopro { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); }
-.dock-icon.icon-unigo { background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%); }
-.dock-icon.icon-ttyt { background: linear-gradient(135deg, #34d399 0%, #059669 100%); }
-.dock-icon.icon-resume { background: linear-gradient(135deg, #60a5fa 0%, #1e40af 100%); }
-.dock-icon.icon-contact { background: linear-gradient(135deg, #94a3b8 0%, #475569 100%); }
+.dock-icon.icon-gamehub { background: linear-gradient(135deg, #FF2D55 0%, #FF375F 100%); }
+.dock-icon.icon-cryptopro { background: linear-gradient(135deg, #5856D6 0%, #AF52DE 100%); }
+.dock-icon.icon-unigo { background: linear-gradient(135deg, #007AFF 0%, #0040FF 100%); }
+.dock-icon.icon-ttyt { background: linear-gradient(135deg, #34C759 0%, #248A3D 100%); }
+.dock-icon.icon-resume { background: linear-gradient(135deg, #5AC8FA 0%, #007AFF 100%); }
+.dock-icon.icon-contact { background: linear-gradient(135deg, #8E8E93 0%, #636366 100%); }
 
 .dock-label {
   position: absolute;

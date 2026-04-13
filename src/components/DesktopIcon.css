@@ -12,6 +12,27 @@
   position: absolute;
 }
 
+.desktop-icon.mobile {
+  position: static;
+  width: 76px;
+  padding: 0;
+}
+
+.desktop-icon.mobile .icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+}
+
+.desktop-icon.mobile .icon-label {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  font-size: 11px;
+  margin-top: 4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
 .desktop-icon.selected {
   background-color: rgba(255, 255, 255, 0.3);
 }
@@ -57,13 +78,13 @@
 }
 
 /* App-specific Gradients */
-.icon-gamehub { background: linear-gradient(135deg, #9333ea 0%, #6b21a8 100%); }
-.icon-cryptopro { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); }
-.icon-unigo { background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%); }
-.icon-ttyt { background: linear-gradient(135deg, #34d399 0%, #059669 100%); }
-.icon-resume { background: linear-gradient(135deg, #60a5fa 0%, #1e40af 100%); }
-.icon-resume-pdf { background: linear-gradient(135deg, #f87171 0%, #dc2626 100%); }
-.icon-contact { background: linear-gradient(135deg, #94a3b8 0%, #475569 100%); }
+.icon-gamehub { background: linear-gradient(135deg, #FF2D55 0%, #FF375F 100%); }
+.icon-cryptopro { background: linear-gradient(135deg, #5856D6 0%, #AF52DE 100%); }
+.icon-unigo { background: linear-gradient(135deg, #007AFF 0%, #0040FF 100%); }
+.icon-ttyt { background: linear-gradient(135deg, #34C759 0%, #248A3D 100%); }
+.icon-resume { background: linear-gradient(135deg, #5AC8FA 0%, #007AFF 100%); }
+.icon-resume-pdf { background: linear-gradient(135deg, #FF3B30 0%, #FF453A 100%); }
+.icon-contact { background: linear-gradient(135deg, #8E8E93 0%, #636366 100%); }
 
 .icon-label {
   font-size: 13px;

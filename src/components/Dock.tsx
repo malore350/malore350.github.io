@@ -4,12 +4,13 @@ import './Dock.css';
 interface DockProps {
   openApps: string[];
   activeApp: string;
+  isMobile?: boolean;
   onAppClick: (id: string) => void;
 }
 
-function Dock({ openApps, activeApp, onAppClick }: DockProps) {
+function Dock({ openApps, activeApp, isMobile, onAppClick }: DockProps) {
   return (
-    <nav className="dock" aria-label="Desktop navigation">
+    <nav className={`dock ${isMobile ? 'mobile' : ''}`} aria-label="Desktop navigation">
       <ul className="dock-list">
         {dockItems.filter(item => !item.hideFromDock).map((item) => {
           const isOpen = openApps.includes(item.id);
@@ -27,8 +28,8 @@ function Dock({ openApps, activeApp, onAppClick }: DockProps) {
                 <span className={`dock-icon icon-${item.id}`} aria-hidden="true">
                   {item.icon}
                 </span>
-                {isOpen && <span className="dock-indicator" />}
-                <span className="dock-label">{item.label}</span>
+                {isOpen && !isMobile && <span className="dock-indicator" />}
+                {!isMobile && <span className="dock-label">{item.label}</span>}
               </button>
             </li>
           );

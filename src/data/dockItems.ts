@@ -6,10 +6,10 @@ export interface DockItem {
 }
 
 export const dockItems: DockItem[] = [
-  { id: 'gamehub', label: 'GameHub', icon: '🕹️' },
-  { id: 'cryptopro', label: 'CryptoPro', icon: '🪙' },
-  { id: 'unigo', label: 'Unigo', icon: '🏫' },
-  { id: 'ttyt', label: 'ttyt', icon: '⌨️' },
-  { id: 'resume-pdf', label: 'Resume.pdf', icon: '💼' },
-  { id: 'contact', label: 'Contact', icon: '📬' },
+  { id: 'gamehub', label: 'GameHub', icon: '👾' },
+  { id: 'cryptopro', label: 'CryptoPro', icon: '💎' },
+  { id: 'unigo', label: 'Unigo', icon: '🎓' },
+  { id: 'ttyt', label: 'ttyt', icon: '🤖' },
+  { id: 'resume-pdf', label: 'Resume.pdf', icon: '📄' },
+  { id: 'contact', label: 'Contact', icon: '✉️' },
 ];

@@ -59,6 +59,21 @@ const calculateInitialWidgetPositions = () => {
   };
 };
 
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return isMobile;
+};
+
 const INITIAL_NOTEPAD_TEXT = `Hey there! 👋
 
 Feel free to explore my portfolio. You can double-click the icons on the right to open projects, drag any widget or window around, and even lasso-select items on the desktop!
@@ -70,6 +85,7 @@ Pro tip: You can even Shut Down or Restart this "OS" from the Apple menu in the 
 Have fun! ✨`;
 
 function App() {
+  const isMobile = useIsMobile();
   const [systemStatus, setSystemStatus] = useState<'running' | 'shutting-down' | 'off' | 'booting'>('running');
   const [bootProgress, setBootProgress] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
@@ -410,53 +426,74 @@ function App() {
   }
 
   if (isLocked) {
+    const time = new Date();
     return (
-      <div className="lock-screen">
+      <div className={`lock-screen ${isMobile ? 'mobile' : ''}`}>
         <div className="wallpaper" style={{ filter: 'blur(100px) saturate(1.8)', opacity: 1 }} />
-        <div className="lock-content">
-          <div className="lock-user-info">
-            <img src="/me.png" alt="Kamran Gasimov" className="lock-profile-image" />
-            <h2 className="lock-user-name">Kamran Gasimov</h2>
+        
+        {isMobile && (
+          <div className="lock-time-container">
+            <div className="lock-date">
+              {time.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+            </div>
+            <div className="lock-time">
+              {time.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: false })}
+            </div>
           </div>
+        )}
+
+        <div className="lock-content">
+          {!isMobile && (
+            <div className="lock-user-info">
+              <img src="/me.png" alt="Kamran Gasimov" className="lock-profile-image" />
+              <h2 className="lock-user-name">Kamran Gasimov</h2>
+            </div>
+          )}
           <div className="lock-input-container">
             <input 
               type="password" 
               className="lock-password-input" 
-              placeholder="Enter Password" 
+              placeholder={isMobile ? "Swipe up to unlock" : "Enter Password"}
               autoFocus 
+              readOnly={isMobile}
+              onClick={isMobile ? handleUnlock : undefined}
               onKeyDown={(e) => e.key === 'Enter' && handleUnlock()}
             />
-            <button className="lock-unlock-button" onClick={handleUnlock}>→</button>
+            {!isMobile && <button className="lock-unlock-button" onClick={handleUnlock}>→</button>}
           </div>
-          <p className="lock-hint">Press Enter to unlock</p>
+          {!isMobile && <p className="lock-hint">Press Enter to unlock</p>}
+          {isMobile && <p className="lock-hint">Click input to unlock</p>}
         </div>
-        <div className="lock-bottom-controls">
-          <button className="lock-control-btn" onClick={() => handlePowerAction('shutdown')}>
-            <span className="lock-control-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18.36 6.64A9 9 0 1 1 5.64 6.64M12 2v10" />
-              </svg>
-            </span>
-            <span>Shut Down</span>
-          </button>
-          <button className="lock-control-btn" onClick={() => handlePowerAction('restart')}>
-            <span className="lock-control-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38" />
-              </svg>
-            </span>
-            <span>Restart</span>
-          </button>
-        </div>
+        {!isMobile && (
+          <div className="lock-bottom-controls">
+            <button className="lock-control-btn" onClick={() => handlePowerAction('shutdown')}>
+              <span className="lock-control-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18.36 6.64A9 9 0 1 1 5.64 6.64M12 2v10" />
+                </svg>
+              </span>
+              <span>Shut Down</span>
+            </button>
+            <button className="lock-control-btn" onClick={() => handlePowerAction('restart')}>
+              <span className="lock-control-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38" />
+                </svg>
+              </span>
+              <span>Restart</span>
+            </button>
+          </div>
+        )}
       </div>
     );
   }
 
   return (
-    <div className="desktop-environment" onClick={() => { setSelectedIcons([]); setSelectedWidgets([]); }}>
+    <div className={`desktop-environment ${isMobile ? 'mobile' : ''}`} onClick={() => { setSelectedIcons([]); setSelectedWidgets([]); }}>
       <div className="wallpaper" />
       <MenuBar 
         activeAppName={getAppName(activeApp)} 
+        isMobile={isMobile}
         onPowerAction={handlePowerAction} 
         onLock={handleLock} 
         onAboutClick={toggleAbout}
@@ -493,13 +530,13 @@ function App() {
       )}
       
       <main 
-        className="desktop-surface" 
+        className={`desktop-surface ${isMobile ? 'mobile' : ''}`}
         ref={desktopRef}
-        onMouseDown={onMouseDown}
-        onMouseMove={onMouseMove}
-        onMouseUp={onMouseUp}
+        onMouseDown={isMobile ? undefined : onMouseDown}
+        onMouseMove={isMobile ? undefined : onMouseMove}
+        onMouseUp={isMobile ? undefined : onMouseUp}
       >
-        {selectionBox && (
+        {!isMobile && selectionBox && (
           <div 
             className="selection-box"
             style={{
@@ -511,66 +548,106 @@ function App() {
           />
         )}
 
-        <div 
-          className={`intro-widget ${selectedWidgets.includes('intro') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'intro' ? 'dragging' : ''}`}
-          style={{
-            left: widgetPositions.intro.x,
-            top: widgetPositions.intro.y
-          }}
-          onMouseDown={(e) => handleWidgetMouseDown(e, 'intro')}
-          onClick={() => openApp('resume')}
-        >
-          <div className="intro-content">
-            <h1 className="intro-name">Kamran Gasimov</h1>
-            <p className="intro-tagline">Full-stack developer crafting elegant solutions</p>
-            <p className="intro-subtagline">Building beautiful web experiences with modern technologies</p>
+        {isMobile ? (
+          <div className="widgets-container">
+            <div 
+              className={`intro-widget ${selectedWidgets.includes('intro') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'intro' ? 'dragging' : ''}`}
+              onMouseDown={undefined}
+              onClick={undefined}
+            >
+              <div className="intro-content">
+                <h1 className="intro-name">Kamran Gasimov</h1>
+                <p className="intro-tagline">Full-stack developer crafting elegant solutions</p>
+                <p className="intro-subtagline">Building beautiful web experiences with modern technologies</p>
+              </div>
+            </div>
+
+            <div className="widgets-row">
+              <div 
+                className={`profile-widget ${selectedWidgets.includes('profile') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'profile' ? 'dragging' : ''}`}
+                onMouseDown={undefined}
+                onClick={undefined}
+              >
+                <img src="/me.png" alt="Kamran Gasimov" className="profile-image" draggable="false" />
+              </div>
+
+              <div 
+                className={`calendar-widget ${selectedWidgets.includes('calendar') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'calendar' ? 'dragging' : ''}`}
+                onMouseDown={undefined}
+                onClick={undefined}
+              >
+                <div className="calendar-content">
+                  <div className="calendar-month">{new Date().toLocaleString('default', { month: 'long' })}</div>
+                  <div className="calendar-day">{new Date().getDate()}</div>
+                  <div className="calendar-weekday">{new Date().toLocaleString('default', { weekday: 'long' })}</div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        ) : (
+          <>
+            <div 
+              className={`intro-widget ${selectedWidgets.includes('intro') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'intro' ? 'dragging' : ''}`}
+              style={{
+                left: widgetPositions.intro.x,
+                top: widgetPositions.intro.y
+              }}
+              onMouseDown={(e) => handleWidgetMouseDown(e, 'intro')}
+              onClick={() => openApp('resume')}
+            >
+              <div className="intro-content">
+                <h1 className="intro-name">Kamran Gasimov</h1>
+                <p className="intro-tagline">Full-stack developer crafting elegant solutions</p>
+                <p className="intro-subtagline">Building beautiful web experiences with modern technologies</p>
+              </div>
+            </div>
 
-        <div 
-          className={`profile-widget ${selectedWidgets.includes('profile') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'profile' ? 'dragging' : ''}`}
-          style={{
-            left: widgetPositions.profile.x,
-            top: widgetPositions.profile.y
-          }}
-          onMouseDown={(e) => handleWidgetMouseDown(e, 'profile')}
-          onClick={() => openApp('resume')}
-        >
-          <img src="/me.png" alt="Kamran Gasimov" className="profile-image" draggable="false" />
-        </div>
+            <div 
+              className={`profile-widget ${selectedWidgets.includes('profile') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'profile' ? 'dragging' : ''}`}
+              style={{
+                left: widgetPositions.profile.x,
+                top: widgetPositions.profile.y
+              }}
+              onMouseDown={(e) => handleWidgetMouseDown(e, 'profile')}
+              onClick={() => openApp('resume')}
+            >
+              <img src="/me.png" alt="Kamran Gasimov" className="profile-image" draggable="false" />
+            </div>
 
-        <div 
-          className={`calendar-widget ${selectedWidgets.includes('calendar') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'calendar' ? 'dragging' : ''}`}
-          style={{
-            left: widgetPositions.calendar.x,
-            top: widgetPositions.calendar.y
-          }}
-          onMouseDown={(e) => handleWidgetMouseDown(e, 'calendar')}
-        >
-          <div className="calendar-content">
-            <div className="calendar-month">{new Date().toLocaleString('default', { month: 'long' })}</div>
-            <div className="calendar-day">{new Date().getDate()}</div>
-            <div className="calendar-weekday">{new Date().toLocaleString('default', { weekday: 'long' })}</div>
-          </div>
-        </div>
+            <div 
+              className={`calendar-widget ${selectedWidgets.includes('calendar') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'calendar' ? 'dragging' : ''}`}
+              style={{
+                left: widgetPositions.calendar.x,
+                top: widgetPositions.calendar.y
+              }}
+              onMouseDown={(e) => handleWidgetMouseDown(e, 'calendar')}
+            >
+              <div className="calendar-content">
+                <div className="calendar-month">{new Date().toLocaleString('default', { month: 'long' })}</div>
+                <div className="calendar-day">{new Date().getDate()}</div>
+                <div className="calendar-weekday">{new Date().toLocaleString('default', { weekday: 'long' })}</div>
+              </div>
+            </div>
 
-        <div 
-          className={`notepad-widget ${selectedWidgets.includes('notepad') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'notepad' ? 'dragging' : ''}`}
-          style={{
-            left: widgetPositions.notepad.x,
-            top: widgetPositions.notepad.y
-          }}
-          onMouseDown={(e) => handleWidgetMouseDown(e, 'notepad')}
-        >
-          <div className="notepad-header">README.txt</div>
-          <textarea 
-            className="notepad-content"
-            value={notepadText}
-            onChange={(e) => setNotepadText(e.target.value)}
-            onMouseDown={(e) => e.stopPropagation()} // Allow clicking textarea for editing
-            spellCheck={false}
-          />
-        </div>
+            <div 
+              className={`notepad-widget ${selectedWidgets.includes('notepad') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'notepad' ? 'dragging' : ''}`}
+              style={{
+                left: widgetPositions.notepad.x,
+                top: widgetPositions.notepad.y
+              }}
+              onMouseDown={(e) => handleWidgetMouseDown(e, 'notepad')}
+            >
+              <div className="notepad-header">README.txt</div>
+              <textarea 
+                className="notepad-content"
+                value={notepadText}
+                onChange={(e) => setNotepadText(e.target.value)}
+                onMouseDown={(e) => e.stopPropagation()} // Allow clicking textarea for editing
+                spellCheck={false}
+              />
+            </div>
+          </>
+        )}
 
         <div className="desktop-icons">
           {dockItems.map((item) => (
@@ -579,18 +656,19 @@ function App() {
               id={item.id}
               label={item.label}
               icon={item.icon}
+              isMobile={isMobile}
               isSelected={selectedIcons.includes(item.id)}
-              style={iconPositions[item.id] ? {
+              style={isMobile ? {} : (iconPositions[item.id] ? {
                 left: iconPositions[item.id].x,
                 top: iconPositions[item.id].y
-              } : { display: 'none' }}
+              } : { display: 'none' })}
               onSelect={(e) => {
                 e.stopPropagation();
                 setSelectedIcons([item.id]);
                 setSelectedWidgets([]);
               }}
               onDoubleClick={() => openApp(item.id)}
-              onMouseDown={(e) => handleIconMouseDown(e, item.id)}
+              onMouseDown={isMobile ? undefined : (e) => handleIconMouseDown(e, item.id)}
             />
           ))}
         </div>
@@ -615,6 +693,7 @@ function App() {
               isMinimizing={isMinimizing}
               isClosing={appState.isClosing}
               isDragging={draggingItem?.type === 'window' && draggingItem?.id === appId}
+              isMobile={isMobile}
               onClose={() => triggerCloseApp(appId)}
               onMinimize={() => triggerMinimizeApp(appId)}
               onMinimizeEnd={() => finalizeMinimizeApp(appId)}
@@ -622,7 +701,7 @@ function App() {
               onFocus={() => focusApp(appId)}
               onAnimationEnd={() => finalizeCloseApp(appId)}
               onHeaderMouseDown={(e) => handleWindowHeaderMouseDown(e, appId)}
-              style={isMaximized ? {} : {
+              style={isMobile || isMaximized ? {} : {
                 left: pos.x,
                 top: pos.y
               }}
@@ -670,7 +749,7 @@ function App() {
         })}
       </main>
 
-      <Dock openApps={openAppIds} activeApp={activeApp} onAppClick={handleDockClick} />
+      {!isMobile && <Dock openApps={openAppIds} activeApp={activeApp} isMobile={isMobile} onAppClick={handleDockClick} />}
     </div>
   );
 }

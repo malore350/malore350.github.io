@@ -10,6 +10,7 @@ interface WindowProps {
   isMinimizing: boolean;
   isClosing: boolean;
   isDragging: boolean;
+  isMobile?: boolean;
   onClose: () => void;
   onMinimize: () => void;
   onMinimizeEnd: (id: string) => void;
@@ -30,6 +31,7 @@ function Window({
   isMinimizing,
   isClosing, 
   isDragging,
+  isMobile,
   onClose, 
   onMinimize, 
   onMinimizeEnd,
@@ -44,12 +46,30 @@ function Window({
   if (isMinimized) return null;
 
   const handleAnimationEnd = (e: React.AnimationEvent) => {
-    if (e.animationName === 'window-close') {
+    if (e.animationName === 'window-close' || e.animationName === 'mobile-app-close') {
       onAnimationEnd(id);
     } else if (e.animationName === 'window-minimize') {
       onMinimizeEnd(id);
     }
   };
+
+  if (isMobile) {
+    return (
+      <div 
+        className={`mac-window mobile ${isActive ? 'active' : ''} ${isClosing ? 'closing' : ''}`}
+        onClick={onFocus}
+        onAnimationEnd={handleAnimationEnd}
+        id={`window-${id}`}
+      >
+        <div className="window-content">
+          {children}
+        </div>
+        <div className="home-indicator-container" onClick={(e) => { e.stopPropagation(); onClose(); }}>
+          <div className="home-indicator"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div 

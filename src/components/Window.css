@@ -25,6 +25,61 @@
   z-index: 10;
 }
 
+.mac-window.mobile {
+  position: fixed;
+  inset: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  top: 0 !important;
+  left: 0 !important;
+  border-radius: 0;
+  border: none;
+  animation: mobile-app-open 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 2000;
+}
+
+.mac-window.mobile.closing {
+  animation: mobile-app-close 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.mac-window.mobile .window-content {
+  height: 100vh;
+  padding-top: 44px; /* Space for status bar */
+  padding-bottom: 34px; /* Space for home indicator */
+  box-sizing: border-box;
+}
+
+@keyframes mobile-app-open {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes mobile-app-close {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(100%); opacity: 0; }
+}
+
+.home-indicator-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2001;
+}
+
+.home-indicator {
+  width: 134px;
+  height: 5px;
+  background: var(--text-h);
+  border-radius: 100px;
+  opacity: 0.5;
+}
+
 .mac-window.active {
   z-index: 100;
 }
@@ -226,14 +281,4 @@
 
 .window-content::-webkit-scrollbar {
   display: none;
-}
-
-@media (max-width: 768px) {
-  .mac-window {
-    top: 28px;
-    left: 0;
-    right: 0;
-    bottom: 80px;
-    border-radius: 12px 12px 0 0;
-  }
 }

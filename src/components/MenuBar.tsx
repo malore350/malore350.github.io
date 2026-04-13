@@ -3,12 +3,13 @@ import './MenuBar.css';
 
 interface MenuBarProps {
   activeAppName: string;
+  isMobile?: boolean;
   onPowerAction?: (action: 'shutdown' | 'restart') => void;
   onLock?: () => void;
   onAboutClick?: () => void;
 }
 
-function MenuBar({ activeAppName, onPowerAction, onLock, onAboutClick }: MenuBarProps) {
+function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick }: MenuBarProps) {
   const [time, setTime] = useState(new Date());
   const [isAppleMenuOpen, setIsAppleMenuOpen] = useState(false);
   const appleMenuRef = useRef<HTMLDivElement>(null);
@@ -32,6 +33,13 @@ function MenuBar({ activeAppName, onPowerAction, onLock, onAboutClick }: MenuBar
   }, [isAppleMenuOpen]);
 
   const formatTime = (date: Date) => {
+    if (isMobile) {
+      return date.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      }).replace(' AM', '').replace(' PM', '');
+    }
     return date.toLocaleTimeString('en-US', {
       weekday: 'short',
       month: 'short',
@@ -41,6 +49,35 @@ function MenuBar({ activeAppName, onPowerAction, onLock, onAboutClick }: MenuBar
       hour12: true,
     });
   };
+
+  if (isMobile) {
+    return (
+      <div className="menu-bar mobile">
+        <div className="menu-bar-left">
+          <span className="time">{formatTime(time)}</span>
+        </div>
+        <div className="menu-bar-right">
+          <div className="status-icon signal-icon">
+            <div className="signal-bar bar-1"></div>
+            <div className="signal-bar bar-2"></div>
+            <div className="signal-bar bar-3"></div>
+            <div className="signal-bar bar-4"></div>
+          </div>
+          <div className="status-icon wifi-icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M12 21l-12-11.657c1.581-1.39 3.42-2.123 5.333-2.123s3.752.733 5.333 2.123l-1.333 1.293c-1.054-.927-2.28-1.416-3.553-1.416s-2.499.489-3.553 1.416l9.106 8.834 9.106-8.834c-1.054-.927-2.28-1.416-3.553-1.416s-2.499.489-3.553 1.416l-1.333-1.293c1.581-1.39 3.42-2.123 5.333-2.123s3.752.733 5.333 2.123l-12 11.657z"/>
+            </svg>
+          </div>
+          <div className="status-icon battery-icon">
+            <div className="battery-body">
+              <div className="battery-level" style={{ width: '100%' }}></div>
+            </div>
+            <div className="battery-tip"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="menu-bar">
