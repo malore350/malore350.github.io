@@ -40,7 +40,7 @@ export const projects: Project[] = [
       },
     ] as const,
     dockLabel: 'GameHub',
-    dockIcon: '🕹️',
+    dockIcon: 'Gamepad2',
   },
   {
     id: 'cryptopro',
@@ -87,7 +87,7 @@ export const projects: Project[] = [
       },
     ] as const,
     dockLabel: 'CryptoPro',
-    dockIcon: '🪙',
+    dockIcon: 'Bitcoin',
   },
   {
     id: 'unigo',
@@ -116,7 +116,7 @@ export const projects: Project[] = [
       },
     ] as const,
     dockLabel: 'Unigo',
-    dockIcon: '🏫',
+    dockIcon: 'GraduationCap',
   },
   {
     id: 'ttyt',
@@ -155,6 +155,6 @@ export const projects: Project[] = [
       },
     ] as const,
     dockLabel: 'ttyt',
-    dockIcon: '⌨️',
+    dockIcon: 'Terminal',
   },
 ];

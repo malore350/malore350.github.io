@@ -153,9 +153,10 @@
 }
 
 .apple-logo {
-  font-size: 16px;
+  font-size: 20px;
+  line-height: 1;
   cursor: pointer;
-  padding: 2px 8px;
+  padding: 1px 8px;
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -229,25 +230,11 @@
 
 /* Wifi Icon Styling */
 .wifi-icon {
-  width: 18px;
-  height: 14px;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  gap: 1.5px;
   margin-left: 4px;
 }
-
-.wifi-bar {
-  background-color: currentColor;
-  width: 3.5px;
-  border-radius: 1px;
-  opacity: 0.8;
-}
-
-.wifi-1 { height: 5px; }
-.wifi-2 { height: 9px; }
-.wifi-3 { height: 13px; }
 
 .time {
   margin-left: 4px;

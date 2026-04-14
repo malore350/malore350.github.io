@@ -1,4 +1,5 @@
 import { dockItems } from '../data/dockItems';
+import AppIcon from './AppIcon';
 import './Dock.css';
 
 interface DockProps {
@@ -26,7 +27,7 @@ function Dock({ openApps, activeApp, isMobile, onAppClick }: DockProps) {
                 aria-label={`Open ${item.label}`}
               >
                 <span className={`dock-icon icon-${item.id}`} aria-hidden="true">
-                  {item.icon}
+                  <AppIcon name={item.icon} size={isMobile ? 24 : 34} strokeWidth={1.5} />
                 </span>
                 {isOpen && !isMobile && <span className="dock-indicator" />}
                 {!isMobile && <span className="dock-label">{item.label}</span>}

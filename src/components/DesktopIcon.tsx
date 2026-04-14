@@ -1,3 +1,4 @@
+import AppIcon from './AppIcon';
 import './DesktopIcon.css';
 
 interface DesktopIconProps {
@@ -22,7 +23,9 @@ function DesktopIcon({ id, label, icon, isSelected, isMobile, style, onSelect, o
       id={`desktop-icon-${id}`}
       style={style}
     >
-      <div className={`icon-wrapper icon-${id}`}>{icon}</div>
+      <div className={`icon-wrapper icon-${id}`}>
+        <AppIcon name={icon} size={isMobile ? 32 : 34} strokeWidth={1.5} />
+      </div>
       <div className="icon-label">{label}</div>
     </div>
   );

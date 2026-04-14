@@ -8,6 +8,7 @@ import Window from './components/Window';
 import DesktopIcon from './components/DesktopIcon';
 import ProjectSection from './components/ProjectSection';
 import ResumeSection from './components/ResumeSection';
+import AppIcon from './components/AppIcon';
 
 interface OpenApp {
   id: string;
@@ -416,7 +417,7 @@ function App() {
             <div className="off-content">
               <p className="off-message">System is currently powered off.</p>
               <button className="turn-on-button" onClick={handleTurnOn}>
-                <span className="power-icon">⏻</span> Turn On
+                <AppIcon name="Power" size={20} style={{ marginRight: '8px' }} /> Turn On
               </button>
             </div>
           )}
@@ -468,17 +469,13 @@ function App() {
           <div className="lock-bottom-controls">
             <button className="lock-control-btn" onClick={() => handlePowerAction('shutdown')}>
               <span className="lock-control-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18.36 6.64A9 9 0 1 1 5.64 6.64M12 2v10" />
-                </svg>
+                <AppIcon name="Power" size={22} strokeWidth={2} />
               </span>
               <span>Shut Down</span>
             </button>
             <button className="lock-control-btn" onClick={() => handlePowerAction('restart')}>
               <span className="lock-control-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38" />
-                </svg>
+                <AppIcon name="RefreshCcw" size={20} strokeWidth={2.5} />
               </span>
               <span>Restart</span>
             </button>
@@ -728,9 +725,7 @@ function App() {
                     <p className="contact-text">Interested in working together? I'd love to hear from you.</p>
                     <div className="contact-links">
                       <a href="mailto:kamran.qasimoff@gmail.com" className="contact-link-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" style={{ marginRight: '10px', verticalAlign: 'middle' }}>
-                          <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326.795-5.64 3.47A1 1 0 0 0 2 14h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
-                        </svg>
+                        <AppIcon name="Mail" size={18} style={{ marginRight: '10px', verticalAlign: 'middle' }} />
                         kamran.qasimoff@gmail.com
                       </a>
                       <div className="contact-social-grid">
