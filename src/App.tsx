@@ -87,6 +87,21 @@ Pro tip: You can even Shut Down or Restart this "OS" from the Apple menu in the 
 
 Have fun! ✨`;
 
+export const TRACKS = [
+  {
+    title: 'Ocean City',
+    artist: 'Pacific Coliseum',
+    cover: '/music/ocean_city.jpg',
+    src: '/music/Ocean_City.mp3'
+  },
+  {
+    title: 'Emagination (B-Side)',
+    artist: 'Pacific Coliseum',
+    cover: '/music/Emagination-B-Side.jpg',
+    src: '/music/Emagination-B-Side.mp3'
+  }
+];
+
 function App() {
   const isMobile = useIsMobile();
   const [systemStatus, setSystemStatus] = useState<'running' | 'shutting-down' | 'off' | 'booting'>('running');
@@ -110,6 +125,95 @@ function App() {
   const [notepadText, setNotepadText] = useState(INITIAL_NOTEPAD_TEXT);
   
   const desktopRef = useRef<HTMLElement>(null);
+
+  // Music state
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [musicProgress, setMusicProgress] = useState(0);
+  const [musicDuration, setMusicDuration] = useState(0);
+  const [musicCurrentTime, setMusicCurrentTime] = useState(0);
+  const [hasStartedPlaying, setHasStartedPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  
+  const currentTrack = TRACKS[currentTrackIndex];
+
+  useEffect(() => {
+    if (isPlaying) setHasStartedPlaying(true);
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.play().catch(() => setIsPlaying(false));
+      }
+    }
+  }, [currentTrackIndex]);
+
+  const togglePlay = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(() => setIsPlaying(false));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  }, [isPlaying]);
+
+  const handleNextTrack = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setCurrentTrackIndex((prev) => (prev + 1) % TRACKS.length);
+  }, []);
+
+  const handlePrevTrack = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setCurrentTrackIndex((prev) => (prev - 1 + TRACKS.length) % TRACKS.length);
+  }, []);
+
+  const handleMusicTimeUpdate = () => {
+    if (audioRef.current) {
+      setMusicCurrentTime(audioRef.current.currentTime);
+      if (audioRef.current.duration) {
+        setMusicProgress((audioRef.current.currentTime / audioRef.current.duration) * 100);
+      }
+    }
+  };
+
+  const handleMusicLoadedMetadata = () => {
+    if (audioRef.current) {
+      setMusicDuration(audioRef.current.duration);
+    }
+  };
+
+  const handleMusicEnded = () => {
+    handleNextTrack();
+  };
+
+  const handleMusicProgressClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    if (audioRef.current && musicDuration) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const newProgress = Math.max(0, Math.min(1, clickX / rect.width));
+      audioRef.current.currentTime = newProgress * musicDuration;
+      setMusicProgress(newProgress * 100);
+      setMusicCurrentTime(newProgress * musicDuration);
+    }
+  }, [musicDuration]);
+
+  const musicState = {
+    isPlaying,
+    hasStartedPlaying,
+    currentTrack,
+    progress: musicProgress,
+    duration: musicDuration,
+    currentTime: musicCurrentTime,
+    togglePlay,
+    handleNext: handleNextTrack,
+    handlePrev: handlePrevTrack,
+    handleProgressClick: handleMusicProgressClick
+  };
 
   // Re-calculate positions on window resize
   useEffect(() => {
@@ -498,6 +602,7 @@ function App() {
           onPowerAction={handlePowerAction} 
           onLock={handleLock} 
           onAboutClick={toggleAbout}
+          musicState={musicState}
         />
       )}
       
@@ -586,6 +691,7 @@ function App() {
 
             <MusicWidget 
               className={`${selectedWidgets.includes('music') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'music' ? 'dragging' : ''}`}
+              {...musicState}
             />
           </div>
         ) : (
@@ -658,6 +764,7 @@ function App() {
                 top: widgetPositions.music?.y || 580
               }}
               onMouseDown={(e) => handleWidgetMouseDown(e, 'music')}
+              {...musicState}
             />
           </>
         )}
@@ -759,6 +866,14 @@ function App() {
           );
         })}
       </main>
+
+      <audio 
+        ref={audioRef} 
+        src={currentTrack.src}
+        onTimeUpdate={handleMusicTimeUpdate}
+        onLoadedMetadata={handleMusicLoadedMetadata}
+        onEnded={handleMusicEnded}
+      />
 
       {!isMobile && <Dock openApps={openAppIds} activeApp={activeApp} isMobile={isMobile} onAppClick={handleDockClick} />}
     </div>

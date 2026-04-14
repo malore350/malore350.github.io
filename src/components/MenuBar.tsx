@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import AppIcon from './AppIcon';
+import type { Track } from './MusicWidget';
 import './MenuBar.css';
 
 interface MenuBarProps {
@@ -8,9 +9,17 @@ interface MenuBarProps {
   onPowerAction?: (action: 'shutdown' | 'restart') => void;
   onLock?: () => void;
   onAboutClick?: () => void;
+  musicState?: {
+    isPlaying: boolean;
+    hasStartedPlaying: boolean;
+    currentTrack: Track;
+    togglePlay: (e?: React.MouseEvent) => void;
+    handleNext: (e?: React.MouseEvent) => void;
+    handlePrev: (e?: React.MouseEvent) => void;
+  };
 }
 
-function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick }: MenuBarProps) {
+function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick, musicState }: MenuBarProps) {
   const [time, setTime] = useState(new Date());
   const [isAppleMenuOpen, setIsAppleMenuOpen] = useState(false);
   const appleMenuRef = useRef<HTMLDivElement>(null);
@@ -119,6 +128,40 @@ function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick 
         <span className="menu-item">Window</span>
         <span className="menu-item">Help</span>
       </div>
+
+      {musicState && (
+        <div className={`menu-notch ${musicState.isPlaying ? 'playing' : ''}`}>
+          <div className="notch-content">
+             <div className="notch-collapsed">
+               <img src={musicState.currentTrack.cover} alt="cover" className="notch-cover" />
+               <div className="notch-eq">
+                 <div className="eq-bar" />
+                 <div className="eq-bar" />
+                 <div className="eq-bar" />
+               </div>
+             </div>
+             <div className="notch-expanded">
+               <img src={musicState.currentTrack.cover} alt="cover" className="notch-cover-large" />
+               <div className="notch-info">
+                 <div className="notch-title">{musicState.currentTrack.title}</div>
+                 <div className="notch-artist">{musicState.currentTrack.artist}</div>
+               </div>
+               <div className="notch-controls">
+                 <button className="notch-btn" onClick={(e) => { e.stopPropagation(); musicState.handlePrev(e); }}>
+                   <AppIcon name="SkipBack" size={14} fill="currentColor" strokeWidth={0} />
+                 </button>
+                 <button className="notch-btn" onClick={(e) => { e.stopPropagation(); musicState.togglePlay(e); }}>
+                   <AppIcon name={musicState.isPlaying ? "Pause" : "Play"} size={16} fill="currentColor" strokeWidth={0} />
+                 </button>
+                 <button className="notch-btn" onClick={(e) => { e.stopPropagation(); musicState.handleNext(e); }}>
+                   <AppIcon name="SkipForward" size={14} fill="currentColor" strokeWidth={0} />
+                 </button>
+               </div>
+             </div>
+          </div>
+        </div>
+      )}
+
       <div className="menu-bar-right">
         <div className="status-icon battery-icon" aria-label="Battery 100%">
           <div className="battery-body">
