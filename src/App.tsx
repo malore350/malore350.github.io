@@ -708,10 +708,10 @@ function App() {
               {appId === 'resume-pdf' && (
                 <div className="section-content pdf-viewer-section">
                   <iframe 
-                    src="/resume.pdf#toolbar=0" 
+                    src="/resume.pdf#view=FitH&toolbar=0" 
                     width="100%" 
                     height="100%" 
-                    style={{ border: 'none', borderRadius: '8px' }}
+                    style={{ border: 'none' }}
                     title="Resume PDF"
                   />
                 </div>
