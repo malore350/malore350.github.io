@@ -551,8 +551,7 @@ function App() {
           <div className="widgets-container">
             <div 
               className={`intro-widget ${selectedWidgets.includes('intro') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'intro' ? 'dragging' : ''}`}
-              onMouseDown={undefined}
-              onClick={undefined}
+              onClick={() => openApp('resume')}
             >
               <div className="intro-content">
                 <h1 className="intro-name">Kamran Gasimov</h1>
@@ -564,8 +563,7 @@ function App() {
             <div className="widgets-row">
               <div 
                 className={`profile-widget ${selectedWidgets.includes('profile') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'profile' ? 'dragging' : ''}`}
-                onMouseDown={undefined}
-                onClick={undefined}
+                onClick={() => openApp('resume')}
               >
                 <img src="/me.png" alt="Kamran Gasimov" className="profile-image" draggable="false" />
               </div>
