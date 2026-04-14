@@ -1,4 +1,4 @@
-import { type ReactNode, useState, useRef, useCallback } from 'react';
+import { type ReactNode, useState, useRef, useCallback, useEffect } from 'react';
 import './Window.css';
 
 interface WindowProps {
@@ -47,32 +47,68 @@ function Window({
   const [isSheetDragging, setIsSheetDragging] = useState(false);
   const dragStartY = useRef(0);
   const dragCurrentY = useRef(0);
+  const isTouchDragging = useRef(false);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     dragStartY.current = e.touches[0].clientY;
     dragCurrentY.current = 0;
+    isTouchDragging.current = true;
     setIsSheetDragging(true);
   }, []);
 
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!isSheetDragging) return;
-    const deltaY = e.touches[0].clientY - dragStartY.current;
-    if (deltaY > 0) {
-      dragCurrentY.current = deltaY;
-      setDragY(deltaY);
-    }
-  }, [isSheetDragging]);
+  const updateSheetDrag = useCallback((clientY: number) => {
+    if (!isTouchDragging.current) return;
 
-  const handleTouchEnd = useCallback(() => {
+    const deltaY = Math.max(clientY - dragStartY.current, 0);
+    dragCurrentY.current = deltaY;
+    setDragY(deltaY);
+  }, []);
+
+  const finishSheetDrag = useCallback(() => {
+    if (!isTouchDragging.current) return;
+
+    isTouchDragging.current = false;
     setIsSheetDragging(false);
-    const dismissThreshold = 120;
-    if (dragCurrentY.current > dismissThreshold) {
+
+    if (dragCurrentY.current > 0) {
       onClose();
-    } else {
-      setDragY(0);
+      return;
     }
+
+    setDragY(0);
     dragCurrentY.current = 0;
   }, [onClose]);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    updateSheetDrag(e.touches[0].clientY);
+  }, [updateSheetDrag]);
+
+  const handleTouchEnd = useCallback(() => {
+    finishSheetDrag();
+  }, [finishSheetDrag]);
+
+  useEffect(() => {
+    if (!isSheetDragging) return;
+
+    const handleWindowTouchMove = (event: TouchEvent) => {
+      if (event.touches.length === 0) return;
+      updateSheetDrag(event.touches[0].clientY);
+    };
+
+    const handleWindowTouchEnd = () => {
+      finishSheetDrag();
+    };
+
+    window.addEventListener('touchmove', handleWindowTouchMove, { passive: true });
+    window.addEventListener('touchend', handleWindowTouchEnd);
+    window.addEventListener('touchcancel', handleWindowTouchEnd);
+
+    return () => {
+      window.removeEventListener('touchmove', handleWindowTouchMove);
+      window.removeEventListener('touchend', handleWindowTouchEnd);
+      window.removeEventListener('touchcancel', handleWindowTouchEnd);
+    };
+  }, [finishSheetDrag, isSheetDragging, updateSheetDrag]);
 
   const handleAnimationEnd = (e: React.AnimationEvent) => {
     if (e.animationName === 'window-close' || e.animationName === 'mobile-app-close') {
@@ -85,9 +121,9 @@ function Window({
   if (isMinimized) return null;
 
   if (isMobile) {
-    const sheetStyle: React.CSSProperties = isSheetDragging ? {
+    const sheetStyle: React.CSSProperties = {
       transform: `translateY(${dragY}px)`,
-    } : undefined;
+    };
 
     return (
       <div className="mobile-backdrop-wrapper" onClick={onClose}>
