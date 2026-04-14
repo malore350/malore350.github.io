@@ -190,12 +190,8 @@ function App() {
     handleNextTrack();
   };
 
-  const handleMusicProgressClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
+  const handleMusicProgressChange = useCallback((newProgress: number) => {
     if (audioRef.current && musicDuration) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const newProgress = Math.max(0, Math.min(1, clickX / rect.width));
       audioRef.current.currentTime = newProgress * musicDuration;
       setMusicProgress(newProgress * 100);
       setMusicCurrentTime(newProgress * musicDuration);
@@ -212,7 +208,7 @@ function App() {
     togglePlay,
     handleNext: handleNextTrack,
     handlePrev: handlePrevTrack,
-    handleProgressClick: handleMusicProgressClick
+    handleProgressChange: handleMusicProgressChange
   };
 
   // Re-calculate positions on window resize
@@ -505,6 +501,15 @@ function App() {
   };
 
   const openAppIds = openApps.map(app => app.id);
+  const audioElement = (
+    <audio
+      ref={audioRef}
+      src={currentTrack.src}
+      onTimeUpdate={handleMusicTimeUpdate}
+      onLoadedMetadata={handleMusicLoadedMetadata}
+      onEnded={handleMusicEnded}
+    />
+  );
 
   if (systemStatus !== 'running') {
     return (
@@ -571,6 +576,7 @@ function App() {
           </div>
           {!isMobile && <p className="lock-hint">Press Enter to unlock</p>}
           {isMobile && <p className="lock-hint">Click input to unlock</p>}
+          <MusicWidget className="music-widget-lockscreen" variant="lockscreen" {...musicState} />
         </div>
         {!isMobile && (
           <div className="lock-bottom-controls">
@@ -588,6 +594,7 @@ function App() {
             </button>
           </div>
         )}
+        {audioElement}
       </div>
     );
   }
@@ -867,13 +874,7 @@ function App() {
         })}
       </main>
 
-      <audio 
-        ref={audioRef} 
-        src={currentTrack.src}
-        onTimeUpdate={handleMusicTimeUpdate}
-        onLoadedMetadata={handleMusicLoadedMetadata}
-        onEnded={handleMusicEnded}
-      />
+      {audioElement}
 
       {!isMobile && <Dock openApps={openAppIds} activeApp={activeApp} isMobile={isMobile} onAppClick={handleDockClick} />}
     </div>

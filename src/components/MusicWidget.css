@@ -110,6 +110,13 @@
   align-items: center;
   position: relative;
   cursor: pointer;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .music-progress-bg {
@@ -132,7 +139,6 @@
   background: var(--text-h);
   border-radius: 2px;
   pointer-events: none;
-  transition: width 0.1s linear;
 }
 
 .music-progress-container:hover .music-progress-bg {
@@ -254,4 +260,150 @@
 .desktop-surface.mobile .music-skip-btn svg {
   width: 14px;
   height: 14px;
+}
+
+.music-widget-lockscreen {
+  position: relative;
+  margin-left: 0;
+  width: 320px;
+  min-height: 132px;
+  align-items: stretch;
+  gap: 14px;
+  padding: 14px;
+  background: rgba(22, 24, 32, 0.34);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-radius: 22px;
+  box-shadow: 
+    0 18px 40px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+  animation: none;
+  transform: none;
+  cursor: default;
+  pointer-events: auto;
+  margin-top: 4px;
+  opacity: 1;
+}
+
+.music-widget-lockscreen:hover {
+  scale: 1;
+}
+
+.music-widget-lockscreen .music-cover {
+  width: 104px;
+  height: 104px;
+  border-radius: 16px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+}
+
+.music-widget-lockscreen .music-info {
+  margin-left: 0;
+  justify-content: space-between;
+  padding: 0;
+  gap: 10px;
+  min-width: 0;
+}
+
+.music-widget-lockscreen .music-header {
+  align-items: flex-start;
+}
+
+.music-widget-lockscreen .music-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.music-widget-lockscreen .music-title {
+  font-size: 15px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.96);
+}
+
+.music-widget-lockscreen .music-artist {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.68);
+  opacity: 1;
+}
+
+.music-widget-lockscreen .music-controls {
+  margin: 0;
+  gap: 10px;
+  align-items: center;
+}
+
+.music-widget-lockscreen .music-progress-container {
+  flex: 1;
+  height: 18px;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.music-widget-lockscreen .music-progress-bg {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+}
+
+.music-widget-lockscreen .music-progress-bar {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 999px;
+}
+
+.music-widget-lockscreen .music-time {
+  min-width: 34px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.72);
+  opacity: 1;
+  text-align: right;
+}
+
+.music-widget-lockscreen .music-play-controls {
+  justify-content: flex-start;
+  gap: 8px;
+  padding-top: 2px;
+}
+
+.music-widget-lockscreen .music-skip-btn {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.88);
+  background: transparent;
+  opacity: 1;
+}
+
+.music-widget-lockscreen .music-skip-btn:hover {
+  background: transparent;
+}
+
+.music-widget.music-widget-lockscreen .music-skip-btn svg {
+  width: 13px;
+  height: 13px;
+}
+
+.music-widget-lockscreen .music-play-btn {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #111;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
+}
+
+.music-widget.music-widget-lockscreen .music-play-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .music-widget-lockscreen {
+    background: rgba(14, 16, 24, 0.42);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
 }
