@@ -146,9 +146,6 @@ function Window({
           >
             <div className="mobile-sheet-handle-bar"></div>
           </div>
-          <div className="mobile-sheet-header">
-            <div className="window-title">{title}</div>
-          </div>
           <div className="mobile-sheet-content">
             {children}
           </div>

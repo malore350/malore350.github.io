@@ -41,6 +41,8 @@
   animation: mobile-app-open 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform;
   z-index: 2000;
+  display: flex;
+  flex-direction: column;
 }
 
 .mac-window.mobile.closing {
@@ -91,16 +93,13 @@
   opacity: 0.8;
 }
 
-.mobile-sheet-header {
-  padding: 0 16px 8px;
-  flex-shrink: 0;
-}
-
 .mobile-sheet-content {
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 34px;
+  padding-bottom: 0;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 .mac-window.mobile .window-content {
