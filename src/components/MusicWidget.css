@@ -202,7 +202,56 @@
   position: static;
   margin-left: 0;
   width: 100%;
-  height: auto;
+  height: 110px;
+  padding: 12px;
   transform: none !important;
   animation: none !important;
+}
+
+.desktop-surface.mobile .music-cover {
+  width: 86px;
+  height: 86px;
+  border-radius: 12px;
+}
+
+.desktop-surface.mobile .music-info {
+  margin-left: 12px;
+  padding: 0;
+  justify-content: center;
+}
+
+.desktop-surface.mobile .music-title {
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.desktop-surface.mobile .music-artist {
+  font-size: 12px;
+}
+
+.desktop-surface.mobile .music-controls {
+  margin-bottom: 4px;
+  margin-top: 4px;
+  height: 12px;
+}
+
+.desktop-surface.mobile .music-play-controls {
+  gap: 12px;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.desktop-surface.mobile .music-play-btn {
+  width: 26px;
+  height: 26px;
+}
+
+.desktop-surface.mobile .music-play-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.desktop-surface.mobile .music-skip-btn svg {
+  width: 14px;
+  height: 14px;
 }
