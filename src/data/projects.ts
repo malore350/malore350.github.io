@@ -93,7 +93,7 @@ export const projects: Project[] = [
     id: 'unigo',
     title: 'Unigo.az',
     shortSummary: 'Comprehensive university consultancy platform for finding universities and managing applications.',
-    description: 'A comprehensive university consultancy platform designed to help students find universities, manage applications, and schedule consultations via a modern monorepo architecture.\n\nTechnical Architecture:\nDesigned for high scalability and real-time interaction across web, mobile, and backend services.\n\nCore Stack:\n• Backend: Node.js + Express.js + Supabase (PostgreSQL)\n• Web: React (Vite) + Tailwind + Shadcn UI + Zustand\n• Mobile: React Native + Expo SDK 54\n• i18n: Multi-language (i18next)\n\nUser Roles & Workflows:\n• Student: Search universities via AI, manage applications with credits, upload documents.\n• Employee: Guide assigned students, manage application lifecycles.\n• Admin: Full operations control: user management, staff assignments, and financial oversight.\n\nFinancial Ecosystem:\nIntegration with Epoint (Azerbaijan) for secure transaction signing, RRN tracking, and automated invoicing. Tiered subscription plans (LITE, PRO, MAX) bundling application credits and AI suggestions.',
+    description: 'A comprehensive university consultancy platform designed to help students find universities, manage applications, and schedule consultations via a modern monorepo architecture.\n\nMobile App:\nThe Unigo mobile app, built with React Native and Expo, is currently in the testing phase and will be released soon. It provides students with a seamless experience for searching universities, tracking applications, and managing their documents on the go.\n\nTechnical Architecture:\nDesigned for high scalability and real-time interaction across web, mobile, and backend services.\n\nCore Stack:\n• Backend: Node.js + Express.js + Supabase (PostgreSQL)\n• Web: React (Vite) + Tailwind + Shadcn UI + Zustand\n• Mobile: React Native + Expo SDK 55\n• i18n: Multi-language (i18next)\n\nUser Roles & Workflows:\n• Student: Search universities via AI, manage applications with credits, upload documents.\n• Employee: Guide assigned students, manage application lifecycles.\n• Admin: Full operations control: user management, staff assignments, and financial oversight.\n\nFinancial Ecosystem:\nIntegration with Epoint (Azerbaijan) for secure transaction signing, RRN tracking, and automated invoicing. Tiered subscription plans (LITE, PRO, MAX) bundling application credits and AI suggestions.',
     technologies: ['React', 'Node.js', 'Supabase', 'React Native', 'TypeScript', 'Vite', 'Tailwind CSS', 'Zustand', 'Expo', 'PostgreSQL'] as const,
     screenshots: [
       {
@@ -107,6 +107,24 @@ export const projects: Project[] = [
         alt: 'Unigo Dashboard',
         caption: 'Student Dashboard - AI-powered University Suggestions',
         orientation: 'landscape',
+      },
+      {
+        src: '/projects/Simulator Screenshot - iPhone 17e - 2026-04-15 at 04.27.21.png',
+        alt: 'Unigo Mobile - My Journey',
+        caption: 'Mobile app - Student journey and main features',
+        orientation: 'portrait',
+      },
+      {
+        src: '/projects/Simulator Screenshot - iPhone 17e - 2026-04-15 at 04.28.04.png',
+        alt: 'Unigo Mobile - AI Suggestions',
+        caption: 'Mobile app - AI-powered university recommendations',
+        orientation: 'portrait',
+      },
+      {
+        src: '/projects/Simulator Screenshot - iPhone 17e - 2026-04-15 at 04.28.18.png',
+        alt: 'Unigo Mobile - Subscription Plans',
+        caption: 'Mobile app - Tiered subscription plans',
+        orientation: 'portrait',
       },
     ] as const,
     links: [
