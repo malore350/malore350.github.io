@@ -16,7 +16,11 @@ import {
   X,
   Maximize2,
   Minimize2,
-  Minus
+  Minus,
+  Play,
+  Pause,
+  SkipBack,
+  SkipForward
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import React from 'react';
@@ -39,7 +43,11 @@ const iconRegistry: Record<string, React.FC<LucideProps>> = {
   X,
   Maximize2,
   Minimize2,
-  Minus
+  Minus,
+  Play,
+  Pause,
+  SkipBack,
+  SkipForward
 };
 
 interface AppIconProps extends LucideProps {

@@ -9,6 +9,7 @@ import DesktopIcon from './components/DesktopIcon';
 import ProjectSection from './components/ProjectSection';
 import ResumeSection from './components/ResumeSection';
 import AppIcon from './components/AppIcon';
+import MusicWidget from './components/MusicWidget';
 
 interface OpenApp {
   id: string;
@@ -53,6 +54,7 @@ const calculateInitialWidgetPositions = () => {
     intro: { x: 40, y: 60 },
     profile: { x: 40, y: 340 },
     calendar: { x: 280, y: 340 },
+    music: { x: 40, y: 580 },
     notepad: { 
       x: (windowWidth / 2) + 20, 
       y: 60
@@ -308,6 +310,7 @@ function App() {
         intro: { w: 400, h: 200 },
         profile: { w: 220, h: 220 },
         calendar: { w: 220, h: 220 },
+        music: { w: 340, h: 140 },
         notepad: { w: 280, h: 340 }
       };
       Object.keys(widgetPositions).forEach(id => {
@@ -580,6 +583,10 @@ function App() {
                 </div>
               </div>
             </div>
+
+            <MusicWidget 
+              className={`${selectedWidgets.includes('music') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'music' ? 'dragging' : ''}`}
+            />
           </div>
         ) : (
           <>
@@ -643,6 +650,15 @@ function App() {
                 spellCheck={false}
               />
             </div>
+
+            <MusicWidget 
+              className={`${selectedWidgets.includes('music') ? 'selected' : ''} ${draggingItem?.type === 'widget' && draggingItem?.id === 'music' ? 'dragging' : ''}`}
+              style={{
+                left: widgetPositions.music?.x || 40,
+                top: widgetPositions.music?.y || 580
+              }}
+              onMouseDown={(e) => handleWidgetMouseDown(e, 'music')}
+            />
           </>
         )}
 
