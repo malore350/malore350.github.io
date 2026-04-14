@@ -39,6 +39,7 @@
   border: 1px solid var(--glass-border);
   border-bottom: none;
   animation: mobile-app-open 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform;
   z-index: 2000;
 }
 
@@ -63,6 +64,7 @@
 }
 
 .mac-window.mobile.dragging {
+  animation: none;
   transition: none;
 }
 
