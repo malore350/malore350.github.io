@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import { type ReactNode, useState, useRef, useCallback } from 'react';
 import './Window.css';
 
 interface WindowProps {
@@ -43,7 +43,36 @@ function Window({
   style
 }: WindowProps) {
 
-  if (isMinimized) return null;
+  const [dragY, setDragY] = useState(0);
+  const [isSheetDragging, setIsSheetDragging] = useState(false);
+  const dragStartY = useRef(0);
+  const dragCurrentY = useRef(0);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    dragStartY.current = e.touches[0].clientY;
+    dragCurrentY.current = 0;
+    setIsSheetDragging(true);
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!isSheetDragging) return;
+    const deltaY = e.touches[0].clientY - dragStartY.current;
+    if (deltaY > 0) {
+      dragCurrentY.current = deltaY;
+      setDragY(deltaY);
+    }
+  }, [isSheetDragging]);
+
+  const handleTouchEnd = useCallback(() => {
+    setIsSheetDragging(false);
+    const dismissThreshold = 120;
+    if (dragCurrentY.current > dismissThreshold) {
+      onClose();
+    } else {
+      setDragY(0);
+    }
+    dragCurrentY.current = 0;
+  }, [onClose]);
 
   const handleAnimationEnd = (e: React.AnimationEvent) => {
     if (e.animationName === 'window-close' || e.animationName === 'mobile-app-close') {
@@ -53,19 +82,40 @@ function Window({
     }
   };
 
+  if (isMinimized) return null;
+
   if (isMobile) {
+    const sheetStyle: React.CSSProperties = isSheetDragging ? {
+      transform: `translateY(${dragY}px)`,
+    } : undefined;
+
     return (
-      <div 
-        className={`mac-window mobile ${isActive ? 'active' : ''} ${isClosing ? 'closing' : ''}`}
-        onClick={onFocus}
-        onAnimationEnd={handleAnimationEnd}
-        id={`window-${id}`}
-      >
-        <div className="window-content">
-          {children}
-        </div>
-        <div className="home-indicator-container" onClick={(e) => { e.stopPropagation(); onClose(); }}>
-          <div className="home-indicator"></div>
+      <div className="mobile-backdrop-wrapper" onClick={onClose}>
+        <div
+          className={`mac-window mobile ${isActive ? 'active' : ''} ${isClosing ? 'closing' : ''} ${isSheetDragging ? 'dragging' : ''}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onFocus();
+          }}
+          onAnimationEnd={handleAnimationEnd}
+          style={sheetStyle}
+          id={`window-${id}`}
+        >
+          <div
+            className={`mobile-sheet-handle ${isSheetDragging ? 'dragging' : ''}`}
+            onClick={(e) => e.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            <div className="mobile-sheet-handle-bar"></div>
+          </div>
+          <div className="mobile-sheet-header">
+            <div className="window-title">{title}</div>
+          </div>
+          <div className="mobile-sheet-content">
+            {children}
+          </div>
         </div>
       </div>
     );

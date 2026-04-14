@@ -491,13 +491,15 @@ function App() {
   return (
     <div className={`desktop-environment ${isMobile ? 'mobile' : ''}`} onClick={() => { setSelectedIcons([]); setSelectedWidgets([]); }}>
       <div className="wallpaper" />
-      <MenuBar 
-        activeAppName={getAppName(activeApp)} 
-        isMobile={isMobile}
-        onPowerAction={handlePowerAction} 
-        onLock={handleLock} 
-        onAboutClick={toggleAbout}
-      />
+      {!isMobile && (
+        <MenuBar 
+          activeAppName={getAppName(activeApp)} 
+          isMobile={isMobile}
+          onPowerAction={handlePowerAction} 
+          onLock={handleLock} 
+          onAboutClick={toggleAbout}
+        />
+      )}
       
       {isAboutOpen && (
         <div className="about-dialog-overlay" onClick={toggleAbout}>

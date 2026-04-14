@@ -55,7 +55,7 @@
 }
 
 .desktop-surface.mobile {
-  padding: 50px 16px 120px;
+  padding: 20px 16px 120px;
   display: flex;
   flex-direction: column;
   gap: 24px;
