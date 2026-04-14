@@ -247,19 +247,29 @@
   left: 50%;
   transform: translateX(-50%);
   height: 28px;
-  background: black;
-  color: white;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 12px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
   cursor: pointer;
   z-index: 10000;
   min-width: 160px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.2) inset;
+}
+
+@media (prefers-color-scheme: dark) {
+  .menu-notch {
+    background: rgba(40, 40, 45, 0.85);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset;
+  }
 }
 
 /* Default collapsed state */
@@ -278,30 +288,30 @@
   width: 100%;
   justify-content: space-between;
   opacity: 1;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .notch-expanded {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: max-content;
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
 }
 
 .menu-notch:hover {
-  height: 60px;
-  min-width: 320px;
-  padding: 0 20px;
+  height: 64px;
+  min-width: 340px;
+  padding: 0 24px;
   border-bottom-left-radius: 24px;
   border-bottom-right-radius: 24px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.15) inset;
 }
 
 .menu-notch:hover .notch-collapsed {
@@ -322,57 +332,78 @@
 }
 
 .notch-cover-large {
-  width: 40px;
-  height: 40px;
-  border-radius: 6px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
   object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
 }
 
 .notch-info {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 120px;
+  max-width: 130px;
+  min-width: 0;
 }
 
 .notch-title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
+  color: var(--text-h);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
 .notch-artist {
-  font-size: 11px;
-  opacity: 0.7;
+  font-size: 12px;
+  color: var(--text);
+  opacity: 0.75;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-top: 2px;
 }
 
 .notch-controls {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-left: 8px;
+  gap: 6px;
+  margin-left: 4px;
 }
 
 .notch-btn {
   background: none;
   border: none;
-  color: white;
+  color: var(--text-h);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
+  padding: 6px;
   cursor: pointer;
   border-radius: 50%;
-  transition: background 0.2s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0.7;
 }
 
 .notch-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(128, 128, 128, 0.15);
+  opacity: 1;
+}
+
+.notch-btn:active {
+  transform: scale(0.92);
+}
+
+.notch-btn-play {
+  background: var(--text-h);
+  color: var(--bg);
+  width: 32px;
+  height: 32px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
 }
 
 /* EQ Animation */
@@ -385,7 +416,7 @@
 
 .eq-bar {
   width: 3px;
-  background-color: white;
+  background-color: var(--text-h);
   border-radius: 1px;
   animation: eq-bounce 1s infinite alternate ease-in-out;
 }
@@ -401,6 +432,11 @@
 
 .menu-notch:not(.playing) .eq-bar {
   animation: none;
-  height: 2px !important;
   transform: none;
+}
+
+.menu-notch:not(.playing) .eq-bar:nth-child(1),
+.menu-notch:not(.playing) .eq-bar:nth-child(2),
+.menu-notch:not(.playing) .eq-bar:nth-child(3) {
+  height: 2px;
 }

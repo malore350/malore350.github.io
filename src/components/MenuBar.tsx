@@ -140,24 +140,24 @@ function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick,
                  <div className="eq-bar" />
                </div>
              </div>
-             <div className="notch-expanded">
-               <img src={musicState.currentTrack.cover} alt="cover" className="notch-cover-large" />
-               <div className="notch-info">
-                 <div className="notch-title">{musicState.currentTrack.title}</div>
-                 <div className="notch-artist">{musicState.currentTrack.artist}</div>
-               </div>
-               <div className="notch-controls">
-                 <button className="notch-btn" onClick={(e) => { e.stopPropagation(); musicState.handlePrev(e); }}>
-                   <AppIcon name="SkipBack" size={14} fill="currentColor" strokeWidth={0} />
-                 </button>
-                 <button className="notch-btn" onClick={(e) => { e.stopPropagation(); musicState.togglePlay(e); }}>
-                   <AppIcon name={musicState.isPlaying ? "Pause" : "Play"} size={16} fill="currentColor" strokeWidth={0} />
-                 </button>
-                 <button className="notch-btn" onClick={(e) => { e.stopPropagation(); musicState.handleNext(e); }}>
-                   <AppIcon name="SkipForward" size={14} fill="currentColor" strokeWidth={0} />
-                 </button>
-               </div>
-             </div>
+<div className="notch-expanded">
+                <img src={musicState.currentTrack.cover} alt="cover" className="notch-cover-large" />
+                <div className="notch-info">
+                  <div className="notch-title">{musicState.currentTrack.title}</div>
+                  <div className="notch-artist">{musicState.currentTrack.artist}</div>
+                </div>
+                <div className="notch-controls">
+                  <button type="button" className="notch-btn" onClick={(e) => { e.stopPropagation(); musicState.handlePrev(e); }}>
+                    <AppIcon name="SkipBack" size={16} fill="currentColor" strokeWidth={0} />
+                  </button>
+                  <button type="button" className="notch-btn notch-btn-play" onClick={(e) => { e.stopPropagation(); musicState.togglePlay(e); }}>
+                    <AppIcon name={musicState.isPlaying ? "Pause" : "Play"} size={18} fill="currentColor" strokeWidth={0} />
+                  </button>
+                  <button type="button" className="notch-btn" onClick={(e) => { e.stopPropagation(); musicState.handleNext(e); }}>
+                    <AppIcon name="SkipForward" size={16} fill="currentColor" strokeWidth={0} />
+                  </button>
+                </div>
+              </div>
           </div>
         </div>
       )}
