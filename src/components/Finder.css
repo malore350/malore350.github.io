@@ -1,0 +1,203 @@
+.finder-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.finder-sidebar {
+  width: 180px;
+  background: rgba(0, 0, 0, 0.03);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid var(--border);
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .finder-sidebar {
+    background: rgba(255, 255, 255, 0.03);
+  }
+}
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebar-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  opacity: 0.5;
+  padding: 0 8px 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text-h);
+  cursor: pointer;
+}
+
+.sidebar-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  .sidebar-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.sidebar-item.active {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .sidebar-item.active {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.sidebar-icon {
+  color: var(--accent);
+}
+
+.finder-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.finder-toolbar {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.toolbar-nav {
+  display: flex;
+  gap: 12px;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--text);
+  opacity: 0.5;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.toolbar-title {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-h);
+}
+
+.toolbar-actions {
+  color: var(--text);
+  opacity: 0.6;
+}
+
+.finder-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.finder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 20px;
+}
+
+.finder-grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.finder-grid-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  .finder-grid-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.finder-icon-wrapper {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 
+    0 4px 10px rgba(0,0,0,0.1),
+    inset 0 0 0 0.5px rgba(255,255,255,0.2);
+  overflow: hidden;
+}
+
+.finder-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Reusing existing icon colors from DesktopIcon.css */
+.icon-finder { background: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%); }
+.icon-gamehub { background: linear-gradient(135deg, #FF2D55 0%, #FF375F 100%); }
+.icon-cryptopro { background: linear-gradient(135deg, #5856D6 0%, #AF52DE 100%); }
+.icon-unigo { background: linear-gradient(135deg, #007AFF 0%, #0040FF 100%); }
+.icon-ttyt { background: linear-gradient(135deg, #34C759 0%, #248A3D 100%); }
+.icon-resume { background: linear-gradient(135deg, #5AC8FA 0%, #007AFF 100%); }
+.icon-resume-pdf { background: linear-gradient(135deg, #FF3B30 0%, #FF453A 100%); }
+.icon-contact { background: linear-gradient(135deg, #8E8E93 0%, #636366 100%); }
+.icon-me-png { background: linear-gradient(135deg, #FF9500 0%, #FFCC00 100%); }
+
+.finder-item-label {
+  font-size: 11px;
+  text-align: center;
+  color: var(--text-h);
+  word-break: break-word;
+  max-width: 100%;
+}
+
+.empty-folder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text);
+  opacity: 0.5;
+  font-size: 14px;
+}

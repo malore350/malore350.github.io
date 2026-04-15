@@ -10,6 +10,7 @@ import ProjectSection from './components/ProjectSection';
 import ResumeSection from './components/ResumeSection';
 import AppIcon from './components/AppIcon';
 import MusicWidget from './components/MusicWidget';
+import Finder from './components/Finder';
 
 interface OpenApp {
   id: string;
@@ -35,7 +36,7 @@ const calculateInitialIconPositions = () => {
   const windowWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
 
   // All icons in 2-column grid on the right
-  dockItems.forEach((item, index) => {
+  dockItems.filter(item => !item.hideFromDesktop).forEach((item, index) => {
     const col = index % 2;
     const row = Math.floor(index / 2);
     positions[item.id] = {
@@ -108,7 +109,7 @@ function App() {
   const [bootProgress, setBootProgress] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
   const [openApps, setOpenApps] = useState<OpenApp[]>([]);
-  const [activeApp, setActiveApp] = useState<string>('Finder');
+  const [activeApp, setActiveApp] = useState<string>('finder');
   const [minimizedApps, setMinimizedApps] = useState<string[]>([]);
   const [maximizedApps, setMaximizedApps] = useState<string[]>([]);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
@@ -247,7 +248,7 @@ function App() {
     setOpenApps((prev) => prev.map(app => app.id === id ? { ...app, isClosing: true } : app));
     if (activeApp === id) {
       const remaining = openApps.filter((app) => app.id !== id && !app.isClosing);
-      setActiveApp(remaining.length > 0 ? remaining[remaining.length - 1].id : 'Finder');
+      setActiveApp(remaining.length > 0 ? remaining[remaining.length - 1].id : 'finder');
     }
   }, [activeApp, openApps]);
 
@@ -261,7 +262,7 @@ function App() {
     setOpenApps((prev) => prev.map(app => app.id === id ? { ...app, isMinimizing: true } : app));
     if (activeApp === id) {
       const remaining = openApps.filter((app) => app.id !== id && !minimizedApps.includes(app.id) && !app.isClosing && !app.isMinimizing);
-      setActiveApp(remaining.length > 0 ? remaining[remaining.length - 1].id : 'Finder');
+      setActiveApp(remaining.length > 0 ? remaining[remaining.length - 1].id : 'finder');
     }
   }, [activeApp, openApps, minimizedApps]);
 
@@ -358,7 +359,7 @@ function App() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'w') {
         e.preventDefault();
-        if (activeApp !== 'Finder') {
+        if (activeApp !== 'finder') {
           triggerCloseApp(activeApp);
         }
       }
@@ -393,7 +394,7 @@ function App() {
 
       // Icons
       const newlySelectedIcons: string[] = [];
-      dockItems.forEach(item => {
+      dockItems.filter(item => !item.hideFromDesktop).forEach(item => {
         const pos = iconPositions[item.id];
         if (pos) {
           const iconBounds = { left: pos.x, top: pos.y, right: pos.x + 80, bottom: pos.y + 110 };
@@ -778,7 +779,7 @@ function App() {
         )}
 
         <div className="desktop-icons">
-          {dockItems.map((item) => (
+          {dockItems.filter(item => !item.hideFromDesktop).map((item) => (
             <DesktopIcon 
               key={item.id}
               id={item.id}
@@ -835,7 +836,22 @@ function App() {
               }}
             >
               {project && <ProjectSection project={project} sectionId={appId} />}
+              {appId === 'finder' && <Finder onOpenApp={openApp} />}
               {appId === 'resume' && <ResumeSection />}
+              {appId === 'me-png' && (
+                <div className="section-content image-viewer-section">
+                  <img 
+                    src="/me.png" 
+                    alt="Kamran Gasimov" 
+                    style={{ 
+                      width: '100%', 
+                      height: '100%', 
+                      objectFit: 'contain',
+                      background: 'black' 
+                    }} 
+                  />
+                </div>
+              )}
               {appId === 'resume-pdf' && (
                 <div className="section-content pdf-viewer-section">
                   <iframe 

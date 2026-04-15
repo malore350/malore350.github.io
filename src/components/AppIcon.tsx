@@ -20,7 +20,13 @@ import {
   Play,
   Pause,
   SkipBack,
-  SkipForward
+  SkipForward,
+  Clock,
+  Monitor,
+  Download,
+  Image,
+  Folder,
+  Layout
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import React from 'react';
@@ -47,7 +53,13 @@ const iconRegistry: Record<string, React.FC<LucideProps>> = {
   Play,
   Pause,
   SkipBack,
-  SkipForward
+  SkipForward,
+  Clock,
+  Monitor,
+  Download,
+  Image,
+  Folder,
+  Layout
 };
 
 interface AppIconProps extends LucideProps {
