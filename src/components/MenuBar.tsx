@@ -26,7 +26,12 @@ interface MenuBarProps {
 function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick, musicState }: MenuBarProps) {
   const [time, setTime] = useState(new Date());
   const [isAppleMenuOpen, setIsAppleMenuOpen] = useState(false);
+  const [isWifiOpen, setIsWifiOpen] = useState(false);
+  const [isBatteryOpen, setIsBatteryOpen] = useState(false);
+  
   const appleMenuRef = useRef<HTMLDivElement>(null);
+  const wifiRef = useRef<HTMLDivElement>(null);
+  const batteryRef = useRef<HTMLDivElement>(null);
   const notchProgressRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -39,13 +44,19 @@ function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick,
       if (appleMenuRef.current && !appleMenuRef.current.contains(event.target as Node)) {
         setIsAppleMenuOpen(false);
       }
+      if (wifiRef.current && !wifiRef.current.contains(event.target as Node)) {
+        setIsWifiOpen(false);
+      }
+      if (batteryRef.current && !batteryRef.current.contains(event.target as Node)) {
+        setIsBatteryOpen(false);
+      }
     };
 
-    if (isAppleMenuOpen) {
+    if (isAppleMenuOpen || isWifiOpen || isBatteryOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isAppleMenuOpen]);
+  }, [isAppleMenuOpen, isWifiOpen, isBatteryOpen]);
 
   const formatTime = (date: Date) => {
     if (isMobile) {
@@ -231,15 +242,68 @@ function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick,
        )}
 
       <div className="menu-bar-right">
-        <div className="status-icon battery-icon" aria-label="Battery 100%">
-          <div className="battery-body">
-            <div className="battery-level" style={{ width: '100%' }}></div>
+        <div className="status-dropdown-container" ref={batteryRef}>
+          <div 
+            className={`status-icon-wrapper ${isBatteryOpen ? 'active' : ''}`}
+            onClick={() => setIsBatteryOpen(!isBatteryOpen)}
+            aria-label="Battery 100%"
+          >
+            <div className="status-icon battery-icon">
+              <div className="battery-body">
+                <div className="battery-level" style={{ width: '100%' }}></div>
+              </div>
+              <div className="battery-tip"></div>
+            </div>
           </div>
-          <div className="battery-tip"></div>
+          
+          {isBatteryOpen && (
+            <div className="status-dropdown">
+              <div className="status-dropdown-header">
+                <span className="status-dropdown-title">Battery</span>
+                <span className="status-dropdown-subtitle">100%</span>
+              </div>
+              <div className="status-dropdown-body">
+                <div className="status-dropdown-item">
+                  <span className="status-dropdown-label">Power Source</span>
+                  <span className="status-dropdown-value">Power Adapter</span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        <div className="status-icon wifi-icon" aria-label="WiFi Connected">
-          <AppIcon name="Wifi" size={16} strokeWidth={2} />
+
+        <div className="status-dropdown-container" ref={wifiRef}>
+          <div 
+            className={`status-icon-wrapper ${isWifiOpen ? 'active' : ''}`}
+            onClick={() => setIsWifiOpen(!isWifiOpen)}
+            aria-label="WiFi Connected"
+          >
+            <div className="status-icon wifi-icon">
+              <AppIcon name="Wifi" size={16} strokeWidth={2} />
+            </div>
+          </div>
+          
+          {isWifiOpen && (
+            <div className="status-dropdown">
+              <div className="status-dropdown-header">
+                <span className="status-dropdown-title">Wi-Fi</span>
+                <div className="toggle-switch active"></div>
+              </div>
+              <div className="status-dropdown-body">
+                <div className="status-dropdown-item active">
+                  <AppIcon name="Check" size={14} strokeWidth={3} className="check-icon" />
+                  <span className="status-dropdown-label">Home_Network_5G</span>
+                  <AppIcon name="Lock" size={12} strokeWidth={2} className="lock-icon" />
+                </div>
+                <div className="dropdown-divider"></div>
+                <div className="status-dropdown-item">
+                  <span className="status-dropdown-label empty-icon">Guest_Network</span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
+        
         <span className="time">{formatTime(time)}</span>
       </div>
     </div>
