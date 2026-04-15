@@ -13,6 +13,10 @@ interface MenuBarProps {
     isPlaying: boolean;
     hasStartedPlaying: boolean;
     currentTrack: Track;
+    progress: number;
+    duration: number;
+    currentTime: number;
+    handleProgressChange: (progress: number) => void;
     togglePlay: (e?: React.MouseEvent) => void;
     handleNext: (e?: React.MouseEvent) => void;
     handlePrev: (e?: React.MouseEvent) => void;
@@ -23,6 +27,7 @@ function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick,
   const [time, setTime] = useState(new Date());
   const [isAppleMenuOpen, setIsAppleMenuOpen] = useState(false);
   const appleMenuRef = useRef<HTMLDivElement>(null);
+  const notchProgressRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
@@ -58,6 +63,48 @@ function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick,
       minute: '2-digit',
       hour12: true,
     });
+  };
+
+  const formatTrackTime = (timeInSeconds: number) => {
+    const safeTime = Math.max(0, Math.floor(timeInSeconds));
+    const minutes = Math.floor(safeTime / 60);
+    const seconds = safeTime % 60;
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+
+  const updateNotchProgressFromClientX = (clientX: number) => {
+    if (!musicState || !notchProgressRef.current) return;
+
+    const rect = notchProgressRef.current.getBoundingClientRect();
+    const nextProgress = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    musicState.handleProgressChange(nextProgress);
+  };
+
+  const handleNotchProgressMouseDown = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    updateNotchProgressFromClientX(event.clientX);
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      updateNotchProgressFromClientX(moveEvent.clientX);
+    };
+
+    const handleMouseUp = () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  };
+
+  const handleNotchProgressClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+
+    if (event.detail === 0) return;
+
+    updateNotchProgressFromClientX(event.clientX);
   };
 
   if (isMobile) {
@@ -140,27 +187,43 @@ function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick,
                  <div className="eq-bar" />
                </div>
              </div>
-<div className="notch-expanded">
-                <img src={musicState.currentTrack.cover} alt="cover" className="notch-cover-large" />
-                <div className="notch-info">
-                  <div className="notch-title">{musicState.currentTrack.title}</div>
-                  <div className="notch-artist">{musicState.currentTrack.artist}</div>
-                </div>
-                <div className="notch-controls">
-                  <button type="button" className="notch-btn" onClick={(e) => { e.stopPropagation(); musicState.handlePrev(e); }}>
-                    <AppIcon name="SkipBack" size={16} fill="currentColor" strokeWidth={0} />
-                  </button>
-                  <button type="button" className="notch-btn notch-btn-play" onClick={(e) => { e.stopPropagation(); musicState.togglePlay(e); }}>
-                    <AppIcon name={musicState.isPlaying ? "Pause" : "Play"} size={18} fill="currentColor" strokeWidth={0} />
-                  </button>
-                  <button type="button" className="notch-btn" onClick={(e) => { e.stopPropagation(); musicState.handleNext(e); }}>
-                    <AppIcon name="SkipForward" size={16} fill="currentColor" strokeWidth={0} />
-                  </button>
-                </div>
-              </div>
-          </div>
-        </div>
-      )}
+             <div className="notch-expanded">
+               <div className="notch-top-row">
+                 <img src={musicState.currentTrack.cover} alt="cover" className="notch-cover-large" />
+                 <div className="notch-info">
+                   <div className="notch-title">{musicState.currentTrack.title}</div>
+                   <div className="notch-artist">{musicState.currentTrack.artist}</div>
+                 </div>
+               </div>
+               <div className="notch-progress-row">
+                 <span className="notch-time">{formatTrackTime(musicState.currentTime)}</span>
+                 <button
+                   type="button"
+                   className="notch-progress-track"
+                   ref={notchProgressRef}
+                   onMouseDown={handleNotchProgressMouseDown}
+                   onClick={handleNotchProgressClick}
+                   aria-label="Seek track position"
+                 >
+                   <div className="notch-progress-bar" style={{ width: `${musicState.progress}%` }} />
+                 </button>
+                 <span className="notch-time">-{formatTrackTime(musicState.duration - musicState.currentTime)}</span>
+               </div>
+               <div className="notch-controls">
+                 <button type="button" className="notch-btn" onClick={(e) => { e.stopPropagation(); musicState.handlePrev(e); }}>
+                   <AppIcon name="SkipBack" size={16} fill="currentColor" strokeWidth={0} />
+                 </button>
+                 <button type="button" className="notch-btn notch-btn-play" onClick={(e) => { e.stopPropagation(); musicState.togglePlay(e); }}>
+                   <AppIcon name={musicState.isPlaying ? "Pause" : "Play"} size={18} fill="currentColor" strokeWidth={0} />
+                 </button>
+                 <button type="button" className="notch-btn" onClick={(e) => { e.stopPropagation(); musicState.handleNext(e); }}>
+                   <AppIcon name="SkipForward" size={16} fill="currentColor" strokeWidth={0} />
+                 </button>
+               </div>
+             </div>
+           </div>
+         </div>
+       )}
 
       <div className="menu-bar-right">
         <div className="status-icon battery-icon" aria-label="Battery 100%">
