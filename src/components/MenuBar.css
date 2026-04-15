@@ -250,7 +250,6 @@
   background: var(--glass-bg);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid var(--glass-border);
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   display: flex;
@@ -261,7 +260,6 @@
   cursor: pointer;
   z-index: 10000;
   min-width: 160px;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.2) inset;
 }
 
 .menu-notch::before,
@@ -281,14 +279,12 @@
 
 .menu-notch::before {
   right: calc(100% - 1px);
-  background-image: radial-gradient(circle at 0 100%, transparent 10.5px, var(--glass-border) 11px, var(--glass-border) 12px, transparent 12.5px);
   -webkit-mask-image: radial-gradient(circle at 0 100%, transparent 11px, black 11.5px);
   mask-image: radial-gradient(circle at 0 100%, transparent 11px, black 11.5px);
 }
 
 .menu-notch::after {
   left: calc(100% - 1px);
-  background-image: radial-gradient(circle at 100% 100%, transparent 10.5px, var(--glass-border) 11px, var(--glass-border) 12px, transparent 12.5px);
   -webkit-mask-image: radial-gradient(circle at 100% 100%, transparent 11px, black 11.5px);
   mask-image: radial-gradient(circle at 100% 100%, transparent 11px, black 11.5px);
 }
@@ -296,7 +292,6 @@
 @media (prefers-color-scheme: dark) {
   .menu-notch {
     background: rgba(40, 40, 45, 0.85);
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset;
   }
   .menu-notch::before,
   .menu-notch::after {
@@ -347,7 +342,23 @@
   padding: 10px 18px 12px;
   border-bottom-left-radius: 28px;
   border-bottom-right-radius: 28px;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.15) inset;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+}
+
+.menu-notch:hover::before,
+.menu-notch:hover::after {
+  width: 24px;
+  height: 24px;
+}
+
+.menu-notch:hover::before {
+  -webkit-mask-image: radial-gradient(circle at 0 100%, transparent 23px, black 23.5px);
+  mask-image: radial-gradient(circle at 0 100%, transparent 23px, black 23.5px);
+}
+
+.menu-notch:hover::after {
+  -webkit-mask-image: radial-gradient(circle at 100% 100%, transparent 23px, black 23.5px);
+  mask-image: radial-gradient(circle at 100% 100%, transparent 23px, black 23.5px);
 }
 
 .menu-notch:hover .notch-collapsed {
@@ -517,6 +528,10 @@
   align-items: flex-end;
   gap: 2px;
   height: 12px;
+}
+
+.notch-eq-expanded {
+  flex-shrink: 0;
 }
 
 .eq-bar {

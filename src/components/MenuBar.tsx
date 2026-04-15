@@ -194,6 +194,11 @@ function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick,
                    <div className="notch-title">{musicState.currentTrack.title}</div>
                    <div className="notch-artist">{musicState.currentTrack.artist}</div>
                  </div>
+                 <div className="notch-eq notch-eq-expanded">
+                   <div className="eq-bar" />
+                   <div className="eq-bar" />
+                   <div className="eq-bar" />
+                 </div>
                </div>
                <div className="notch-progress-row">
                  <span className="notch-time">{formatTrackTime(musicState.currentTime)}</span>
