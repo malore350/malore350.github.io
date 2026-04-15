@@ -235,7 +235,8 @@ function App() {
     // Initialize window position if not exists
     setWindowPositions(prev => {
       if (prev[id]) return prev;
-      return { ...prev, [id]: { x: 40, y: 40 } };
+      const offset = (Object.keys(prev).length * 30) % 300;
+      return { ...prev, [id]: { x: 40 + offset, y: 40 + offset } };
     });
 
     setMinimizedApps((prev) => prev.filter((appId) => appId !== id));
