@@ -28,6 +28,10 @@ function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick,
   const [isAppleMenuOpen, setIsAppleMenuOpen] = useState(false);
   const [isWifiOpen, setIsWifiOpen] = useState(false);
   const [isBatteryOpen, setIsBatteryOpen] = useState(false);
+  const [batteryLevel, setBatteryLevel] = useState<number>(1);
+  const [isCharging, setIsCharging] = useState<boolean>(false);
+  const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
+  const [isWifiEnabled, setIsWifiEnabled] = useState<boolean>(true);
   
   const appleMenuRef = useRef<HTMLDivElement>(null);
   const wifiRef = useRef<HTMLDivElement>(null);
@@ -35,8 +39,50 @@ function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick,
   const notchProgressRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+  useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    let battery: any = null;
+
+    const handleBatteryChange = (batt: any) => {
+      setBatteryLevel(batt.level);
+      setIsCharging(batt.charging);
+    };
+
+    const updateBattery = () => {
+      if (battery) handleBatteryChange(battery);
+    };
+
+    if ('getBattery' in navigator) {
+      (navigator as any).getBattery().then((batt: any) => {
+        battery = batt;
+        handleBatteryChange(batt);
+        batt.addEventListener('levelchange', updateBattery);
+        batt.addEventListener('chargingchange', updateBattery);
+      });
+    }
+
+    return () => {
+      if (battery) {
+        battery.removeEventListener('levelchange', updateBattery);
+        battery.removeEventListener('chargingchange', updateBattery);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -131,12 +177,12 @@ function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick,
             <div className="signal-bar bar-3"></div>
             <div className="signal-bar bar-4"></div>
           </div>
-          <div className="status-icon wifi-icon">
+          <div className={`status-icon wifi-icon ${(!isOnline || !isWifiEnabled) ? 'offline' : ''}`}>
             <AppIcon name="Wifi" size={16} strokeWidth={2} />
           </div>
-          <div className="status-icon battery-icon">
+          <div className={`status-icon battery-icon ${isCharging ? 'charging' : ''}`}>
             <div className="battery-body">
-              <div className="battery-level" style={{ width: '100%' }}></div>
+              <div className="battery-level" style={{ width: `${batteryLevel * 100}%` }}></div>
             </div>
             <div className="battery-tip"></div>
           </div>
@@ -246,11 +292,11 @@ function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick,
           <div 
             className={`status-icon-wrapper ${isBatteryOpen ? 'active' : ''}`}
             onClick={() => setIsBatteryOpen(!isBatteryOpen)}
-            aria-label="Battery 100%"
+            aria-label={`Battery ${Math.round(batteryLevel * 100)}%`}
           >
-            <div className="status-icon battery-icon">
+            <div className={`status-icon battery-icon ${isCharging ? 'charging' : ''}`}>
               <div className="battery-body">
-                <div className="battery-level" style={{ width: '100%' }}></div>
+                <div className="battery-level" style={{ width: `${batteryLevel * 100}%` }}></div>
               </div>
               <div className="battery-tip"></div>
             </div>
@@ -260,12 +306,12 @@ function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick,
             <div className="status-dropdown">
               <div className="status-dropdown-header">
                 <span className="status-dropdown-title">Battery</span>
-                <span className="status-dropdown-subtitle">100%</span>
+                <span className="status-dropdown-subtitle">{Math.round(batteryLevel * 100)}%</span>
               </div>
               <div className="status-dropdown-body">
                 <div className="status-dropdown-item">
                   <span className="status-dropdown-label">Power Source</span>
-                  <span className="status-dropdown-value">Power Adapter</span>
+                  <span className="status-dropdown-value">{isCharging ? 'Power Adapter' : 'Battery'}</span>
                 </div>
               </div>
             </div>
@@ -276,9 +322,9 @@ function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick,
           <div 
             className={`status-icon-wrapper ${isWifiOpen ? 'active' : ''}`}
             onClick={() => setIsWifiOpen(!isWifiOpen)}
-            aria-label="WiFi Connected"
+            aria-label={isOnline && isWifiEnabled ? "WiFi Connected" : "WiFi Off"}
           >
-            <div className="status-icon wifi-icon">
+            <div className={`status-icon wifi-icon ${(!isOnline || !isWifiEnabled) ? 'offline' : ''}`}>
               <AppIcon name="Wifi" size={16} strokeWidth={2} />
             </div>
           </div>
@@ -287,18 +333,29 @@ function MenuBar({ activeAppName, isMobile, onPowerAction, onLock, onAboutClick,
             <div className="status-dropdown">
               <div className="status-dropdown-header">
                 <span className="status-dropdown-title">Wi-Fi</span>
-                <div className="toggle-switch active"></div>
+                <div 
+                  className={`toggle-switch ${isWifiEnabled ? 'active' : ''}`}
+                  onClick={() => setIsWifiEnabled(!isWifiEnabled)}
+                ></div>
               </div>
               <div className="status-dropdown-body">
-                <div className="status-dropdown-item active">
-                  <AppIcon name="Check" size={14} strokeWidth={3} className="check-icon" />
-                  <span className="status-dropdown-label">Home_Network_5G</span>
-                  <AppIcon name="Lock" size={12} strokeWidth={2} className="lock-icon" />
-                </div>
-                <div className="dropdown-divider"></div>
-                <div className="status-dropdown-item">
-                  <span className="status-dropdown-label empty-icon">Guest_Network</span>
-                </div>
+                {isWifiEnabled && isOnline ? (
+                  <>
+                    <div className="status-dropdown-item active">
+                      <AppIcon name="Check" size={14} strokeWidth={3} className="check-icon" />
+                      <span className="status-dropdown-label">Home_Network_5G</span>
+                      <AppIcon name="Lock" size={12} strokeWidth={2} className="lock-icon" />
+                    </div>
+                    <div className="dropdown-divider"></div>
+                    <div className="status-dropdown-item">
+                      <span className="status-dropdown-label empty-icon">Guest_Network</span>
+                    </div>
+                  </>
+                ) : (
+                  <div className="status-dropdown-item disabled">
+                    <span className="status-dropdown-label">{!isWifiEnabled ? 'Wi-Fi: Off' : 'No Internet Connection'}</span>
+                  </div>
+                )}
               </div>
             </div>
           )}

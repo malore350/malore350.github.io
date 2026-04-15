@@ -219,6 +219,24 @@
   border-radius: 1px;
 }
 
+.battery-icon.charging::after {
+  content: '⚡';
+  position: absolute;
+  font-size: 8px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--bg);
+  text-shadow: 0 0 2px rgba(0,0,0,0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  .battery-icon.charging::after {
+    color: var(--text-h);
+    text-shadow: 0 0 2px rgba(0,0,0,0.8);
+  }
+}
+
 .battery-tip {
   width: 1.5px;
   height: 4px;
@@ -233,6 +251,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.wifi-icon.offline {
+  opacity: 0.35;
 }
 
 .time {
@@ -660,6 +682,16 @@
   background: rgba(0, 0, 0, 0.05);
 }
 
+.status-dropdown-item.disabled {
+  cursor: default;
+  color: var(--text);
+  opacity: 0.5;
+}
+
+.status-dropdown-item.disabled:hover {
+  background: none;
+}
+
 @media (prefers-color-scheme: dark) {
   .status-dropdown-item:hover {
     background: rgba(255, 255, 255, 0.1);
@@ -690,6 +722,7 @@
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.2);
   position: relative;
+  cursor: pointer;
 }
 
 @media (prefers-color-scheme: dark) {
