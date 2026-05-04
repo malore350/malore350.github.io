@@ -2,8 +2,8 @@
   position: fixed;
   top: 40px; /* Below MenuBar */
   left: 40px;
-  width: calc(100% - 80px);
-  height: calc(100% - 140px);
+  width: min(900px, calc(100vw - 100px));
+  height: min(650px, calc(100vh - 200px));
   background: var(--glass-bg);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   backdrop-filter: blur(24px) saturate(180%);
@@ -146,6 +146,93 @@
 
 .mac-window.dragging {
   transition: none !important;
+}
+
+.mac-window.resizing {
+  transition: none !important;
+  user-select: none;
+}
+
+.resize-handle {
+  position: absolute;
+  z-index: 50;
+}
+
+.resize-handle.n {
+  top: -5px;
+  left: 10px;
+  right: 10px;
+  height: 10px;
+  cursor: ns-resize;
+}
+
+.resize-handle.s {
+  bottom: -5px;
+  left: 10px;
+  right: 10px;
+  height: 10px;
+  cursor: ns-resize;
+}
+
+.resize-handle.e {
+  right: -5px;
+  top: 10px;
+  bottom: 10px;
+  width: 10px;
+  cursor: ew-resize;
+}
+
+.resize-handle.w {
+  left: -5px;
+  top: 10px;
+  bottom: 10px;
+  width: 10px;
+  cursor: ew-resize;
+}
+
+.resize-handle.ne {
+  top: -5px;
+  right: -5px;
+  width: 15px;
+  height: 15px;
+  cursor: nesw-resize;
+}
+
+.resize-handle.nw {
+  top: -5px;
+  left: -5px;
+  width: 15px;
+  height: 15px;
+  cursor: nwse-resize;
+}
+
+.resize-handle.se {
+  bottom: -5px;
+  right: -5px;
+  width: 15px;
+  height: 15px;
+  cursor: nwse-resize;
+}
+
+.resize-handle.sw {
+  bottom: -5px;
+  left: -5px;
+  width: 15px;
+  height: 15px;
+  cursor: nesw-resize;
+}
+
+.resize-handle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  transition: background 0.15s;
+  border-radius: 4px;
+}
+
+.resize-handle:hover::after {
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .mac-window.maximized {

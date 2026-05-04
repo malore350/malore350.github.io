@@ -26,7 +26,8 @@ import {
   Download,
   Image,
   Folder,
-  Layout
+  Layout,
+  ArrowUpDown
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import React from 'react';
@@ -59,7 +60,8 @@ const iconRegistry: Record<string, React.FC<LucideProps>> = {
   Download,
   Image,
   Folder,
-  Layout
+  Layout,
+  ArrowUpDown
 };
 
 interface AppIconProps extends LucideProps {

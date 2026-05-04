@@ -11,6 +11,8 @@ import ResumeSection from './components/ResumeSection';
 import AppIcon from './components/AppIcon';
 import MusicWidget from './components/MusicWidget';
 import Finder from './components/Finder';
+import ContextMenu from './components/ContextMenu';
+import type { ContextMenuItem } from './components/ContextMenu';
 
 interface OpenApp {
   id: string;
@@ -120,11 +122,15 @@ function App() {
   const [iconPositions, setIconPositions] = useState<Record<string, Position>>(calculateInitialIconPositions);
   const [widgetPositions, setWidgetPositions] = useState<Record<string, Position>>(calculateInitialWidgetPositions);
   const [windowPositions, setWindowPositions] = useState<Record<string, Position>>({});
-  
+  const [windowSizes, setWindowSizes] = useState<Record<string, { width: number; height: number }>>({});
+
   const [selectionBox, setSelectionBox] = useState<{ start: Point, current: Point } | null>(null);
   const [draggingItem, setDraggingItem] = useState<{ type: 'icon' | 'widget' | 'window', id: string, offset: Point } | null>(null);
   const [notepadText, setNotepadText] = useState(INITIAL_NOTEPAD_TEXT);
-  
+
+  const [contextMenuVisible, setContextMenuVisible] = useState(false);
+  const [contextMenuPos, setContextMenuPos] = useState<Point>({ x: 0, y: 0 });
+
   const desktopRef = useRef<HTMLElement>(null);
 
   // Music state
@@ -240,6 +246,17 @@ function App() {
       return { ...prev, [id]: { x: 40 + offset, y: 40 + offset } };
     });
 
+    setWindowSizes(prev => {
+      if (prev[id]) return prev;
+      return {
+        ...prev,
+        [id]: {
+          width: Math.min(900, window.innerWidth - 100),
+          height: Math.min(650, window.innerHeight - 200)
+        }
+      };
+    });
+
     setMinimizedApps((prev) => prev.filter((appId) => appId !== id));
     setActiveApp(id);
   }, []);
@@ -256,6 +273,16 @@ function App() {
     setOpenApps((prev) => prev.filter((app) => app.id !== id));
     setMinimizedApps((prev) => prev.filter((appId) => appId !== id));
     setMaximizedApps((prev) => prev.filter((appId) => appId !== id));
+    setWindowSizes((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+    setWindowPositions((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
   }, []);
 
   const triggerMinimizeApp = useCallback((id: string) => {
@@ -279,11 +306,16 @@ function App() {
   }, [minimizedApps]);
 
   const toggleMaximizeApp = useCallback((id: string) => {
-    setMaximizedApps((prev) => 
+    setMaximizedApps((prev) =>
       prev.includes(id) ? prev.filter(appId => appId !== id) : [...prev, id]
     );
     focusApp(id);
   }, [focusApp]);
+
+  const handleWindowResize = useCallback((id: string, x: number, y: number, width: number, height: number) => {
+    setWindowPositions(prev => ({ ...prev, [id]: { x, y } }));
+    setWindowSizes(prev => ({ ...prev, [id]: { width, height } }));
+  }, []);
 
   const handleDockClick = (id: string) => {
     const app = openApps.find(a => a.id === id);
@@ -502,6 +534,36 @@ function App() {
     });
   };
 
+  const handleContextMenu = useCallback((e: React.MouseEvent) => {
+    if (isMobile) return;
+    e.preventDefault();
+    e.stopPropagation();
+    setSelectedIcons([]);
+    setSelectedWidgets([]);
+    setContextMenuPos({ x: e.clientX, y: e.clientY });
+    setContextMenuVisible(true);
+  }, [isMobile]);
+
+  const handleCloseContextMenu = useCallback(() => {
+    setContextMenuVisible(false);
+  }, []);
+
+  const handleRefresh = useCallback(() => {
+    window.location.reload();
+  }, []);
+
+  const handleSort = useCallback(() => {
+    setIconPositions(calculateInitialIconPositions());
+    setWidgetPositions(calculateInitialWidgetPositions());
+    setSelectedIcons([]);
+    setSelectedWidgets([]);
+  }, []);
+
+  const desktopContextMenuItems: ContextMenuItem[] = [
+    { label: 'Refresh', icon: 'RefreshCcw', onClick: handleRefresh },
+    { label: 'Sort by Default', icon: 'ArrowUpDown', onClick: handleSort },
+  ];
+
   const openAppIds = openApps.map(app => app.id);
   const audioElement = (
     <audio
@@ -645,12 +707,13 @@ function App() {
         </div>
       )}
       
-      <main 
+      <main
         className={`desktop-surface ${isMobile ? 'mobile' : ''}`}
         ref={desktopRef}
         onMouseDown={isMobile ? undefined : onMouseDown}
         onMouseMove={isMobile ? undefined : onMouseMove}
         onMouseUp={isMobile ? undefined : onMouseUp}
+        onContextMenu={isMobile ? undefined : handleContextMenu}
       >
         {!isMobile && selectionBox && (
           <div 
@@ -830,9 +893,12 @@ function App() {
               onFocus={() => focusApp(appId)}
               onAnimationEnd={() => finalizeCloseApp(appId)}
               onHeaderMouseDown={(e) => handleWindowHeaderMouseDown(e, appId)}
+              onResize={handleWindowResize}
               style={isMobile || isMaximized ? {} : {
                 left: pos.x,
-                top: pos.y
+                top: pos.y,
+                width: windowSizes[appId]?.width,
+                height: windowSizes[appId]?.height
               }}
             >
               {project && <ProjectSection project={project} sectionId={appId} />}
@@ -890,6 +956,16 @@ function App() {
           );
         })}
       </main>
+
+      {!isMobile && (
+        <ContextMenu
+          visible={contextMenuVisible}
+          x={contextMenuPos.x}
+          y={contextMenuPos.y}
+          items={desktopContextMenuItems}
+          onClose={handleCloseContextMenu}
+        />
+      )}
 
       {audioElement}
 
