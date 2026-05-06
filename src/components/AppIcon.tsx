@@ -1,14 +1,14 @@
-import { 
-  Gamepad2, 
-  Bitcoin, 
-  GraduationCap, 
-  Terminal, 
-  FileText, 
-  Mail, 
-  Wifi, 
-  Info, 
-  RefreshCcw, 
-  Power, 
+import {
+  Gamepad2,
+  Bitcoin,
+  GraduationCap,
+  Terminal,
+  FileText,
+  Mail,
+  Wifi,
+  Info,
+  RefreshCcw,
+  Power,
   Lock,
   User,
   Search,
@@ -27,7 +27,16 @@ import {
   Image,
   Folder,
   Layout,
-  ArrowUpDown
+  ArrowUpDown,
+  Type,
+  Bold,
+  Italic,
+  Underline,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  List,
+  ListOrdered
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import React from 'react';
@@ -61,7 +70,16 @@ const iconRegistry: Record<string, React.FC<LucideProps>> = {
   Image,
   Folder,
   Layout,
-  ArrowUpDown
+  ArrowUpDown,
+  Type,
+  Bold,
+  Italic,
+  Underline,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  List,
+  ListOrdered
 };
 
 interface AppIconProps extends LucideProps {

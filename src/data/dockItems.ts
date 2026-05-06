@@ -12,6 +12,7 @@ export const dockItems: DockItem[] = [
   { id: 'cryptopro', label: 'CryptoPro', icon: 'Bitcoin' },
   { id: 'unigo', label: 'Unigo', icon: 'GraduationCap' },
   { id: 'ttyt', label: 'ttyt', icon: 'Terminal' },
+  { id: 'kword', label: 'KWord', icon: 'Type' },
   { id: 'resume-pdf', label: 'Resume.pdf', icon: 'FileText' },
   { id: 'contact', label: 'Contact', icon: 'Mail' },
   { id: 'me-png', label: 'me.png', icon: 'Image', hideFromDock: true, hideFromDesktop: true },

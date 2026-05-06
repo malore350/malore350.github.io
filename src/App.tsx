@@ -11,6 +11,9 @@ import ResumeSection from './components/ResumeSection';
 import AppIcon from './components/AppIcon';
 import MusicWidget from './components/MusicWidget';
 import Finder from './components/Finder';
+import KWord from './components/KWord';
+import type { KWordHandle } from './components/KWord';
+import { getKWordFiles, createKWordFile, renameKWordFile } from './hooks/useKWordFiles';
 import ContextMenu from './components/ContextMenu';
 import type { ContextMenuItem } from './components/ContextMenu';
 
@@ -30,25 +33,127 @@ interface Position {
   y: number;
 }
 
-const calculateInitialIconPositions = () => {
+const ICON_POSITIONS_KEY = 'desktop_icon_positions';
+
+function loadIconPositions(): Record<string, Position> | null {
+  try {
+    const raw = localStorage.getItem(ICON_POSITIONS_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch {}
+  return null;
+}
+
+function saveIconPositions(positions: Record<string, Position>) {
+  try {
+    localStorage.setItem(ICON_POSITIONS_KEY, JSON.stringify(positions));
+  } catch {}
+}
+
+const GRID_CELL_W = 100;
+const GRID_CELL_H = 120;
+const ICON_W = 80;
+const ICON_H = 110;
+
+const WIDGET_DIMS: Record<string, { w: number; h: number }> = {
+  intro: { w: 400, h: 200 },
+  profile: { w: 220, h: 220 },
+  calendar: { w: 220, h: 220 },
+  music: { w: 340, h: 140 },
+  notepad: { w: 280, h: 340 }
+};
+
+function getWidgetBounds(widgetPositions: Record<string, Position>) {
+  return Object.entries(widgetPositions)
+    .map(([id, pos]) => {
+      const dim = WIDGET_DIMS[id];
+      if (!dim) return null;
+      return {
+        left: pos.x,
+        top: pos.y,
+        right: pos.x + dim.w,
+        bottom: pos.y + dim.h
+      };
+    })
+    .filter(Boolean) as Array<{ left: number; top: number; right: number; bottom: number }>;
+}
+
+function isCellBlocked(cx: number, cy: number, bounds: Array<{ left: number; top: number; right: number; bottom: number }>) {
+  const left = cx * GRID_CELL_W;
+  const top = cy * GRID_CELL_H;
+  const right = left + ICON_W;
+  const bottom = top + ICON_H;
+  return bounds.some(w => !(left > w.right || right < w.left || top > w.bottom || bottom < w.top));
+}
+
+function snapToGrid(x: number, y: number, bounds: Array<{ left: number; top: number; right: number; bottom: number }>): { x: number; y: number } {
+  const cx = Math.round(x / GRID_CELL_W);
+  const cy = Math.round(y / GRID_CELL_H);
+
+  if (!isCellBlocked(cx, cy, bounds)) {
+    return { x: cx * GRID_CELL_W, y: cy * GRID_CELL_H };
+  }
+
+  for (let r = 1; r < 50; r++) {
+    for (let dx = -r; dx <= r; dx++) {
+      for (let dy = -r; dy <= r; dy++) {
+        if (Math.abs(dx) !== r && Math.abs(dy) !== r) continue;
+        const nx = cx + dx;
+        const ny = cy + dy;
+        if (nx < 0 || ny < 0) continue;
+        if (nx * GRID_CELL_W + ICON_W > window.innerWidth) continue;
+        if (ny * GRID_CELL_H + ICON_H > window.innerHeight) continue;
+        if (!isCellBlocked(nx, ny, bounds)) {
+          return { x: nx * GRID_CELL_W, y: ny * GRID_CELL_H };
+        }
+      }
+    }
+  }
+
+  return { x, y };
+}
+
+function findFirstFreeGridCells(count: number, bounds: Array<{ left: number; top: number; right: number; bottom: number }>): Array<{ x: number; y: number }> {
+  const positions: Array<{ x: number; y: number }> = [];
+  const cols = Math.floor(window.innerWidth / GRID_CELL_W);
+  const rows = Math.floor(window.innerHeight / GRID_CELL_H);
+
+  for (let c = cols - 1; c >= 0; c--) {
+    for (let r = 0; r < rows; r++) {
+      if (!isCellBlocked(c, r, bounds)) {
+        positions.push({ x: c * GRID_CELL_W, y: r * GRID_CELL_H });
+        if (positions.length === count) return positions;
+      }
+    }
+  }
+
+  return positions;
+}
+
+function calculateDockIconPositions(): Record<string, Position> {
   const positions: Record<string, Position> = {};
-  const margin = 20;
-  const iconWidth = 90;
-  const iconHeight = 110;
   const windowWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
 
-  // All icons in 2-column grid on the right
-  dockItems.filter(item => !item.hideFromDesktop).forEach((item, index) => {
-    const col = index % 2;
-    const row = Math.floor(index / 2);
-    positions[item.id] = {
-      x: windowWidth - margin - iconWidth - (1 - col) * (iconWidth + 10),
-      y: 40 + iconHeight + row * iconHeight
-    };
+  const widgetPositions = calculateInitialWidgetPositions();
+  const bounds = getWidgetBounds(widgetPositions);
+  const dockIds = dockItems.filter(item => !item.hideFromDesktop).map(item => item.id);
+  const freeCells = findFirstFreeGridCells(dockIds.length, bounds);
+
+  dockIds.forEach((id, index) => {
+    const cell = freeCells[index];
+    if (cell) {
+      positions[id] = cell;
+    } else {
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      positions[id] = {
+        x: windowWidth - 20 - 90 - (1 - col) * 100,
+        y: 40 + 110 + row * 120
+      };
+    }
   });
 
   return positions;
-};
+}
 
 const calculateInitialWidgetPositions = () => {
   const windowWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
@@ -119,7 +224,10 @@ function App() {
   // Selection & Dragging state
   const [selectedIcons, setSelectedIcons] = useState<string[]>([]);
   const [selectedWidgets, setSelectedWidgets] = useState<string[]>([]);
-  const [iconPositions, setIconPositions] = useState<Record<string, Position>>(calculateInitialIconPositions);
+  const [iconPositions, setIconPositions] = useState<Record<string, Position>>(() => {
+    const saved = loadIconPositions();
+    return saved ?? calculateDockIconPositions();
+  });
   const [widgetPositions, setWidgetPositions] = useState<Record<string, Position>>(calculateInitialWidgetPositions);
   const [windowPositions, setWindowPositions] = useState<Record<string, Position>>({});
   const [windowSizes, setWindowSizes] = useState<Record<string, { width: number; height: number }>>({});
@@ -130,6 +238,12 @@ function App() {
 
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [contextMenuPos, setContextMenuPos] = useState<Point>({ x: 0, y: 0 });
+
+  const [kwordFiles, setKwordFiles] = useState(() => getKWordFiles());
+  const [kwordActiveFileId, setKwordActiveFileId] = useState<string | undefined>();
+  const [renamingFileId, setRenamingFileId] = useState<string | null>(null);
+  const [windowTitles, setWindowTitles] = useState<Record<string, string>>({});
+  const kwordRef = useRef<KWordHandle>(null);
 
   const desktopRef = useRef<HTMLElement>(null);
 
@@ -218,16 +332,53 @@ function App() {
     handleProgressChange: handleMusicProgressChange
   };
 
-  // Re-calculate positions on window resize
+  useEffect(() => {
+    saveIconPositions(iconPositions);
+  }, [iconPositions]);
+
   useEffect(() => {
     const handleResize = () => {
-      setIconPositions(calculateInitialIconPositions());
+      setIconPositions(prev => {
+        const dockPositions = calculateDockIconPositions();
+        const next: Record<string, Position> = {};
+        for (const id of Object.keys(prev)) {
+          if (id.startsWith('kword-')) {
+            next[id] = prev[id];
+          }
+        }
+        return { ...dockPositions, ...next };
+      });
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const openApp = useCallback((id: string) => {
+  useEffect(() => {
+    const files = getKWordFiles();
+    setKwordFiles(files);
+    setIconPositions(prev => {
+      const next = { ...prev };
+      const widgetPos = calculateInitialWidgetPositions();
+      const bounds = getWidgetBounds(widgetPos);
+      const existingKwordIds = Object.keys(next).filter(id => id.startsWith('kword-'));
+      const newFiles = files.filter(f => !existingKwordIds.includes(f.id));
+      const freeCells = findFirstFreeGridCells(newFiles.length, bounds);
+      newFiles.forEach((file, index) => {
+        const cell = freeCells[index];
+        if (cell) {
+          next[file.id] = cell;
+        }
+      });
+      Object.keys(next).forEach(id => {
+        if (id.startsWith('kword-') && !files.find(f => f.id === id)) {
+          delete next[id];
+        }
+      });
+      return next;
+    });
+  }, []);
+
+  const openApp = useCallback((id: string, fileId?: string) => {
     setOpenApps((prev) => {
       const existing = prev.find(app => app.id === id);
       if (existing) {
@@ -259,13 +410,29 @@ function App() {
 
     setMinimizedApps((prev) => prev.filter((appId) => appId !== id));
     setActiveApp(id);
+
+    if (id === 'kword') {
+      setKwordActiveFileId(fileId);
+    }
   }, []);
 
-  const triggerCloseApp = useCallback((id: string) => {
+  const triggerCloseApp = useCallback((id: string, force = false) => {
+    if (!force && id === 'kword' && kwordRef.current) {
+      const canClose = kwordRef.current.requestClose();
+      if (!canClose) return;
+    }
     setOpenApps((prev) => prev.map(app => app.id === id ? { ...app, isClosing: true } : app));
     if (activeApp === id) {
       const remaining = openApps.filter((app) => app.id !== id && !app.isClosing);
       setActiveApp(remaining.length > 0 ? remaining[remaining.length - 1].id : 'finder');
+    }
+    if (id === 'kword') {
+      setKwordActiveFileId(undefined);
+      setWindowTitles(prev => {
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      });
     }
   }, [activeApp, openApps]);
 
@@ -553,13 +720,50 @@ function App() {
   }, []);
 
   const handleSort = useCallback(() => {
-    setIconPositions(calculateInitialIconPositions());
+    const bounds = getWidgetBounds(widgetPositions);
+    setIconPositions(prev => {
+      const next: Record<string, Position> = {};
+      for (const id of Object.keys(prev)) {
+        const pos = prev[id];
+        next[id] = snapToGrid(pos.x, pos.y, bounds);
+      }
+      return next;
+    });
     setWidgetPositions(calculateInitialWidgetPositions());
     setSelectedIcons([]);
     setSelectedWidgets([]);
+  }, [widgetPositions]);
+
+  const handleNewDocument = useCallback(() => {
+    const file = createKWordFile('Untitled');
+    setKwordFiles(prev => [...prev, file]);
+    const clickX = contextMenuPos.x;
+    const clickY = contextMenuPos.y;
+    const iconWidth = 80;
+    const iconHeight = 110;
+    const viewportW = window.innerWidth;
+    const viewportH = window.innerHeight;
+    const x = Math.max(0, Math.min(clickX, viewportW - iconWidth));
+    const y = Math.max(0, Math.min(clickY, viewportH - iconHeight));
+    setIconPositions(prev => ({
+      ...prev,
+      [file.id]: { x, y }
+    }));
+    setRenamingFileId(file.id);
+  }, [contextMenuPos]);
+
+  const handleOpenKWordFile = useCallback((fileId: string) => {
+    openApp('kword', fileId);
+  }, [openApp]);
+
+  const handleRenameKWordFile = useCallback((id: string, newName: string) => {
+    renameKWordFile(id, newName);
+    setKwordFiles(getKWordFiles());
+    setRenamingFileId(null);
   }, []);
 
   const desktopContextMenuItems: ContextMenuItem[] = [
+    { label: 'New Document', icon: 'Type', onClick: handleNewDocument },
     { label: 'Refresh', icon: 'RefreshCcw', onClick: handleRefresh },
     { label: 'Sort by Default', icon: 'ArrowUpDown', onClick: handleSort },
   ];
@@ -843,7 +1047,7 @@ function App() {
 
         <div className="desktop-icons">
           {dockItems.filter(item => !item.hideFromDesktop).map((item) => (
-            <DesktopIcon 
+            <DesktopIcon
               key={item.id}
               id={item.id}
               label={item.label}
@@ -863,6 +1067,29 @@ function App() {
               onMouseDown={isMobile ? undefined : (e) => handleIconMouseDown(e, item.id)}
             />
           ))}
+          {kwordFiles.map((file) => (
+            <DesktopIcon
+              key={file.id}
+              id={file.id}
+              label={renamingFileId === file.id ? file.name.replace(/\.kword$/i, '') : file.name}
+              icon="Type"
+              isMobile={isMobile}
+              isSelected={selectedIcons.includes(file.id)}
+              isRenaming={renamingFileId === file.id}
+              style={isMobile ? {} : (iconPositions[file.id] ? {
+                left: iconPositions[file.id].x,
+                top: iconPositions[file.id].y
+              } : { display: 'none' })}
+              onSelect={(e) => {
+                e.stopPropagation();
+                setSelectedIcons([file.id]);
+                setSelectedWidgets([]);
+              }}
+              onDoubleClick={() => handleOpenKWordFile(file.id)}
+              onMouseDown={isMobile ? undefined : (e) => handleIconMouseDown(e, file.id)}
+              onRename={(newName) => handleRenameKWordFile(file.id, newName)}
+            />
+          ))}
         </div>
 
         {openApps.map((appState) => {
@@ -878,7 +1105,7 @@ function App() {
             <Window
               key={appId}
               id={appId}
-              title={app?.label || ''}
+              title={windowTitles[appId] || app?.label || ''}
               isActive={activeApp === appId}
               isMinimized={isMinimized}
               isMaximized={isMaximized}
@@ -887,6 +1114,14 @@ function App() {
               isDragging={draggingItem?.type === 'window' && draggingItem?.id === appId}
               isMobile={isMobile}
               onClose={() => triggerCloseApp(appId)}
+              onBeforeClose={appId === 'kword' ? (proceed) => {
+                if (kwordRef.current) {
+                  const canClose = kwordRef.current.requestClose();
+                  if (canClose) proceed();
+                } else {
+                  proceed();
+                }
+              } : undefined}
               onMinimize={() => triggerMinimizeApp(appId)}
               onMinimizeEnd={() => finalizeMinimizeApp(appId)}
               onMaximize={() => toggleMaximizeApp(appId)}
@@ -903,6 +1138,15 @@ function App() {
             >
               {project && <ProjectSection project={project} sectionId={appId} />}
               {appId === 'finder' && <Finder onOpenApp={openApp} />}
+              {appId === 'kword' && (
+                <KWord
+                  ref={kwordRef}
+                  fileId={kwordActiveFileId}
+                  onOpenFile={handleOpenKWordFile}
+                  onClose={() => triggerCloseApp('kword', true)}
+                  onTitleChange={(title) => setWindowTitles(prev => ({ ...prev, kword: title }))}
+                />
+              )}
               {appId === 'resume' && <ResumeSection />}
               {appId === 'me-png' && (
                 <div className="section-content image-viewer-section">

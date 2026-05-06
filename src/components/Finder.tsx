@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AppIcon from './AppIcon';
 import { dockItems } from '../data/dockItems';
+import { getKWordFiles, type KWordFile } from '../hooks/useKWordFiles';
 import './Finder.css';
 
 interface FinderProps {
-  onOpenApp: (id: string) => void;
+  onOpenApp: (id: string, fileId?: string) => void;
 }
 
 type FolderId = 'recents' | 'applications' | 'desktop' | 'documents' | 'downloads' | 'pictures';
@@ -19,6 +20,14 @@ interface FinderItem {
 
 const Finder = ({ onOpenApp }: FinderProps) => {
   const [activeFolder, setActiveFolder] = useState<FolderId>('desktop');
+  const [kwordFiles, setKwordFiles] = useState<KWordFile[]>([]);
+
+  useEffect(() => {
+    setKwordFiles(getKWordFiles());
+    const handler = () => setKwordFiles(getKWordFiles());
+    window.addEventListener('storage', handler);
+    return () => window.removeEventListener('storage', handler);
+  }, []);
 
   const folders: Record<FolderId, FinderItem[]> = {
     recents: [
@@ -47,7 +56,13 @@ const Finder = ({ onOpenApp }: FinderProps) => {
       }))
     ],
     documents: [
-      { id: 'resume-pdf', label: 'Resume.pdf', icon: 'FileText', type: 'file' }
+      { id: 'resume-pdf', label: 'Resume.pdf', icon: 'FileText', type: 'file' },
+      ...kwordFiles.map(file => ({
+        id: file.id,
+        label: file.name,
+        icon: 'Type',
+        type: 'file' as const
+      }))
     ],
     downloads: [],
     pictures: [
@@ -101,7 +116,13 @@ const Finder = ({ onOpenApp }: FinderProps) => {
                 <div 
                   key={item.id} 
                   className="finder-grid-item"
-                  onDoubleClick={() => onOpenApp(item.id)}
+                  onDoubleClick={() => {
+                    if (item.id.startsWith('kword-')) {
+                      onOpenApp('kword', item.id);
+                    } else {
+                      onOpenApp(item.id);
+                    }
+                  }}
                 >
                   <div className={`finder-icon-wrapper icon-${item.id}`}>
                     {item.thumbnail ? (

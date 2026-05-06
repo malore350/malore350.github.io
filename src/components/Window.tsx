@@ -12,6 +12,7 @@ interface WindowProps {
   isDragging: boolean;
   isMobile?: boolean;
   onClose: () => void;
+  onBeforeClose?: (proceed: () => void) => void;
   onMinimize: () => void;
   onMinimizeEnd: (id: string) => void;
   onMaximize: () => void;
@@ -34,6 +35,7 @@ function Window({
   isDragging,
   isMobile,
   onClose,
+  onBeforeClose,
   onMinimize,
   onMinimizeEnd,
   onMaximize,
@@ -246,7 +248,14 @@ function Window({
         <div className="window-controls">
           <button
             className="control close"
-            onClick={(e) => { e.stopPropagation(); onClose(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onBeforeClose) {
+                onBeforeClose(onClose);
+              } else {
+                onClose();
+              }
+            }}
             aria-label="Close"
           ></button>
           <button
