@@ -202,3 +202,153 @@
   opacity: 0.5;
   font-size: 14px;
 }
+
+/* Trash View */
+.trash-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 12px;
+}
+
+.trash-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.empty-trash-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--text-h);
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.empty-trash-btn:hover:not(:disabled) {
+  background: rgba(255, 59, 48, 0.15);
+  color: #FF3B30;
+}
+
+.empty-trash-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (prefers-color-scheme: dark) {
+  .empty-trash-btn {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .empty-trash-btn:hover:not(:disabled) {
+    background: rgba(255, 59, 48, 0.2);
+  }
+}
+
+.trash-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.trash-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg);
+  transition: background 0.15s;
+}
+
+.trash-item:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+@media (prefers-color-scheme: dark) {
+  .trash-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
+}
+
+.trash-item-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #FF9500 0%, #FF6B00 100%);
+  color: white;
+  flex-shrink: 0;
+}
+
+.trash-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.trash-item-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-h);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trash-item-date {
+  font-size: 11px;
+  color: var(--text);
+  opacity: 0.6;
+}
+
+.trash-item-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.trash-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.restore-btn {
+  background: rgba(52, 199, 89, 0.12);
+  color: #34C759;
+}
+
+.restore-btn:hover {
+  background: rgba(52, 199, 89, 0.2);
+}
+
+.delete-btn {
+  background: rgba(255, 59, 48, 0.1);
+  color: #FF3B30;
+}
+
+.delete-btn:hover {
+  background: rgba(255, 59, 48, 0.18);
+}

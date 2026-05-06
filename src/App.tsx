@@ -13,7 +13,7 @@ import MusicWidget from './components/MusicWidget';
 import Finder from './components/Finder';
 import KWord from './components/KWord';
 import type { KWordHandle } from './components/KWord';
-import { getKWordFiles, createKWordFile, renameKWordFile } from './hooks/useKWordFiles';
+import { getActiveKWordFiles, createKWordFile, renameKWordFile, deleteKWordFile } from './hooks/useKWordFiles';
 import ContextMenu from './components/ContextMenu';
 import type { ContextMenuItem } from './components/ContextMenu';
 
@@ -239,9 +239,15 @@ function App() {
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [contextMenuPos, setContextMenuPos] = useState<Point>({ x: 0, y: 0 });
 
-  const [kwordFiles, setKwordFiles] = useState(() => getKWordFiles());
+  const [kwordFiles, setKwordFiles] = useState(() => getActiveKWordFiles());
   const [kwordActiveFileId, setKwordActiveFileId] = useState<string | undefined>();
   const [renamingFileId, setRenamingFileId] = useState<string | null>(null);
+  const [kwordCtxMenu, setKwordCtxMenu] = useState<{ visible: boolean; x: number; y: number; fileId: string | null }>({
+    visible: false,
+    x: 0,
+    y: 0,
+    fileId: null,
+  });
   const [windowTitles, setWindowTitles] = useState<Record<string, string>>({});
   const kwordRef = useRef<KWordHandle>(null);
 
@@ -354,7 +360,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const files = getKWordFiles();
+    const files = getActiveKWordFiles();
     setKwordFiles(files);
     setIconPositions(prev => {
       const next = { ...prev };
@@ -758,8 +764,30 @@ function App() {
 
   const handleRenameKWordFile = useCallback((id: string, newName: string) => {
     renameKWordFile(id, newName);
-    setKwordFiles(getKWordFiles());
+    setKwordFiles(getActiveKWordFiles());
     setRenamingFileId(null);
+  }, []);
+
+  const handleKWordContextMenu = useCallback((e: React.MouseEvent, fileId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setKwordCtxMenu({ visible: true, x: e.clientX, y: e.clientY, fileId });
+  }, []);
+
+  const handleMoveToTrash = useCallback((fileId: string) => {
+    deleteKWordFile(fileId);
+    setKwordFiles(getActiveKWordFiles());
+    setRenamingFileId(null);
+    setIconPositions(prev => {
+      const next = { ...prev };
+      delete next[fileId];
+      return next;
+    });
+    setKwordCtxMenu(prev => ({ ...prev, visible: false }));
+  }, []);
+
+  const handleCloseKWordContextMenu = useCallback(() => {
+    setKwordCtxMenu(prev => ({ ...prev, visible: false }));
   }, []);
 
   const desktopContextMenuItems: ContextMenuItem[] = [
@@ -1063,7 +1091,16 @@ function App() {
                 setSelectedIcons([item.id]);
                 setSelectedWidgets([]);
               }}
-              onDoubleClick={() => openApp(item.id)}
+              onDoubleClick={() => {
+                if (item.id === 'trash') {
+                  openApp('finder');
+                  setTimeout(() => {
+                    window.dispatchEvent(new CustomEvent('finder-open-folder', { detail: 'trash' }));
+                  }, 50);
+                } else {
+                  openApp(item.id);
+                }
+              }}
               onMouseDown={isMobile ? undefined : (e) => handleIconMouseDown(e, item.id)}
             />
           ))}
@@ -1087,6 +1124,7 @@ function App() {
               }}
               onDoubleClick={() => handleOpenKWordFile(file.id)}
               onMouseDown={isMobile ? undefined : (e) => handleIconMouseDown(e, file.id)}
+              onContextMenu={(e) => handleKWordContextMenu(e, file.id)}
               onRename={(newName) => handleRenameKWordFile(file.id, newName)}
             />
           ))}
@@ -1208,6 +1246,19 @@ function App() {
           y={contextMenuPos.y}
           items={desktopContextMenuItems}
           onClose={handleCloseContextMenu}
+        />
+      )}
+      {!isMobile && kwordCtxMenu.visible && kwordCtxMenu.fileId && (
+        <ContextMenu
+          visible={kwordCtxMenu.visible}
+          x={kwordCtxMenu.x}
+          y={kwordCtxMenu.y}
+          items={[
+            { label: 'Open', icon: 'Type', onClick: () => handleOpenKWordFile(kwordCtxMenu.fileId!) },
+            { label: 'Rename', icon: 'Edit2', onClick: () => setRenamingFileId(kwordCtxMenu.fileId!) },
+            { label: 'Move to Trash', icon: 'Trash2', onClick: () => handleMoveToTrash(kwordCtxMenu.fileId!) },
+          ]}
+          onClose={handleCloseKWordContextMenu}
         />
       )}
 

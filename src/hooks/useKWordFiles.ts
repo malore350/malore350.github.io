@@ -4,6 +4,7 @@ export interface KWordFile {
   content: string;
   createdAt: number;
   updatedAt: number;
+  deletedAt?: number;
 }
 
 const STORAGE_KEY = 'kword_files';
@@ -32,8 +33,40 @@ export function saveKWordFile(file: KWordFile) {
   return updated;
 }
 
+export function getActiveKWordFiles(): KWordFile[] {
+  return getKWordFiles().filter((f) => !f.deletedAt);
+}
+
+export function getTrashedKWordFiles(): KWordFile[] {
+  return getKWordFiles().filter((f) => !!f.deletedAt);
+}
+
 export function deleteKWordFile(id: string) {
+  const files = getKWordFiles();
+  const idx = files.findIndex((f) => f.id === id);
+  if (idx >= 0) {
+    files[idx] = { ...files[idx], deletedAt: Date.now() };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(files));
+  }
+}
+
+export function restoreKWordFile(id: string) {
+  const files = getKWordFiles();
+  const idx = files.findIndex((f) => f.id === id);
+  if (idx >= 0) {
+    const { deletedAt: _, ...rest } = files[idx];
+    files[idx] = { ...rest, updatedAt: Date.now() };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(files));
+  }
+}
+
+export function permanentlyDeleteKWordFile(id: string) {
   const files = getKWordFiles().filter((f) => f.id !== id);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(files));
+}
+
+export function emptyTrash() {
+  const files = getKWordFiles().filter((f) => !f.deletedAt);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(files));
 }
 

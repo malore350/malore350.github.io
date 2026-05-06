@@ -13,10 +13,11 @@ interface DesktopIconProps {
   onSelect: (e: React.MouseEvent) => void;
   onDoubleClick: () => void;
   onMouseDown?: (e: React.MouseEvent) => void;
+  onContextMenu?: (e: React.MouseEvent) => void;
   onRename?: (newName: string) => void;
 }
 
-function DesktopIcon({ id, label, icon, isSelected, isMobile, isRenaming, style, onSelect, onDoubleClick, onMouseDown, onRename }: DesktopIconProps) {
+function DesktopIcon({ id, label, icon, isSelected, isMobile, isRenaming, style, onSelect, onDoubleClick, onMouseDown, onContextMenu, onRename }: DesktopIconProps) {
   const [renameValue, setRenameValue] = useState(label);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -46,6 +47,7 @@ function DesktopIcon({ id, label, icon, isSelected, isMobile, isRenaming, style,
       onClick={isMobile ? onDoubleClick : onSelect}
       onDoubleClick={isMobile ? undefined : onDoubleClick}
       onMouseDown={isMobile ? undefined : onMouseDown}
+      onContextMenu={onContextMenu}
       id={`desktop-icon-${id}`}
       style={style}
     >

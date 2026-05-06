@@ -16,4 +16,5 @@ export const dockItems: DockItem[] = [
   { id: 'resume-pdf', label: 'Resume.pdf', icon: 'FileText' },
   { id: 'contact', label: 'Contact', icon: 'Mail' },
   { id: 'me-png', label: 'me.png', icon: 'Image', hideFromDock: true, hideFromDesktop: true },
+  { id: 'trash', label: 'Trash', icon: 'Trash2', hideFromDock: true },
 ];

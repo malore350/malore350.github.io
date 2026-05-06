@@ -1,7 +1,7 @@
 import { useRef, useCallback, useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import AppIcon from './AppIcon';
 import {
-  getKWordFiles,
+  getActiveKWordFiles,
   saveKWordFile,
   deleteKWordFile,
   createKWordFile,
@@ -33,7 +33,7 @@ const KWord = forwardRef<KWordHandle, KWordProps>(function KWord(
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
   const loadFiles = useCallback(() => {
-    setFiles(getKWordFiles());
+    setFiles(getActiveKWordFiles());
   }, []);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const KWord = forwardRef<KWordHandle, KWordProps>(function KWord(
 
   useEffect(() => {
     if (fileId) {
-      const all = getKWordFiles();
+      const all = getActiveKWordFiles();
       const f = all.find((x) => x.id === fileId);
       if (f) {
         setCurrentFile(f);
@@ -217,10 +217,10 @@ const KWord = forwardRef<KWordHandle, KWordProps>(function KWord(
         {deleteConfirmId && (
           <div className="kword-dialog-overlay">
             <div className="kword-dialog">
-              <div className="kword-dialog-title">Delete Document?</div>
+              <div className="kword-dialog-title">Move to Trash?</div>
               <div className="kword-dialog-body">
-                Are you sure you want to delete &quot;
-                {files.find((f) => f.id === deleteConfirmId)?.name}&quot;? This action cannot be undone.
+                Are you sure you want to move &quot;
+                {files.find((f) => f.id === deleteConfirmId)?.name}&quot; to the Trash? You can restore it later.
               </div>
               <div className="kword-dialog-actions">
                 <button
@@ -233,7 +233,7 @@ const KWord = forwardRef<KWordHandle, KWordProps>(function KWord(
                   className="kword-dialog-btn danger"
                   onClick={() => handleDelete(deleteConfirmId)}
                 >
-                  Delete
+                  Move to Trash
                 </button>
               </div>
             </div>

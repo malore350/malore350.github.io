@@ -36,7 +36,10 @@ import {
   AlignCenter,
   AlignRight,
   List,
-  ListOrdered
+  ListOrdered,
+  Edit2,
+  Trash2,
+  RotateCcw
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import React from 'react';
@@ -79,7 +82,10 @@ const iconRegistry: Record<string, React.FC<LucideProps>> = {
   AlignCenter,
   AlignRight,
   List,
-  ListOrdered
+  ListOrdered,
+  Edit2,
+  Trash2,
+  RotateCcw
 };
 
 interface AppIconProps extends LucideProps {
